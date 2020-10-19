@@ -106,6 +106,12 @@ namespace _Project.Scripts.Periphery.Clients
             }
         }
 
+        public void SendRescaleSkeletons()
+        {
+            webSocket.Send("rescaleSkeletons");
+            Debug.Log("Sent rescaleSkeleton message");
+        }
+
         [CanBeNull]
         private Person[] DecodeMessageData(string message)
         {

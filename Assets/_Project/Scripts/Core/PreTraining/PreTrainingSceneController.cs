@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Core.PreTraining
 {
-    public class PreTraining : Scene
+    public class PreTrainingSceneController : SceneController
     {
         public TextAsset preTrainingConfigurationFile;
         public Text title;
 
-        private PreTrainingConfiguration calibrationConfiguration;
+        private PreTrainingConfiguration configuration;
 
         public void Start()
         {
-            calibrationConfiguration = new PreTrainingConfigurationService(preTrainingConfigurationFile).configuration;
+            configuration = new PreTrainingConfigurationService(preTrainingConfigurationFile).configuration;
         }
     }
 }

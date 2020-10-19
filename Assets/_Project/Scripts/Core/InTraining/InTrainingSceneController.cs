@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Core.InTraining
 {
-    public class InTraining : Scene
+    public class InTrainingSceneController : SceneController
     {
         public TextAsset exercisesConfigurationFile;
 

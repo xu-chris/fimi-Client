@@ -19,18 +19,18 @@ namespace _Project.Scripts.Core
             this.boneType = boneType;
             this.jointIndexA = jointIndexA;
             this.jointIndexB = jointIndexB;
-            gameObject = createGameObject ? InitGameObject(parentObject, boneType, color) : new GameObject();
+            gameObject = createGameObject ? CreateGameObject(parentObject, boneType, color) : new GameObject();
 
             boneVector = Vector3.zero;
         }
 
-        private static GameObject InitGameObject(GameObject parentObject, BoneType name, Color color)
+        private static GameObject CreateGameObject(GameObject parentObject, BoneType name, Color color)
         {
             var newGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             newGameObject.name = name.ToString();
             newGameObject.transform.parent = parentObject.transform;
             newGameObject.GetComponent<Renderer>().material.color = color;
-
+            newGameObject.tag = "bone";
             return newGameObject;
         }
 

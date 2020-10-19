@@ -12,7 +12,7 @@ namespace _Project.Scripts.Core
 
         private readonly List<Bone> bones;
 
-        private readonly GameObject gameObject;
+        protected readonly GameObject gameObject;
 
         // Definition
         private readonly List<Joint> joints;

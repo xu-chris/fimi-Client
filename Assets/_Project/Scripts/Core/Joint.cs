@@ -28,6 +28,7 @@ namespace _Project.Scripts.Core
             newGameObject.transform.parent = parentObject.transform;
             newGameObject.GetComponent<Renderer>().material.color = color;
             newGameObject.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
+            newGameObject.tag = "joint";
             return newGameObject;
         }
 

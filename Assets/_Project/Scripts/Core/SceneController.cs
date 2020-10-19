@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Core
 {
-    public class Scene : MonoBehaviour
+    public class SceneController : MonoBehaviour
     {
         public TextAsset applicationConfigurationFile;
         protected ApplicationConfiguration applicationConfiguration;
