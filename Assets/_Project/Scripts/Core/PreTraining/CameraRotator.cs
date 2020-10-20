@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraRotator : MonoBehaviour
+namespace _Project.Scripts.Core.PreTraining
 {
-    public float speed;
-    // Update is called once per frame
-    void Update()
+    public class CameraRotator : MonoBehaviour
     {
-        transform.Rotate(0, speed * Time.deltaTime, 0);
+        public float speed;
+        // Update is called once per frame
+        void Update()
+        {
+            transform.Rotate(0, speed * Time.deltaTime, 0);
+        }
     }
 }
