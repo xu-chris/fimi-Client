@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Source.DomainValues;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.UIElements;
 
 namespace _Project.Scripts.Source.Calibration
 {
@@ -15,8 +12,8 @@ namespace _Project.Scripts.Source.Calibration
 
         // Skeleton design
         private static readonly Color skeletonColor = Color.black;
-        private static readonly float sphereRadius = 0.05f;
-        
+        private const float sphereRadius = 0.05f;
+
         public int id;
         public bool withGameObjects = true;
 
@@ -33,8 +30,8 @@ namespace _Project.Scripts.Source.Calibration
             CreateBones();
             CreateJoints();
 
-            collider = this.gameObject.AddComponent<MeshCollider>();
-            Mesh mesh = new Mesh();
+            collider = gameObject.AddComponent<MeshCollider>();
+            var mesh = new Mesh();
             gameObject.AddComponent<MeshFilter>();
             gameObject.GetComponent<MeshFilter>().mesh = mesh;
             collider.sharedMesh = this.gameObject.GetComponent<MeshFilter>().mesh;
