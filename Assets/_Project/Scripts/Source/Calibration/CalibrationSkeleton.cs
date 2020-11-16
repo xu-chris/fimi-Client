@@ -42,18 +42,27 @@ namespace _Project.Scripts.Source.Calibration
 
         public void FixedUpdate()
         {
-            SetSkeleton(person.joints, person.lowestY);
+            gameObject.SetActive(true);
+            
+            foreach (var joint in joints)
+            {
+                joint.SetJointPosition(person.joints, person.lowestY);
+            }
+
+            foreach (var bone in bones)
+            {
+                bone.SetBoneSizeAndPosition(person.joints, person.lowestY);
+            }
         }
 
-
-        void OnTriggerEnter(Collider other)
+        public void OnTriggerEnter(Collider other)
         {
             Debug.Log("Skeleton noticed a collision with object " + other.name);
 
             colliders.Add(other);
         }
 
-        private void OnTriggerExit(Collider other)
+        public void OnTriggerExit(Collider other)
         {
             colliders.Remove(other);
         }
@@ -61,25 +70,6 @@ namespace _Project.Scripts.Source.Calibration
         public void SetIsVisible(bool visibility)
         {
             gameObject.SetActive(visibility);
-        }
-
-        public void SetSkeleton(Vector3[] jointEstimation, float lowestY)
-        {
-            if (joints.Count == 0 || bones.Count == 0)
-            {
-                Debug.Log("Skeleton is not yet ready, skipping");
-                return;
-            }
-            gameObject.SetActive(true);
-            foreach (var joint in joints)
-            {
-                joint.SetJointPosition(jointEstimation, lowestY);
-            }
-
-            foreach (var bone in bones)
-            {
-                bone.SetBoneSizeAndPosition(jointEstimation, lowestY);
-            }
         }
 
         private void CreateBones()

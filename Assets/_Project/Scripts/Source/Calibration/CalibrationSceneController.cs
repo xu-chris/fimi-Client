@@ -90,9 +90,7 @@ namespace _Project.Scripts.Source.Calibration
             var script = skeletonGameObject.GetComponent<CalibrationSkeleton>();
 
             script.person = person;
-            //
-            // skeletonGameObject.SetActive(true);
-            // script.SetSkeleton(person.joints, person.lowestY);
+            skeletonGameObject.SetActive(true);
         }
     }
 }
