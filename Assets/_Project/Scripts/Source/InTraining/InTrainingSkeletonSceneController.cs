@@ -26,7 +26,6 @@ namespace _Project.Scripts.Source.InTraining
         public new void Start()
         {
             base.Start();
-            Application.runInBackground = true;
 
             var inTrainingConfigurationService = new InTrainingConfigurationService(inTrainingConfigurationFile);
             inTrainingConfiguration = inTrainingConfigurationService.configuration;
@@ -41,6 +40,8 @@ namespace _Project.Scripts.Source.InTraining
         public new void Update()
         {
             base.Update();
+            
+            SetCurrentExercise(exercisesConfiguration.exercises[0]);
 
             var reports = GetReports();
             if (reports != null)

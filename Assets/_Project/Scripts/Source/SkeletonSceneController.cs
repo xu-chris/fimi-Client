@@ -73,7 +73,7 @@ namespace _Project.Scripts.Source
         private void UpdateSkeleton(int index, Person person)
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 
-            var script = skeletonGameObject.GetComponent<CalibrationSkeleton>();
+            var script = skeletonGameObject.GetComponent<Skeleton>();
 
             script.person = person;
             skeletonGameObject.SetActive(true);
