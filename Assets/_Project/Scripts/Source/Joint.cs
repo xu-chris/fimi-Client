@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace _Project.Scripts.Source
             gameObject = createGameObject
                 ? CreateGameObject(parentObject, jointType, color, sphereRadius)
                 : new GameObject();
+            
+            gameObject.tag = Tag.JOINT.ToString();
         }
 
         private static GameObject CreateGameObject(GameObject parentObject, JointType jointType, Color color,
@@ -39,6 +42,12 @@ namespace _Project.Scripts.Source
         public void SetJointPosition(Vector3 jointPosition)
         {
             gameObject.transform.position = jointPosition;
+        }
+
+        public void SetJointPosition(Vector3[] jointEstimation, float lowestY)
+        {
+            var vector = new Vector3(jointEstimation[jointIndex][0], jointEstimation[jointIndex][1] - lowestY, jointEstimation[jointIndex][2]);
+            SetJointPosition(vector);
         }
     }
 }

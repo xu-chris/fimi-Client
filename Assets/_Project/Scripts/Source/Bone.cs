@@ -20,7 +20,7 @@ namespace _Project.Scripts.Source
             this.jointIndexA = jointIndexA;
             this.jointIndexB = jointIndexB;
             gameObject = createGameObject ? CreateGameObject(parentObject, boneType, color) : new GameObject();
-
+            gameObject.tag = Tag.BONE.ToString();
             boneVector = Vector3.zero;
         }
 
@@ -65,6 +65,14 @@ namespace _Project.Scripts.Source
             gameObject.transform.position = (start + end) / 2.0f - new Vector3(0, lowestY, 0);
 
             Assert.AreEqual(boneVector, end - start);
+        }
+
+        public void SetBoneSizeAndPosition(Vector3[] jointEstimation, float lowestY)
+        {
+            var startJoint = jointEstimation[jointIndexA];
+            var endJoint = jointEstimation[jointIndexB];
+            
+            SetBoneSizeAndPosition(startJoint, endJoint, lowestY);
         }
     }
 }
