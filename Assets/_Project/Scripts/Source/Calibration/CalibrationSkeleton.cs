@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.DomainObjects;
 using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace _Project.Scripts.Source.Calibration
 
         public int id;
         public bool withGameObjects = true;
+
+        internal Person person = new Person();
 
         public List<Collider> colliders;
 
@@ -36,7 +39,12 @@ namespace _Project.Scripts.Source.Calibration
             gameObject.GetComponent<MeshFilter>().mesh = mesh;
             collider.sharedMesh = this.gameObject.GetComponent<MeshFilter>().mesh;
         }
-        
+
+        public void FixedUpdate()
+        {
+            SetSkeleton(person.joints, person.lowestY);
+        }
+
 
         void OnTriggerEnter(Collider other)
         {

@@ -63,7 +63,7 @@ namespace _Project.Scripts.Source.Calibration
                 // Init skeleton if not given.
                 if (transform.GetChild(p) == null)
                 {
-                    var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+                    Instantiate(skeletonPrefab, gameObject.transform, true);
                     Debug.LogError("Initialized a new skeleton which should be already there 🤔. p: " + p);
                 }
 
@@ -88,8 +88,11 @@ namespace _Project.Scripts.Source.Calibration
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 
             var script = skeletonGameObject.GetComponent<CalibrationSkeleton>();
-            skeletonGameObject.SetActive(true);
-            script.SetSkeleton(person.joints, person.lowestY);
+
+            script.person = person;
+            //
+            // skeletonGameObject.SetActive(true);
+            // script.SetSkeleton(person.joints, person.lowestY);
         }
     }
 }
