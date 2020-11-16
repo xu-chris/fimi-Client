@@ -20,7 +20,6 @@ namespace _Project.Scripts.Source
             this.jointIndexA = jointIndexA;
             this.jointIndexB = jointIndexB;
             gameObject = createGameObject ? CreateGameObject(parentObject, boneType, color) : new GameObject();
-            gameObject.tag = Tag.BONE.ToString();
             boneVector = Vector3.zero;
         }
 
@@ -30,7 +29,7 @@ namespace _Project.Scripts.Source
             newGameObject.name = name.ToString();
             newGameObject.transform.parent = parentObject.transform;
             newGameObject.GetComponent<Renderer>().material.color = color;
-            newGameObject.tag = "bone";
+            newGameObject.tag = Tag.BONE.ToString();
             return newGameObject;
         }
 

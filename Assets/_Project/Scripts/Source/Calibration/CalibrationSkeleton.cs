@@ -22,8 +22,8 @@ namespace _Project.Scripts.Source.Calibration
 
         public List<Collider> colliders;
 
-        private List<Joint> joints;
-        private List<Bone> bones;
+        private readonly List<Joint> joints = new List<Joint>();
+        private readonly List<Bone> bones = new List<Bone>();
 
         public void Start()
         {
@@ -60,6 +60,12 @@ namespace _Project.Scripts.Source.Calibration
 
         public void SetSkeleton(Vector3[] jointEstimation, float lowestY)
         {
+            if (joints.Count == 0 || bones.Count == 0)
+            {
+                Debug.Log("Skeleton is not yet ready, skipping");
+                return;
+            }
+            gameObject.SetActive(true);
             foreach (var joint in joints)
             {
                 joint.SetJointPosition(jointEstimation, lowestY);
@@ -69,51 +75,6 @@ namespace _Project.Scripts.Source.Calibration
             {
                 bone.SetBoneSizeAndPosition(jointEstimation, lowestY);
             }
-            
-            // foreach (var child in gameObject.GetComponentsInChildren<Transform>())
-            // {
-                // if (child.CompareTag(Tag.JOINT.ToString()))
-                // {
-                //     // Mapping of joint to index
-                //     // var jointType = (JointType) Enum.Parse(typeof(JointType), child.name);
-                //     // if (!JointToIndex.dictionary.ContainsKey(jointType)) continue;
-                //     var index = JointToIndex.dictionary[jointType];
-                //     var vector = new Vector3(jointEstimation[index][0], jointEstimation[index][1] - lowestY, jointEstimation[index][2]);
-                //     child.position = vector;
-                // }
-                // else if (child.CompareTag(Tag.BONE.ToString()))
-                // {
-                //     var boneType = (BoneType) Enum.Parse(typeof(BoneType), child.name);
-                //     if (!BonesToIndexes.dictionary.ContainsKey(boneType)) continue;
-                //     var boneIndexes = BonesToIndexes.dictionary[boneType];
-                //     var startJoint = jointEstimation[boneIndexes.indexA];
-                //     var endJoint = jointEstimation[boneIndexes.indexB];
-                //     
-                //     
-                //     // Go to unit sphere
-                //     child.position = Vector3.zero;
-                //     child.rotation = Quaternion.identity;
-                //     child.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                //
-                //     var boneVector = endJoint - startJoint;
-                //
-                //     // Set z-axis of sphere to align with bone
-                //     var zScale = boneVector.magnitude * 0.95f;
-                //     var xyScale = zScale * 0.28f;
-                //     child.localScale = new Vector3(xyScale, xyScale, zScale);
-                //
-                //     // Reducing noise 
-                //     if (!(boneVector.magnitude > 0.00001)) return;
-                //
-                //     // Rotate z-axis to align with bone vector
-                //     child.rotation = Quaternion.LookRotation(boneVector.normalized);
-                //     // Position at middle
-                //     child.position = (startJoint + endJoint) / 2.0f - new Vector3(0, lowestY, 0);
-                //
-                //     Assert.AreEqual(boneVector, endJoint - startJoint);
-                // }
-
-            // }
         }
 
         private void CreateBones()

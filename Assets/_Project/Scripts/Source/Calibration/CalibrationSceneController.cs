@@ -88,8 +88,8 @@ namespace _Project.Scripts.Source.Calibration
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 
             var script = skeletonGameObject.GetComponent<CalibrationSkeleton>();
-            script.SetSkeleton(person.joints, person.lowestY);
             skeletonGameObject.SetActive(true);
+            script.SetSkeleton(person.joints, person.lowestY);
         }
     }
 }

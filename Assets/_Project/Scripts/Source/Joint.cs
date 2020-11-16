@@ -19,8 +19,6 @@ namespace _Project.Scripts.Source
             gameObject = createGameObject
                 ? CreateGameObject(parentObject, jointType, color, sphereRadius)
                 : new GameObject();
-            
-            gameObject.tag = Tag.JOINT.ToString();
         }
 
         private static GameObject CreateGameObject(GameObject parentObject, JointType jointType, Color color,
@@ -31,7 +29,7 @@ namespace _Project.Scripts.Source
             newGameObject.transform.parent = parentObject.transform;
             newGameObject.GetComponent<Renderer>().material.color = color;
             newGameObject.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
-            newGameObject.tag = "joint";
+            newGameObject.tag = Tag.JOINT.ToString();
             return newGameObject;
         }
 
