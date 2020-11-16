@@ -14,12 +14,13 @@ namespace _Project.Scripts.Source.InTraining
 
         public TextAsset inTrainingConfigurationFile;
 
-        public Text reportingTextField;
-
         public GameObject notificationPanel;
         private ExercisesConfiguration exercisesConfiguration;
         private InTrainingConfiguration inTrainingConfiguration;
         private bool notificationShown;
+
+        private Exercise currentExercise;
+        private const bool checkRules = true;
 
         private Vector3 offset;
 
@@ -32,46 +33,23 @@ namespace _Project.Scripts.Source.InTraining
 
             var exerciseConfigurationService = new ExercisesConfigurationService(exercisesConfigurationFile);
             exercisesConfiguration = exerciseConfigurationService.configuration;
-            
-            SetCurrentExercise(exercisesConfiguration.exercises[0]);
-            ActivateCheckingRules();
+
+            currentExercise = exercisesConfiguration.exercises[0];
         }
 
         public new void Update()
         {
             base.Update();
-            
-            SetCurrentExercise(exercisesConfiguration.exercises[0]);
+
+            if (checkRules)
+                foreach (var skeleton in transform.GetComponentsInChildren<InTrainingSkeleton>())
+                    skeleton.CheckRules(currentExercise.rules);
 
             var reports = GetReports();
             if (reports != null)
                 CheckReports(reports);
         }
-
-        private void SetCurrentExercise(Exercise exercise)
-        {
-            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
-            {
-                skeletonScript.rules = exercise.rules;
-            }
-        }
-
-        private void ActivateCheckingRules()
-        {
-            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
-            {
-                skeletonScript.shouldCheckRules = true;
-            }
-        }
-
-        private void DeactivateCheckingRules()
-        {
-            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
-            {
-                skeletonScript.shouldCheckRules = false;
-            }
-        }
-
+        
         private ExerciseReport[] GetReports()
         {
             return transform.GetComponentsInChildren<InTrainingSkeleton>().Select(skeletonScript => skeletonScript.GetReport()).ToArray();

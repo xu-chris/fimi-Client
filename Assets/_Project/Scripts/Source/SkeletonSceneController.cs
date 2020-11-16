@@ -37,7 +37,7 @@ namespace _Project.Scripts.Source
         {
             for (var p = 0; p < maxNumberOfPeople; p++)
             {
-                var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+                var skeleton = CreateSkeleton();
                 skeleton.SetActive(false);
             }
         }
@@ -57,10 +57,7 @@ namespace _Project.Scripts.Source
             {
                 // Init skeleton if not given.
                 if (transform.GetChild(p) == null)
-                {
-                    Instantiate(skeletonPrefab, gameObject.transform, true);
-                    Debug.LogError("Initialized a new skeleton which should be already there 🤔. p: " + p);
-                }
+                    CreateSkeleton();
 
                 // Set and activate only skeletons that are detected.
                 if (p >= 0 && detectedPersons.Length > p && p == detectedPersons[p].id)
@@ -68,6 +65,12 @@ namespace _Project.Scripts.Source
                 else
                     transform.GetChild(p).gameObject.SetActive(false);
             }
+        }
+
+        protected GameObject CreateSkeleton()
+        {
+            var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+            return skeleton;
         }
         
         private void UpdateSkeleton(int index, Person person)

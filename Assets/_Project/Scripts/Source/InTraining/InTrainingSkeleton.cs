@@ -10,16 +10,6 @@ namespace _Project.Scripts.Source.InTraining
     public class InTrainingSkeleton : Skeleton
     {
         private ExerciseReport exerciseReport;
-        public bool shouldCheckRules = true;
-        public List<Rule> rules = new List<Rule>();
-
-        public void Update()
-        {
-            if (shouldCheckRules)
-            {
-                CheckRules(rules);
-            }
-        }
 
         public void CheckRules(List<Rule> rules)
         {
