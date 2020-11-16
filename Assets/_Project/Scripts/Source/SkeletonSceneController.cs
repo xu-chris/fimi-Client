@@ -1,58 +1,53 @@
 using _Project.Scripts.DomainObjects;
 using _Project.Scripts.DomainObjects.Configurations;
+using _Project.Scripts.Periphery.Clients;
 using _Project.Scripts.Periphery.Configurations;
+using _Project.Scripts.Source.Calibration;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace _Project.Scripts.Source.Calibration
+namespace _Project.Scripts.Source
 {
-    public class CalibrationSceneController : SceneController
+    public class SkeletonSceneController : MonoBehaviour
     {
-        public TextAsset calibrationConfigurationFile;
-        public Text title;
-        public GameObject particleSystemForceField;
+        public TextAsset applicationConfigurationFile;
+        protected ApplicationConfiguration applicationConfiguration;
+        protected WebSocketClient webSocketClient;
+        
         public GameObject skeletonPrefab;
-
-        private CalibrationConfiguration calibrationConfiguration;
-        private int maxNumberOfPeople;
-
+        private protected int maxNumberOfPeople = 1;
+        
         public void Start()
         {
             SetUpWebSocket();
-            calibrationConfiguration = new CalibrationConfigurationService(calibrationConfigurationFile).configuration;
-            maxNumberOfPeople = 1;
             InitializeAllSkeletons();
         }
 
+        public void SetUpWebSocket()
+        {
+            Application.runInBackground = true;
+
+            applicationConfiguration = new ApplicationConfigurationService(applicationConfigurationFile).configuration;
+            webSocketClient = gameObject.AddComponent<WebSocketClient>();
+            webSocketClient.webSocketConfiguration = applicationConfiguration.webSocket;
+        }
+        
+        
+        
+        public void InitializeAllSkeletons()
+        {
+            for (var p = 0; p < maxNumberOfPeople; p++)
+            {
+                var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+                skeleton.SetActive(false);
+            }
+        }
+        
         public void Update()
         {
             var detectedPersons = webSocketClient.detectedPersons;
             Update(detectedPersons);
         }
-
-        public void OnTriggerEnter(Collider other1)
-        {
-            Debug.Log("Collision started. Will start calibration");
-            StartCalibration();
-        }
-
-        public void OnTriggerExit(Collider other1)
-        {
-            Debug.Log("Collision started. Resetting scene...");
-            ResetCalibration();
-        }
-
-        private void StartCalibration()
-        {
-            particleSystemForceField.SetActive(true);   
-            webSocketClient.SendRescaleSkeletons();
-        }
-
-        private void ResetCalibration()
-        {
-            particleSystemForceField.SetActive(false);
-        }
-
+        
         private void Update(Person[] detectedPersons)
         {
             if (detectedPersons == null)
@@ -74,16 +69,7 @@ namespace _Project.Scripts.Source.Calibration
                     transform.GetChild(p).gameObject.SetActive(false);
             }
         }
-
-        public void InitializeAllSkeletons()
-        {
-            for (var p = 0; p < maxNumberOfPeople; p++)
-            {
-                var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
-                skeleton.SetActive(false);
-            }
-        }
-
+        
         private void UpdateSkeleton(int index, Person person)
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 

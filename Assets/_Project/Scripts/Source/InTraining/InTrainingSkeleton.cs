@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.DomainObjects;
@@ -8,11 +9,16 @@ namespace _Project.Scripts.Source.InTraining
 {
     public class InTrainingSkeleton : Skeleton
     {
-        // Parameters
         private ExerciseReport exerciseReport;
+        public bool shouldCheckRules = false;
+        public List<Rule> rules = new List<Rule>();
 
-        public InTrainingSkeleton(int id, bool withGameObjects = true) : base(id, withGameObjects)
+        public void Update()
         {
+            if (shouldCheckRules)
+            {
+                CheckRules(rules);
+            }
         }
 
         public void CheckRules(List<Rule> rules)

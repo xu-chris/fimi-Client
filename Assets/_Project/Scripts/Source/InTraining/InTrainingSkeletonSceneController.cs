@@ -1,15 +1,14 @@
 using System.Collections;
+using System.Linq;
 using _Project.Scripts.DomainObjects;
 using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
-using _Project.Scripts.Source;
-using _Project.Scripts.Source.InTraining;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.Core.InTraining
+namespace _Project.Scripts.Source.InTraining
 {
-    public class InTrainingSceneController : SceneController
+    public class InTrainingSkeletonSceneController : SkeletonSceneController
     {
         public TextAsset exercisesConfigurationFile;
 
@@ -23,11 +22,10 @@ namespace _Project.Scripts.Core.InTraining
         private bool notificationShown;
 
         private Vector3 offset;
-        private InTrainingSkeletonOrchestrator skeletonOrchestrator;
 
-        public void Start()
+        public new void Start()
         {
-            SetUpWebSocket();
+            base.Start();
             Application.runInBackground = true;
 
             var inTrainingConfigurationService = new InTrainingConfigurationService(inTrainingConfigurationFile);
@@ -35,22 +33,47 @@ namespace _Project.Scripts.Core.InTraining
 
             var exerciseConfigurationService = new ExercisesConfigurationService(exercisesConfigurationFile);
             exercisesConfiguration = exerciseConfigurationService.configuration;
-
-            skeletonOrchestrator =
-                new InTrainingSkeletonOrchestrator(applicationConfiguration.maxNumberOfPeople,
-                    exercisesConfiguration.exercises[0]);
-            skeletonOrchestrator.SetCurrentExercise(exercisesConfiguration.exercises[0]);
+            
+            SetCurrentExercise(exercisesConfiguration.exercises[0]);
+            ActivateCheckingRules();
         }
 
-        public void Update()
+        public new void Update()
         {
-            var detectedPersons = webSocketClient.detectedPersons;
+            base.Update();
 
-            if (skeletonOrchestrator == null) return;
-            skeletonOrchestrator.Update(detectedPersons);
-            var reports = skeletonOrchestrator.exerciseReports;
+            var reports = GetReports();
             if (reports != null)
                 CheckReports(reports);
+        }
+
+        private void SetCurrentExercise(Exercise exercise)
+        {
+            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
+            {
+                skeletonScript.rules = exercise.rules;
+            }
+        }
+
+        private void ActivateCheckingRules()
+        {
+            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
+            {
+                skeletonScript.shouldCheckRules = true;
+            }
+        }
+
+        private void DeactivateCheckingRules()
+        {
+            foreach (var skeletonScript in transform.GetComponentsInChildren<InTrainingSkeleton>())
+            {
+                skeletonScript.shouldCheckRules = false;
+            }
+        }
+
+        private ExerciseReport[] GetReports()
+        {
+            return transform.GetComponentsInChildren<InTrainingSkeleton>().Select(skeletonScript => skeletonScript.GetReport()).ToArray();
         }
 
         private void CheckReports(ExerciseReport[] reports)

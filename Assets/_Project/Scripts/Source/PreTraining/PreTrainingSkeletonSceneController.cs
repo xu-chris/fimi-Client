@@ -1,20 +1,20 @@
 using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
-using _Project.Scripts.Source;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.Core.PreTraining
+namespace _Project.Scripts.Source.PreTraining
 {
-    public class PreTrainingSceneController : SceneController
+    public class PreTrainingSkeletonSceneController : SkeletonSceneController
     {
         public TextAsset preTrainingConfigurationFile;
         public Text title;
 
         private PreTrainingConfiguration configuration;
 
-        public void Start()
+        public new void Start()
         {
+            base.Start();
             configuration = new PreTrainingConfigurationService(preTrainingConfigurationFile).configuration;
         }
     }
