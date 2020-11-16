@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.DomainValues;
+using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
 namespace _Project.Scripts.Source

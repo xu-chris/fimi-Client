@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.DomainValues;
+using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 
 namespace _Project.Scripts.Source.Calibration
 {
@@ -11,78 +13,21 @@ namespace _Project.Scripts.Source.Calibration
         private EventHandler collisionEventHandler;
 
         // Skeleton design
-        protected static readonly Color skeletonColor = Color.black;
+        private static readonly Color skeletonColor = Color.black;
         private static readonly float sphereRadius = 0.05f;
-
-        private List<Bone> bones;
+        
         public int id;
         public bool withGameObjects = true;
 
         public List<Collider> colliders;
 
-        // Definition
-        private List<Joint> joints;
-
         public void Start()
         {
-            gameObject.name = "Skeleton_" + id;
-
-            bones = new List<Bone>
-            {
-                new Bone(BoneType.LOWER_BODY, 0, 1, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.UPPER_BODY, 1, 2, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.NECK, 2, 3, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.HEAD, 3, 4, skeletonColor, gameObject, withGameObjects),
-
-                // Left
-                new Bone(BoneType.LEFT_SHOULDER, 2, 5, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_ELBOW, 5, 6, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_FOREARM, 6, 7, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_HAND, 7, 8, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_HIP, 0, 9, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_THIGH, 9, 10, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_LOWER_LEG, 10, 11, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.LEFT_FOOT, 11, 12, skeletonColor, gameObject, withGameObjects),
-
-                // Right
-                new Bone(BoneType.RIGHT_SHOULDER, 2, 13, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_ELBOW, 13, 14, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_FOREARM, 14, 15, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_HAND, 15, 16, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_HIP, 0, 17, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_THIGH, 17, 18, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_LOWER_LEG, 18, 19, skeletonColor, gameObject, withGameObjects),
-                new Bone(BoneType.RIGHT_FOOT, 19, 20, skeletonColor, gameObject, withGameObjects)
-            };
-
-            joints = new List<Joint>
-            {
-                new Joint(0, JointType.SPINE1_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(1, JointType.SPINE2_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(2, JointType.SPINE3_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(3, JointType.NECK1_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(4, JointType.HEAD_EE_RY, skeletonColor, sphereRadius, gameObject, withGameObjects),
-
-                // Left
-                new Joint(5, JointType.LEFT_SHOULDER_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(6, JointType.LEFT_ELBOW_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(7, JointType.LEFT_HAND_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(8, JointType.LEFT_HAND_EE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(9, JointType.LEFT_HIP_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(10, JointType.LEFT_KNEE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(11, JointType.LEFT_ANKLE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(12, JointType.LEFT_FOOT_EE, skeletonColor, sphereRadius, gameObject, withGameObjects),
-
-                // Right
-                new Joint(13, JointType.RIGHT_SHOULDER_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(14, JointType.RIGHT_ELBOW_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(15, JointType.RIGHT_HAND_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(16, JointType.RIGHT_HAND_EE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(17, JointType.RIGHT_HIP_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(18, JointType.RIGHT_KNEE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(19, JointType.RIGHT_ANKLE_RX, skeletonColor, sphereRadius, gameObject, withGameObjects),
-                new Joint(20, JointType.RIGHT_FOOT_EE, skeletonColor, sphereRadius, gameObject, withGameObjects)
-            };
+            id = transform.parent.childCount;
+            gameObject.name = GameObjectNames.GetPrefix(GameObjectNames.NameType.SKELETON) + id;
+            
+            CreateBones();
+            CreateJoints();
 
             collider = this.gameObject.AddComponent<MeshCollider>();
             Mesh mesh = new Mesh();
@@ -111,32 +56,85 @@ namespace _Project.Scripts.Source.Calibration
 
         public void SetSkeleton(Vector3[] jointEstimation, float lowestY)
         {
-            UpdateJoints(jointEstimation, lowestY);
-            UpdateBones(jointEstimation, lowestY);
-        }
-
-        void UpdateJoints(Vector3[] jointEstimation, float lowestY)
-        {
-            for (var i = 0; i < joints.Count; i++)
+            foreach (var child in gameObject.GetComponentsInChildren<Transform>())
             {
-                var vector = new Vector3(jointEstimation[i][0], jointEstimation[i][1] - lowestY, jointEstimation[i][2]);
-                joints[i].SetJointPosition(vector);
+                if (child.CompareTag(Tag.JOINT.ToString()))
+                {
+                    // Mapping of joint to index
+                    var jointType = (JointType) Enum.Parse(typeof(JointType), child.name);
+                    if (!JointToIndex.dictionary.ContainsKey(jointType)) continue;
+                    var index = JointToIndex.dictionary[jointType];
+                    var vector = new Vector3(jointEstimation[index][0], jointEstimation[index][1] - lowestY, jointEstimation[index][2]);
+                    child.position = vector;
+                }
+                else if (child.CompareTag(Tag.BONE.ToString()))
+                {
+                    var boneType = (BoneType) Enum.Parse(typeof(BoneType), child.name);
+                    if (!BonesToIndexes.dictionary.ContainsKey(boneType)) continue;
+                    var boneIndexes = BonesToIndexes.dictionary[boneType];
+                    var startJoint = jointEstimation[boneIndexes.indexA];
+                    var endJoint = jointEstimation[boneIndexes.indexB];
+                    
+                    
+                    // Go to unit sphere
+                    child.position = Vector3.zero;
+                    child.rotation = Quaternion.identity;
+                    child.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+                    var boneVector = endJoint - startJoint;
+
+                    // Set z-axis of sphere to align with bone
+                    var zScale = boneVector.magnitude * 0.95f;
+                    var xyScale = zScale * 0.28f;
+                    child.localScale = new Vector3(xyScale, xyScale, zScale);
+
+                    // Reducing noise 
+                    if (!(boneVector.magnitude > 0.00001)) return;
+
+                    // Rotate z-axis to align with bone vector
+                    child.rotation = Quaternion.LookRotation(boneVector.normalized);
+                    // Position at middle
+                    child.position = (startJoint + endJoint) / 2.0f - new Vector3(0, lowestY, 0);
+
+                    Assert.AreEqual(boneVector, endJoint - startJoint);
+                }
+
             }
         }
 
-        void UpdateBones(Vector3[] jointEstimation, float lowestY)
+        private void CreateBones()
         {
-            foreach (var bone in bones)
+            foreach (var bone in BonesToIndexes.dictionary)
             {
-                var startJoint = jointEstimation[bone.jointIndexA];
-                var endJoint = jointEstimation[bone.jointIndexB];
-                bone.SetBoneSizeAndPosition(startJoint, endJoint, lowestY);
+                CreateBone(bone.Key, bone.Value);
             }
         }
 
-        Bone GetBone(BoneType boneType)
+        private void CreateJoints()
         {
-            return bones.Find(item => item.boneType.Equals(boneType));
+            foreach (var joint in JointToIndex.dictionary)
+            {
+                CreateJoint(joint.Key, joint.Value);
+            }
+        }
+
+        private void CreateBone(BoneType boneType, BoneIndexes boneIndexes)
+        {
+            var bone = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            bone.name = boneType.ToString();
+            bone.transform.parent = gameObject.transform;
+            bone.GetComponent<Renderer>().material.color = skeletonColor;
+            bone.tag = Tag.BONE.ToString();
+        }
+
+        private void CreateJoint(JointType jointType, int index)
+        {
+            var joint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            joint.name = jointType.ToString();
+            joint.transform.parent = gameObject.transform;
+            joint.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
+            joint.GetComponent<Renderer>().material.color = skeletonColor;
+            joint.tag = Tag.JOINT.ToString();
         }
     }
 }

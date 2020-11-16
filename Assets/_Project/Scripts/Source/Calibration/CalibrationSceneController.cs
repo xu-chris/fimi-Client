@@ -14,11 +14,7 @@ namespace _Project.Scripts.Source.Calibration
         public GameObject skeletonPrefab;
 
         private CalibrationConfiguration calibrationConfiguration;
-
-        private Collider dummyCollider;
-        
         private int maxNumberOfPeople;
-        private GameObject[] skeletons;
 
         public void Start()
         {
@@ -65,34 +61,35 @@ namespace _Project.Scripts.Source.Calibration
             for (var p = 0; p < maxNumberOfPeople; p++)
             {
                 // Init skeleton if not given.
-                if (skeletons[p] == null)
+                if (transform.GetChild(p) == null)
                 {
-                    skeletons[p] = Instantiate(skeletonPrefab);
+                    var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
                     Debug.LogError("Initialized a new skeleton which should be already there 🤔. p: " + p);
                 }
 
                 // Set and activate only skeletons that are detected.
                 if (p >= 0 && detectedPersons.Length > p && p == detectedPersons[p].id)
-                    UpdateSkeleton(skeletons[p], detectedPersons[p]);
+                    UpdateSkeleton(p, detectedPersons[p]);
                 else
-                    skeletons[p].SetActive(false);
+                    transform.GetChild(p).gameObject.SetActive(false);
             }
         }
 
         public void InitializeAllSkeletons()
         {
-            skeletons = new GameObject[maxNumberOfPeople];
             for (var p = 0; p < maxNumberOfPeople; p++)
             {
-                skeletons[p] = Instantiate(skeletonPrefab);
-                skeletons[p].SetActive(false);
+                var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+                skeleton.SetActive(false);
             }
         }
 
-        private void UpdateSkeleton(GameObject skeleton, Person person)
+        private void UpdateSkeleton(int index, Person person)
         {
-            // skeleton.SetSkeleton(person.joints, person.lowestY);
-            skeleton.SetActive(true);
+            var skeletonGameObject = transform.GetChild(index).gameObject; 
+            var script = skeletonGameObject.GetComponent<CalibrationSkeleton>();
+            script.SetSkeleton(person.joints, person.lowestY);
+            skeletonGameObject.SetActive(true);
         }
     }
 }

@@ -1,4 +1,4 @@
-using _Project.Scripts.DomainValues;
+using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 using UnityEngine.Assertions;
 

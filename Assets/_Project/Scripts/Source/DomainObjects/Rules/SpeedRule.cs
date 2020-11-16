@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using _Project.Scripts.Core;
-using _Project.Scripts.DomainValues;
 using _Project.Scripts.Source;
+using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
 namespace _Project.Scripts.DomainObjects.Rules

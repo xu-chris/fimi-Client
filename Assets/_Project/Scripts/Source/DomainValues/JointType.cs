@@ -1,4 +1,4 @@
-namespace _Project.Scripts.DomainValues
+namespace _Project.Scripts.Source.DomainValues
 {
     public enum JointType
     {

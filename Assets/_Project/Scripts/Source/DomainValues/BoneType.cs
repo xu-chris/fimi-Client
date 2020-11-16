@@ -1,4 +1,8 @@
-namespace _Project.Scripts.DomainValues
+using System;
+using System.Collections.Generic;
+using _Project.Scripts.Source.DomainValues;
+
+namespace _Project.Scripts.Source.DomainValues
 {
     public enum BoneType
     {

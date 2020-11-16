@@ -1,5 +1,5 @@
-using _Project.Scripts.DomainValues;
 using _Project.Scripts.Source;
+using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
 namespace Scripts.Tests.DomainObjects.Rules
