@@ -1,5 +1,16 @@
 exercises:
   - type: squatArmRaise
+    name: "Squat Arm Raise"
+    description: "
+        Raise your arms until they are lifted horizontally.
+        Squat in the same time.
+
+        • Keep your legs aligned to your feet.
+        • Don't bend your legs or your hip too much.
+        • Keep your neck aligned with your spine.
+        • Perform the exercise symmetrical.
+        • Keep your own speed.
+      "
     rules:
       - !rangeOfMotionRule
         notificationText: "Don't overstretch your knees"
@@ -89,10 +100,4 @@ exercises:
         lowerDistanceChangeThreshold: 0.1
         upperDistanceChangeThreshold: 10
 
-trainings:
-  - name: "Mobilize your body"
-    exercises:
-      - type: squatArmRaise
-        repetitions: 10
-      - type: squatArmRaise
-        duration: 10m
+
