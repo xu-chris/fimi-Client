@@ -1,4 +1,4 @@
-namespace _Project.Scripts.DomainObjects.Configurations
+namespace _Project.Scripts.Source.DomainObjects.Configurations
 {
     public struct WebSocketConfiguration
     {

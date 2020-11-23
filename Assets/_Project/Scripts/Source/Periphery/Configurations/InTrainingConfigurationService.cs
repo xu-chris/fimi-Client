@@ -1,6 +1,6 @@
 // The ConfigService is heavily inspired by YamlDotNet: https://dotnetfiddle.net/rrR2Bb
 
-using _Project.Scripts.DomainObjects.Configurations;
+using _Project.Scripts.Source.DomainObjects.Configurations;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;

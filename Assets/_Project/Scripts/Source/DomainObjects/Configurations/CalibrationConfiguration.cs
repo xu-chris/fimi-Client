@@ -1,7 +1,7 @@
-namespace _Project.Scripts.DomainObjects.Configurations
+namespace _Project.Scripts.Source.DomainObjects.Configurations
 {
     public class CalibrationConfiguration
     {
-        public int timeForCalibrationInSeconds;
+        public int durationOfCalibrationInSeconds;
     }
 }

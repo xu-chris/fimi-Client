@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using _Project.Scripts.DomainObjects;
-using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
 using _Project.Scripts.Source.DomainObjects;
 using _Project.Scripts.Source.DomainObjects.Configurations;
@@ -50,7 +49,12 @@ namespace _Project.Scripts.Source.InTraining
             if (reports != null)
                 CheckReports(reports);
         }
-        
+
+        protected override GameObject AddAdditionalSpecimenForSkeleton(GameObject skeleton)
+        {
+            return skeleton;
+        }
+
         private ExerciseReport[] GetReports()
         {
             return transform.GetComponentsInChildren<InTrainingSkeleton>().Select(skeletonScript => skeletonScript.GetReport()).ToArray();

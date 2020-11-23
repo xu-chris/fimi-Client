@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Source.PreExercise
 {
-    public class PreTrainingSkeletonSceneController : MonoBehaviour
+    public class PreExerciseSceneController : MonoBehaviour
     {
         public TextAsset preTrainingConfigurationFile;
         public TextAsset trainingsConfigurationFile;

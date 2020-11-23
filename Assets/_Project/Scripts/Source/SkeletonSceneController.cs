@@ -1,12 +1,12 @@
 using _Project.Scripts.DomainObjects;
-using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Clients;
 using _Project.Scripts.Periphery.Configurations;
+using _Project.Scripts.Source.DomainObjects.Configurations;
 using UnityEngine;
 
 namespace _Project.Scripts.Source
 {
-    public class SkeletonSceneController : MonoBehaviour
+    public abstract class SkeletonSceneController : MonoBehaviour
     {
         public TextAsset applicationConfigurationFile;
         protected ApplicationConfiguration applicationConfiguration;
@@ -70,10 +70,13 @@ namespace _Project.Scripts.Source
         protected GameObject CreateSkeleton()
         {
             var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+            skeleton = AddAdditionalSpecimenForSkeleton(skeleton);
             return skeleton;
         }
+
+        protected abstract GameObject AddAdditionalSpecimenForSkeleton(GameObject skeleton);
         
-        private void UpdateSkeleton(int index, Person person)
+        protected void UpdateSkeleton(int index, Person person)
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 
             var script = skeletonGameObject.GetComponent<Skeleton>();

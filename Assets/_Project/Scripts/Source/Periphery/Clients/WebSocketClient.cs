@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.DomainObjects;
-using _Project.Scripts.DomainObjects.Configurations;
+using _Project.Scripts.Source.DomainObjects.Configurations;
 using JetBrains.Annotations;
 using UnityEngine;
 using WebSocketSharp;
