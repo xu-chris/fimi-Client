@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using _Project.Scripts.DomainObjects.Rules;
 using _Project.Scripts.Source;
+using _Project.Scripts.Source.DomainObjects.Rules;
 using NUnit.Framework;
 using UnityEngine;
 

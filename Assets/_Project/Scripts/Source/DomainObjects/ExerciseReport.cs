@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using _Project.Scripts.DomainObjects.Rules;
 using _Project.Scripts.Source.DomainObjects.Rules;
 
 namespace _Project.Scripts.DomainObjects

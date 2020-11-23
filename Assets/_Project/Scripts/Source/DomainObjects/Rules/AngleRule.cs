@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using _Project.Scripts.Core;
-using _Project.Scripts.Source;
-using _Project.Scripts.Source.DomainObjects.Rules;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // ReSharper disable ClassNeverInstantiated.Global - Class is instantiated by the YAML configuration reader
 
-namespace _Project.Scripts.DomainObjects.Rules
+namespace _Project.Scripts.Source.DomainObjects.Rules
 {
     public class AngleRule : Rule
     {

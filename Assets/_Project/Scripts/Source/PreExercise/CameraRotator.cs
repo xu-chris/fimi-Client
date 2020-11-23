@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Core.PreTraining
+namespace _Project.Scripts.Source.PreExercise
 {
     public class CameraRotator : MonoBehaviour
     {

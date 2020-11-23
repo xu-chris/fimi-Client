@@ -1,9 +1,8 @@
 using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace _Project.Scripts.Source.PreTraining
+namespace _Project.Scripts.Source.PreExercise
 {
     public class CalibrationSkeletonSceneController : SkeletonSceneController
     {

@@ -1,5 +1,4 @@
 using _Project.Scripts.DomainObjects.Configurations;
-using _Project.Scripts.DomainObjects.Rules;
 using _Project.Scripts.Source.DomainObjects.Configurations;
 using _Project.Scripts.Source.DomainObjects.Rules;
 using UnityEngine;

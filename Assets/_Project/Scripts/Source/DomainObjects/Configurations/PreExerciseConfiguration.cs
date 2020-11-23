@@ -1,6 +1,6 @@
 namespace _Project.Scripts.Source.DomainObjects.Configurations
 {
-    public class PreTrainingConfiguration
+    public class PreExerciseConfiguration
     {
         public float timeUntilTrainingStartsInSeconds;
         public string interactionPrompt;

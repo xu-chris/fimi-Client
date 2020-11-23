@@ -1,12 +1,11 @@
 using _Project.Scripts.DomainObjects;
-using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
 using _Project.Scripts.Source.DomainObjects.Configurations;
 using _Project.Scripts.Source.Periphery.Configurations;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.Source.PreTraining
+namespace _Project.Scripts.Source.PreExercise
 {
     public class PreTrainingSkeletonSceneController : MonoBehaviour
     {
@@ -21,13 +20,13 @@ namespace _Project.Scripts.Source.PreTraining
         public int currentTrainingIndex = 0;
         public int currentExerciseIndex = 0;
 
-        private PreTrainingConfiguration configuration;
+        private PreExerciseConfiguration configuration;
         private TrainingsConfiguration trainingsConfiguration;
         private ExercisesConfiguration exercisesConfiguration;
 
         public void Start()
         {
-            configuration = new PreTrainingConfigurationService(preTrainingConfigurationFile).configuration;
+            configuration = new PreExerciseConfigurationService(preTrainingConfigurationFile).configuration;
             trainingsConfiguration = new TrainingsConfigurationService(trainingsConfigurationFile).configuration;
             exercisesConfiguration = new ExercisesConfigurationService(exercisesConfigurationFile).configuration;
 

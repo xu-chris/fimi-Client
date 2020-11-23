@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.DomainObjects;
-using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 
-namespace _Project.Scripts.Source.Calibration
+namespace _Project.Scripts.Source.PreExercise
 {
     public class CalibrationSkeleton : Skeleton
     {
-        private MeshCollider collider;
+        private new MeshCollider collider;
         private EventHandler collisionEventHandler;
 
         public List<Collider> colliders;

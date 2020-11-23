@@ -1,27 +1,26 @@
-using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Source.DomainObjects.Configurations;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace _Project.Scripts.Periphery.Configurations
+namespace _Project.Scripts.Source.Periphery.Configurations
 {
-    public class PreTrainingConfigurationService
+    public class PreExerciseConfigurationService
     {
-        public PreTrainingConfiguration configuration;
+        public PreExerciseConfiguration configuration;
 
-        public PreTrainingConfigurationService(TextAsset configurationFile)
+        public PreExerciseConfigurationService(TextAsset configurationFile)
         {
             // Start decoding the yaml file
             configuration = DecodeYaml(configurationFile.text);
         }
 
-        private static PreTrainingConfiguration DecodeYaml(string document)
+        private static PreExerciseConfiguration DecodeYaml(string document)
         {
             var namingConvention = new CamelCaseNamingConvention();
             var deserializer = new DeserializerBuilder().WithNamingConvention(namingConvention).Build();
 
-            return deserializer.Deserialize<PreTrainingConfiguration>(document);
+            return deserializer.Deserialize<PreExerciseConfiguration>(document);
         }
     }
 }
