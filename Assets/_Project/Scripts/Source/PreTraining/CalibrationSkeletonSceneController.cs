@@ -1,16 +1,15 @@
-using _Project.Scripts.DomainObjects;
 using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.Source.Calibration
+namespace _Project.Scripts.Source.PreTraining
 {
     public class CalibrationSkeletonSceneController : SkeletonSceneController
     {
         public TextAsset calibrationConfigurationFile;
-        public Text title;
-        public GameObject particleSystemForceField;
+        public GameObject progressBarObject;
+        public int maxWidth;
 
         private CalibrationConfiguration calibrationConfiguration;
 
@@ -35,13 +34,12 @@ namespace _Project.Scripts.Source.Calibration
 
         private void StartCalibration()
         {
-            particleSystemForceField.SetActive(true);   
             webSocketClient.SendRescaleSkeletons();
         }
 
         private void ResetCalibration()
         {
-            particleSystemForceField.SetActive(false);
+            
         }
     }
 }

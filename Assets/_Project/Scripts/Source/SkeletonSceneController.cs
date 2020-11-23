@@ -12,6 +12,7 @@ namespace _Project.Scripts.Source
         public TextAsset applicationConfigurationFile;
         protected ApplicationConfiguration applicationConfiguration;
         protected WebSocketClient webSocketClient;
+        public GameObject skeletonSpawnPoint;
         
         public GameObject skeletonPrefab;
         private protected int maxNumberOfPeople = 1;
@@ -77,9 +78,8 @@ namespace _Project.Scripts.Source
         {
             var skeletonGameObject = transform.GetChild(index).gameObject; 
             var script = skeletonGameObject.GetComponent<Skeleton>();
-
-            script.person = person;
-            skeletonGameObject.SetActive(true);
+            var basePoint = skeletonSpawnPoint.transform.position;
+            script.UpdateSkeleton(person, basePoint);
         }
     }
 }

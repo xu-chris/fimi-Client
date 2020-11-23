@@ -42,10 +42,10 @@ namespace _Project.Scripts.Source
             gameObject.transform.position = jointPosition;
         }
 
-        public void SetJointPosition(Vector3[] jointEstimation, float lowestY)
+        public void SetJointPosition(Vector3[] jointEstimation, float lowestY, Vector3 basePoint)
         {
             var vector = new Vector3(jointEstimation[jointIndex][0], jointEstimation[jointIndex][1] - lowestY, jointEstimation[jointIndex][2]);
-            SetJointPosition(vector);
+            SetJointPosition(basePoint + vector);
         }
     }
 }

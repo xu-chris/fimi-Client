@@ -1,1 +1,2 @@
-timeUntilTrainingStartsInSeconds: 120 
+timeUntilTrainingStartsInSeconds: 120
+interactionPrompt: "Start by standing in T pose"

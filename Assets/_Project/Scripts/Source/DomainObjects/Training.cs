@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using _Project.Scripts.DomainObjects;
+using _Project.Scripts.Source.DomainValues;
 
-namespace _Project.Scripts.DomainObjects
+namespace _Project.Scripts.Source.DomainObjects
 {
     public struct Training
     {
         public string name;
-        public List<Exercise> exercises;
+        public List<ExerciseItem> exercises;
     }
 }

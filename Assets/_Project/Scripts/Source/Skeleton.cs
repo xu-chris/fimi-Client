@@ -14,7 +14,6 @@ namespace _Project.Scripts.Source
         private readonly List<Joint> joints = new List<Joint>();
         private readonly List<Bone> bones = new List<Bone>();
         
-        internal Person person = new Person();
         public int id;
 
         public void Start()
@@ -25,19 +24,19 @@ namespace _Project.Scripts.Source
             CreateBones();
             CreateJoints();
         }
-        
-        public void FixedUpdate()
+
+        internal void UpdateSkeleton(Person person, Vector3 basePoint)
         {
             gameObject.SetActive(true);
             
             foreach (var joint in joints)
             {
-                joint.SetJointPosition(person.joints, person.lowestY);
+                joint.SetJointPosition(person.joints, person.lowestY, basePoint);
             }
 
             foreach (var bone in bones)
             {
-                bone.SetBoneSizeAndPosition(person.joints, person.lowestY);
+                bone.SetBoneSizeAndPosition(person.joints, person.lowestY, basePoint);
             }
         }
 

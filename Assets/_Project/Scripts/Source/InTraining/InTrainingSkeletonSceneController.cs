@@ -3,6 +3,8 @@ using System.Linq;
 using _Project.Scripts.DomainObjects;
 using _Project.Scripts.DomainObjects.Configurations;
 using _Project.Scripts.Periphery.Configurations;
+using _Project.Scripts.Source.DomainObjects;
+using _Project.Scripts.Source.DomainObjects.Configurations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +13,6 @@ namespace _Project.Scripts.Source.InTraining
     public class InTrainingSkeletonSceneController : SkeletonSceneController
     {
         public TextAsset exercisesConfigurationFile;
-
         public TextAsset inTrainingConfigurationFile;
 
         public GameObject notificationPanel;

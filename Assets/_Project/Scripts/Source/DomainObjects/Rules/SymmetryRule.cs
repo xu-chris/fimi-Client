@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Core;
-using _Project.Scripts.Source;
 using UnityEngine;
 
-namespace _Project.Scripts.DomainObjects.Rules
+namespace _Project.Scripts.Source.DomainObjects.Rules
 {
     public class SymmetryRule : Rule
     {

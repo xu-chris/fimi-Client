@@ -1,15 +1,16 @@
 using System.Collections.Generic;
-using _Project.Scripts.DomainObjects.Rules;
+using _Project.Scripts.DomainObjects;
+using _Project.Scripts.Source.DomainObjects.Rules;
 using _Project.Scripts.Source.DomainValues;
 
-namespace _Project.Scripts.DomainObjects
+namespace _Project.Scripts.Source.DomainObjects
 {
     public class Exercise
     {
-        public string duration;
-        public int repetitions;
         public List<Rule> rules;
         public string type;
+        public string name;
+        public string description;
 
         private ExerciseType ExerciseType()
         {

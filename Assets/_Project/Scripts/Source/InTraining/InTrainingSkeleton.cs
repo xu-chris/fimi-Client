@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.DomainObjects;
 using _Project.Scripts.DomainObjects.Rules;
+using _Project.Scripts.Source.DomainObjects;
+using _Project.Scripts.Source.DomainObjects.Rules;
 using UnityEngine;
 
 namespace _Project.Scripts.Source.InTraining

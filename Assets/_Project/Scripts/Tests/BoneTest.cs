@@ -18,7 +18,7 @@ namespace Scripts.Tests
             var bone = new Bone(BoneType.RIGHT_HAND, 15, 16, Color.black, new GameObject(), false);
             
             // WHEN
-            bone.SetBoneSizeAndPosition(start, end, 0f);
+            bone.SetBoneSizeAndPosition(start, end, 0f, new Vector3(0,0,0));
             var result = bone.boneVector;
             
             // THEN
