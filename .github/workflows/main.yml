@@ -27,13 +27,13 @@ jobs:
       fail-fast: false
       matrix:
         unityVersion:
-          - 2020.1.5f1
+          - 2020.1.9f1
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
         testMode:
-          - all
+          - editmode
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checkout
@@ -55,7 +55,7 @@ jobs:
       # Test
       - name: Run tests
         id: tests
-        uses: webbertakken/unity-test-runner@v1.6
+        uses: webbertakken/unity-test-runner@v1.7
         with:
           testMode: ${{ matrix.testMode }}
           projectPath: ${{ matrix.projectPath }}
@@ -72,7 +72,7 @@ jobs:
 
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v1.2
+        uses: webbertakken/unity-builder@v2.0-aplha-5
         with:
           allowDirtyBuild: true
           versioning: Semantic
