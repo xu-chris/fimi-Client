@@ -5,7 +5,7 @@ using _Project.Scripts.Source.DomainValues;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace _Project.Scripts.Source.PreExercise
+namespace _Project.Scripts.Source.PreExercise.Calibration
 {
     public class CalibrationSkeleton : Skeleton
     {

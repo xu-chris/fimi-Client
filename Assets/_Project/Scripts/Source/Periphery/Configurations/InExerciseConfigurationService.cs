@@ -5,24 +5,24 @@ using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace _Project.Scripts.Periphery.Configurations
+namespace _Project.Scripts.Source.Periphery.Configurations
 {
-    public class InTrainingConfigurationService
+    public class InExerciseConfigurationService
     {
-        public InTrainingConfiguration configuration;
+        public InExerciseConfiguration configuration;
 
-        public InTrainingConfigurationService(TextAsset configurationFile)
+        public InExerciseConfigurationService(TextAsset configurationFile)
         {
             // Start decoding the yaml file
             configuration = DecodeYaml(configurationFile.text);
         }
 
-        private static InTrainingConfiguration DecodeYaml(string document)
+        private static InExerciseConfiguration DecodeYaml(string document)
         {
             var namingConvention = new CamelCaseNamingConvention();
             var deserializer = new DeserializerBuilder().WithNamingConvention(namingConvention).Build();
 
-            return deserializer.Deserialize<InTrainingConfiguration>(document);
+            return deserializer.Deserialize<InExerciseConfiguration>(document);
         }
     }
 }

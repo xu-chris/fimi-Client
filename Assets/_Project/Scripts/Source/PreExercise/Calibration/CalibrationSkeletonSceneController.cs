@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
-using _Project.Scripts.DomainObjects;
-using _Project.Scripts.Periphery.Configurations;
 using _Project.Scripts.Source.DomainObjects.Configurations;
+using _Project.Scripts.Source.Periphery.Configurations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace _Project.Scripts.Source.PreExercise
+namespace _Project.Scripts.Source.PreExercise.Calibration
 {
     public class CalibrationSkeletonSceneController : SkeletonSceneController
     {
         public TextAsset calibrationConfigurationFile;
         public GameObject progressBarObject;
-        public int maxWidth;
+        public string nextSceneName;
+        public GameObject overlay;
 
         private CalibrationConfiguration calibrationConfiguration;
 
@@ -67,8 +68,22 @@ namespace _Project.Scripts.Source.PreExercise
         private IEnumerator CheckCalibrationSuccess()
         {
             yield return new WaitForSeconds(calibrationConfiguration.durationOfCalibrationInSeconds);
-            if (!calibrationAborted)
-                calibrated = true;
+            if (calibrationAborted) yield break;
+            
+            calibrated = true;
+            OnCalibrationComplete();
+        }
+
+        private void OnCalibrationComplete()
+        {
+            overlay.GetComponent<Animator>().SetBool("blendOut", true);
+            StartCoroutine(TransitionToNewScene());
+        }
+
+        private IEnumerator TransitionToNewScene()
+        {
+            yield return new WaitForSeconds(1.0f);
+            SceneManager.LoadScene(nextSceneName);
         }
 
         private void StartCalibration()

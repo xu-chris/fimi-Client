@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Linq;
 using _Project.Scripts.DomainObjects;
-using _Project.Scripts.Periphery.Configurations;
 using _Project.Scripts.Source.DomainObjects;
 using _Project.Scripts.Source.DomainObjects.Configurations;
+using _Project.Scripts.Source.Periphery.Configurations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +16,7 @@ namespace _Project.Scripts.Source.InTraining
 
         public GameObject notificationPanel;
         private ExercisesConfiguration exercisesConfiguration;
-        private InTrainingConfiguration inTrainingConfiguration;
+        private InExerciseConfiguration inExerciseConfiguration;
         private bool notificationShown;
 
         private Exercise currentExercise;
@@ -28,8 +28,8 @@ namespace _Project.Scripts.Source.InTraining
         {
             base.Start();
 
-            var inTrainingConfigurationService = new InTrainingConfigurationService(inTrainingConfigurationFile);
-            inTrainingConfiguration = inTrainingConfigurationService.configuration;
+            var inTrainingConfigurationService = new InExerciseConfigurationService(inTrainingConfigurationFile);
+            inExerciseConfiguration = inTrainingConfigurationService.configuration;
 
             var exerciseConfigurationService = new ExercisesConfigurationService(exercisesConfigurationFile);
             exercisesConfiguration = exerciseConfigurationService.configuration;
@@ -101,7 +101,7 @@ namespace _Project.Scripts.Source.InTraining
         private IEnumerator HideNotification(Animator animator)
         {
             if (!animator.GetBool("show")) yield break;
-            yield return new WaitForSeconds(inTrainingConfiguration.showNotificationDurationInSeconds);
+            yield return new WaitForSeconds(inExerciseConfiguration.showNotificationDurationInSeconds);
             animator.SetBool("show", false);
             yield return new WaitForSeconds(1); // Can be removed when more stable
             notificationShown = false;

@@ -3,7 +3,7 @@ using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace _Project.Scripts.Periphery.Configurations
+namespace _Project.Scripts.Source.Periphery.Configurations
 {
     public class ApplicationConfigurationService
     {

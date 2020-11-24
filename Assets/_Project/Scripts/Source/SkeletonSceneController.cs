@@ -1,7 +1,7 @@
 using _Project.Scripts.DomainObjects;
 using _Project.Scripts.Periphery.Clients;
-using _Project.Scripts.Periphery.Configurations;
 using _Project.Scripts.Source.DomainObjects.Configurations;
+using _Project.Scripts.Source.Periphery.Configurations;
 using UnityEngine;
 
 namespace _Project.Scripts.Source
