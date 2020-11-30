@@ -154,3 +154,5 @@ fabric.properties
 
 !Library/CurrentLayout.dwlt
 !Library/CurrentLayout-default.dwlt
+Secrets.yaml
+Secrets.yaml.meta

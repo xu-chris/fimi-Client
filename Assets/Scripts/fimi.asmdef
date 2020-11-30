@@ -1,7 +1,9 @@
 {
     "name": "fimi",
     "references": [
-        "GUID:b3f49edfedc855a48aa1a9e5d3cba438"
+        "GUID:b3f49edfedc855a48aa1a9e5d3cba438",
+        "GUID:e2933e56dbbe145f5b19eed33d4cfd3d",
+        "GUID:09e6844a19c44194dae71b5f6d5e2f12"
     ],
     "includePlatforms": [
         "Editor",

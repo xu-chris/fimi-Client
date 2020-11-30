@@ -55,7 +55,7 @@ jobs:
       # Test
       - name: Run tests
         id: tests
-        uses: webbertakken/unity-test-runner@v1.7
+        uses: webbertakken/unity-test-runner@v2.0-alpha-1
         with:
           testMode: ${{ matrix.testMode }}
           projectPath: ${{ matrix.projectPath }}

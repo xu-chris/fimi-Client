@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using _Project.Scripts.Source.DomainObjects.Configurations;
 using General;
 using General.Skeleton;
+using IBM.Cloud.SDK.Plugins.WebSocketSharp;
 using JetBrains.Annotations;
 using UnityEngine;
-using WebSocketSharp;
 
 namespace Clients
 {
@@ -36,7 +36,7 @@ namespace Clients
         {
             StopCoroutine(CheckAndReconnect());
 
-            if (webSocket != null && webSocket.ReadyState == WebSocketState.OPEN)
+            if (webSocket != null && webSocket.ReadyState == WebSocketState.Open)
                 webSocket.Close();
         }
 
@@ -81,7 +81,7 @@ namespace Clients
             {
                 if (enableLogging)
                 {
-                    webSocket.Log.Level = LogLevel.TRACE;
+                    webSocket.Log.Level = LogLevel.Trace;
                     webSocket.Log.File = "./ws_log.txt";
                 }
 

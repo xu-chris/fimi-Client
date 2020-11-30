@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using Clients;
 using General;
 using General.Exercises;
 using UnityEngine;
@@ -90,6 +91,7 @@ namespace InExercise
 
             if (animator == null) return; // Exists
             if (animator.GetBool("show") || notificationShown) return; // Is not already shown
+            GetComponent<TTSClient>().Synthesize(text);
             notificationPanel.GetComponentInChildren<Text>().text = text;
             animator.SetBool("show", true);
             StartCoroutine(HideNotification(animator));
