@@ -79,6 +79,11 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          
+      # Return License
+      - name: Return license
+        uses: webbertakken/unity-return-license@v1
+        if: always()
       
       # Create folders if necessary
       - name: Create output folders
