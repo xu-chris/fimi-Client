@@ -1,3 +1,4 @@
+using Clients;
 using General.Exercises;
 using General.Trainings;
 using Library;
@@ -39,6 +40,8 @@ namespace PreExercise
             descriptionObject.text = exercise.description;
             durationObject.text = trainingsConfiguration.trainings[currentTrainingIndex].exercises[currentExerciseIndex]
                 .durationInSeconds + "s";
+            GetComponent<TTSClient>().Synthesize("The next exercise is: " + exercise.name);
+            GetComponent<TTSClient>().Synthesize("Here's what you should watch while performing the exercise: " + exercise.description);
         }
     }
 }
