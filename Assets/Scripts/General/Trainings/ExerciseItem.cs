@@ -1,4 +1,4 @@
-namespace General.Exercises
+namespace General.Trainings
 {
     public class ExerciseItem
     {

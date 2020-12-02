@@ -1,4 +1,4 @@
-namespace _Project.Scripts.Source.DomainObjects.Configurations
+namespace PreExercise.Calibration
 {
     public class CalibrationConfiguration
     {

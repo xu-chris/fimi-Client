@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using _Project.Scripts.Source.DomainObjects.Configurations;
 using General;
 using General.Skeleton;
 using IBM.Cloud.SDK.Plugins.WebSocketSharp;

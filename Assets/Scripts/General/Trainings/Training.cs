@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using General.Exercises;
 
 namespace General.Trainings
 {

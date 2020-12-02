@@ -12,8 +12,10 @@ namespace InExercise
     {
         public TextAsset exercisesConfigurationFile;
         public TextAsset inExerciseConfigurationFile;
-
         public GameObject notificationPanel;
+        public Text remainingPanel;
+        public GameObject progressBarGameObject;
+        
         private ExercisesConfiguration exercisesConfiguration;
         private InExerciseConfiguration inExerciseConfiguration;
         private bool notificationShown;
@@ -22,6 +24,10 @@ namespace InExercise
         private const bool checkRules = true;
 
         private Vector3 offset;
+
+        private int total;
+        private int current;
+        private int remaining;
 
         public new void Start()
         {
@@ -83,6 +89,11 @@ namespace InExercise
             }
 
             if (highestInfectedRule != null) NotifyUser(highestInfectedRule.rule.notificationText);
+        }
+
+        private void ChangeRemainingTo(string text)
+        {
+            remainingPanel.text = text;
         }
 
         private void NotifyUser(string text)
