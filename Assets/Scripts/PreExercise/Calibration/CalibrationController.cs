@@ -17,6 +17,8 @@ namespace PreExercise.Calibration
 
         private bool calibrated = false;
         private bool calibrationAborted = false;
+        
+        private IEnumerator checkCoroutine;
 
         public void Start()
         {
@@ -28,23 +30,24 @@ namespace PreExercise.Calibration
             tPoseController.SetDurationUntilNextSceneInSeconds(calibrationConfiguration.durationOfCalibrationInSeconds);
         }
 
-        public void OnTPoseDetectionStart(object source, EventArgs args)
+        private void OnTPoseDetectionStart(object source, EventArgs args)
         {
-            StartCoroutine(CheckCalibrationSuccess());
+            checkCoroutine = CheckCalibrationSuccess();
+            StartCoroutine(checkCoroutine);
             StartCalibration();
         }
 
-        public void OnTPoseDetectionStop(object source, EventArgs args)
+        private void OnTPoseDetectionStop(object source, EventArgs args)
         {
+            StopCoroutine(checkCoroutine);
             ResetCalibration();
         }
-        
+
         private IEnumerator CheckCalibrationSuccess()
         {
+            if (calibrationAborted) yield break;
             yield return new WaitForSeconds(calibrationConfiguration.durationOfCalibrationInSeconds);
             if (calibrationAborted) yield break;
-            
-            calibrated = true;
             OnCalibrationComplete();
         }
 

@@ -35,16 +35,15 @@ namespace General.TPose
         }
         
         private void SetupProgressBar()
-        {   
-            progressBarObject.SetActive(true);
+        {
             var animationTimeMultiplier = 1.0f / durationUntilNextSceneInSeconds;
-            progressBarObject.GetComponent<Animator>().SetFloat("timeMultiplier", animationTimeMultiplier);
+            var animator = progressBarObject.GetComponent<Animator>();
+            animator.SetFloat("timeMultiplier", animationTimeMultiplier);
         }
 
         private void OnFullCollisionStart(object source, EventArgs args)
         {
             Debug.Log("Collision started. Will start calibration");
-            progressBarObject.SetActive(true);
             StartAnimatingProgressBar();
             OnTPoseDetectedStart();
         }

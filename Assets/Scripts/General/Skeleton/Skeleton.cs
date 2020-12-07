@@ -29,6 +29,7 @@ namespace General.Skeleton
         {
             id = transform.parent.childCount;
             gameObject.name = GameObjectNames.GetPrefix(GameObjectNames.NameType.SKELETON) + id;
+            gameObject.tag = Tag.SKELETON.ToString();
 
             CreateBones();
             CreateJoints();
@@ -44,10 +45,11 @@ namespace General.Skeleton
             newRigidBody.useGravity = false;
         }
 
-        internal void UpdateSkeleton(Person person, Vector3 basePoint)
+        internal void UpdateSkeleton(Person person)
         {
+            var basePoint = transform.parent.position;
             gameObject.SetActive(true);
-            
+
             foreach (var joint in joints)
             {
                 joint.SetJointPosition(person.joints, person.lowestY, basePoint);

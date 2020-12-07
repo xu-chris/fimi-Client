@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Clients;
 using General.Authentication;
 using General.Skeleton;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace General
@@ -13,7 +15,8 @@ namespace General
         public GameObject skeletonSpawnPoint;
         
         public GameObject skeletonPrefab;
-        private protected int maxNumberOfPeople = 1;
+        private int maxNumberOfPeople = 1;
+        private readonly List<GameObject> skeletons = new List<GameObject>();
         
         public void Start()
         {
@@ -55,32 +58,33 @@ namespace General
             for (var p = 0; p < maxNumberOfPeople; p++)
             {
                 // Init skeleton if not given.
-                if (transform.GetChild(p) == null)
+                if (skeletons[p] == null)
                     CreateSkeleton();
 
                 // Set and activate only skeletons that are detected.
                 if (p >= 0 && detectedPersons.Length > p && p == detectedPersons[p].id)
-                    UpdateSkeleton(p, detectedPersons[p]);
+                    UpdateSkeleton(detectedPersons[p]);
                 else
-                    transform.GetChild(p).gameObject.SetActive(false);
+                    skeletons[p].SetActive(false);
             }
         }
 
         private GameObject CreateSkeleton()
         {
-            var skeleton = Instantiate(skeletonPrefab, gameObject.transform, true);
+            var skeleton = Instantiate(skeletonPrefab, skeletonSpawnPoint.transform, true);
+            skeletons.Add(skeleton);
             skeleton = AddAdditionalSpecimenForSkeleton(skeleton);
             return skeleton;
         }
 
         protected abstract GameObject AddAdditionalSpecimenForSkeleton(GameObject skeleton);
 
-        private void UpdateSkeleton(int index, Person person)
+        private void UpdateSkeleton(Person person)
         {
-            var skeletonGameObject = transform.GetChild(index).gameObject; 
+            var skeletonGameObject = skeletons[person.id]; 
             var script = skeletonGameObject.GetComponent<Skeleton.Skeleton>();
             var basePoint = skeletonSpawnPoint.transform.position;
-            script.UpdateSkeleton(person, basePoint);
+            script.UpdateSkeleton(person);
         }
     }
 }
