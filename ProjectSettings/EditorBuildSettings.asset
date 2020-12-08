@@ -5,10 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scripts/Start/Start.unity
+    guid: 601a9b9302ad54a8ead2073e205ee880
+  - enabled: 1
+    path: Assets/Scripts/TrainingOverview/TrainingOverview.unity
+    guid: 3ddc7ef54480f4c8a96d68e1023504d0
+  - enabled: 1
+    path: Assets/Scripts/PreExercise/PreExercise.unity
+    guid: dca294103500740b8b466198140d2508
   - enabled: 1
     path: Assets/Scripts/InExercise/InExercise.unity
     guid: 62a7508dd369115499d483832d572f53
+  - enabled: 1
+    path: Assets/Scripts/PostTraining/PostTraining.unity
+    guid: 14495fb84bbe54404a4dadbf4e886b66
   m_configObjects: {}
