@@ -9,6 +9,6 @@ namespace General
         WEB_SOCKET_CLIENT,
         WEB_CONTROLLER,
         TTS_CLIENT,
-        SESSION_CONTROLLER
+        SESSION_MANAGER
     }
 }

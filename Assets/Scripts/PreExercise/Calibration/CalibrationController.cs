@@ -25,7 +25,7 @@ namespace PreExercise.Calibration
         {
             calibrationConfiguration = new CalibrationConfigurationService(calibrationConfigurationFile).configuration;
 
-            var tPoseController = GetComponent<TPoseController>();
+            var tPoseController = GetComponent<PoseManager>();
             tPoseController.TPoseDetected += OnTPoseDetectionStart;
             tPoseController.TPoseStopped += OnTPoseDetectionStop;
             tPoseController.SetDurationUntilNextSceneInSeconds(calibrationConfiguration.durationOfCalibrationInSeconds);

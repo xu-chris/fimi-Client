@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace General.TPose
 {
-    public class TPoseController : SkeletonController
+    public class PoseManager : SkeletonManager
     {
         public GameObject progressBarObject;
 

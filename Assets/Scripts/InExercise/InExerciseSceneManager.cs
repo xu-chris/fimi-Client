@@ -2,7 +2,7 @@ using General;
 
 namespace InExercise
 {
-    public class InExerciseSceneController : SceneController
+    public class InExerciseSceneManager : SceneManager
     {
         
     }

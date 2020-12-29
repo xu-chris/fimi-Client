@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace General
 {
-    public class SceneController : MonoBehaviour
+    public class SceneManager : MonoBehaviour
     {
         public GameObject webControllerPrefab;
         public GameObject sessionControllerPrefab;
         public GameObject textToSpeechClientPrefab;
 
         internal WebController webController;
-        internal SessionController sessionController;
+        internal SessionManager sessionManager;
         internal TTSClient ttsClient;
 
         private GameObject webControllerGameObject;
@@ -26,7 +26,7 @@ namespace General
             webControllerGameObject = Utils.GetOrInstantiate(Tag.WEB_CONTROLLER, webControllerPrefab);
 
             // Same with session controller
-            sessionControllerGameObject = Utils.GetOrInstantiate(Tag.SESSION_CONTROLLER, sessionControllerPrefab);
+            sessionControllerGameObject = Utils.GetOrInstantiate(Tag.SESSION_MANAGER, sessionControllerPrefab);
 
             // And for TTS client
             textToSpeechGameObject = Utils.GetOrInstantiate(Tag.TTS_CLIENT, textToSpeechClientPrefab);
@@ -38,7 +38,7 @@ namespace General
             webController = webControllerGameObject.GetComponent<WebController>();
             webController.onMessage += OnWebControllerMessage;
             
-            sessionController = sessionControllerGameObject.GetComponent<SessionController>();
+            sessionManager = sessionControllerGameObject.GetComponent<SessionManager>();
             
             ttsClient = textToSpeechGameObject.GetComponent<TTSClient>();
         }

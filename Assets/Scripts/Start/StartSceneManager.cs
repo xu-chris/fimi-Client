@@ -11,10 +11,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Clients.WebController.ControlCommands;
+using SceneManager = General.SceneManager;
 
 namespace Start
 {
-    public class StartSceneController : SceneController
+    public class StartSceneManager : SceneManager
     {
         public string trainingOverviewSceneName;
         public RawWebImageLoader qrCode;
@@ -33,7 +34,7 @@ namespace Start
 
         private new string OnWebControllerMessage(string message)
         {
-            SceneController.OnWebControllerMessage(message);
+            SceneManager.OnWebControllerMessage(message);
 
             var info = message.Split('\n').Length > 1 ? message.Split('\n')[1] : "";
             
@@ -54,7 +55,7 @@ namespace Start
         private string GetTrainings()
         {
             var result = new List<Dictionary<string, string>>();
-            var trainings = sessionController.GetTrainings();
+            var trainings = sessionManager.GetTrainings();
             for (var i = 0; i < trainings.Count; i++)
             {
                 var trainingDict = new Dictionary<string, string>();
@@ -72,7 +73,7 @@ namespace Start
         {
             Dispatcher.Invoke(() =>
             {
-                sessionController.SetSelectedTraining(id);
+                sessionManager.SetSelectedTraining(id);
                 StartCoroutine(TransitionToNewScene(trainingOverviewSceneName));
             });
         }
@@ -80,7 +81,7 @@ namespace Start
         private IEnumerator TransitionToNewScene(string nextSceneName)
         {
             yield return new WaitForSeconds(1.0f);
-            SceneManager.LoadScene(nextSceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
     }
 }

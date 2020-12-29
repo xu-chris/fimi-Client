@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace InExercise
 {
-    public class InExerciseSkeletonController : SkeletonController
+    public class InExerciseSkeletonManager : SkeletonManager
     {
         public TextAsset exercisesConfigurationFile;
         public TextAsset inExerciseConfigurationFile;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TrainingOverview
 {
-    public class TrainingOverviewSceneController : SceneController
+    public class TrainingOverviewSceneManager : SceneManager
     {
         
     }

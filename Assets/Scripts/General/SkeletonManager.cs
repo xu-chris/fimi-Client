@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace General
 {
-    public abstract class SkeletonController : MonoBehaviour
+    public abstract class SkeletonManager : MonoBehaviour
     {
         public GameObject webSocketClientPrefab;
         protected WebSocketClient webSocketClient;

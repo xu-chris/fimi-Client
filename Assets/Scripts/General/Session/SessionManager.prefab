@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 776401822046294606}
   - component: {fileID: 776401822046294609}
   m_Layer: 0
-  m_Name: SessionController
-  m_TagString: SESSION_CONTROLLER
+  m_Name: SessionManager
+  m_TagString: SESSION_MANAGER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

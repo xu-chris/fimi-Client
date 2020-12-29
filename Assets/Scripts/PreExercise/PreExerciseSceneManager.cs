@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace PreExercise
 {
-    public class PreExerciseSceneController : SceneController
+    public class PreExerciseSceneManager : SceneManager
     {
         public TextAsset preTrainingConfigurationFile;
         public Text headlineObject;
@@ -23,10 +23,10 @@ namespace PreExercise
 
         private void Start()
         {
-            var currentExercise = sessionController.GetCurrentExercise();
+            var currentExercise = sessionManager.GetCurrentExercise();
             headlineObject.text = currentExercise.name;
             descriptionObject.text = currentExercise.description;
-            durationObject.text = sessionController.GetCurrentExerciseDuration() + "s";
+            durationObject.text = sessionManager.GetCurrentExerciseDuration() + "s";
             ttsClient.Synthesize("The next exercise is: " + currentExercise.name);
             ttsClient.Synthesize("Here's what you should watch while performing the exercise: " + currentExercise.description);
         }

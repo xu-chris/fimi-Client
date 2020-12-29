@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace General.Session
 {
-    public class SessionController : MonoBehaviour
+    public class SessionManager : MonoBehaviour
     {
         
         public TextAsset trainingsConfigurationFile;

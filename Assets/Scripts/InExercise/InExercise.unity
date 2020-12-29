@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 1196465010}
   - component: {fileID: 1196465013}
   m_Layer: 0
-  m_Name: SceneController
+  m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,8 +660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d79b74710c4485a8e706e64800f7f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  applicationConfigurationFile: {fileID: 4900000, guid: 1c883c6d2ab14facbb5e8056bf247c5c,
-    type: 3}
   webSocketClientPrefab: {fileID: 1192076569409999075, guid: 8f9beebbce6af4a2ba348db87d9f70a4,
     type: 3}
   skeletonSpawnPoint: {fileID: 1196465009}
