@@ -8,6 +8,10 @@ TagManager:
   - BONE
   - COLLISION_POINT
   - SKELETON
+  - WEB_SOCKET_CLIENT
+  - WEB_CONTROLLER
+  - TTS_CLIENT
+  - SESSION_CONTROLLER
   layers:
   - Default
   - TransparentFX
