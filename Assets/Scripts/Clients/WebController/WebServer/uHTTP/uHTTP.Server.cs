@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace General.WebController.Scripts.uHTTP
+namespace Clients.WebController.WebServer.uHTTP
 {
     public static partial class uHTTP 
     {

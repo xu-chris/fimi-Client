@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace General.WebController.Scripts
+namespace Clients.WebController.WebServer
 {
     public class Dispatcher : MonoBehaviour {
         private static object monitor = new object();

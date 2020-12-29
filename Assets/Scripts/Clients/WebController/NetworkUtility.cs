@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace General.WebController
+namespace Clients.WebController
 {
     public class NetworkUtility : MonoBehaviour {
 

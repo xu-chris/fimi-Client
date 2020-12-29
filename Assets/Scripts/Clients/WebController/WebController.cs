@@ -1,16 +1,18 @@
 using System.Text;
-using General.WebController.Scripts;
-using General.WebController.Scripts.uHTTP;
+using Clients.WebController.WebServer;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
+using uHTTP = Clients.WebController.WebServer.uHTTP.uHTTP;
 
-namespace General.WebController
+namespace Clients.WebController
 {
     public class WebController : MonoBehaviour
     {
         public RawWebImageLoader qrCode;
         public NetworkUtility networkUtility;
         public StaticWebServer webServer;
+
+        public Text instructionText;
         public delegate string IncomingTcpMessageEventHandler(string message);
         
         [Header("POST call endpoint")]
@@ -57,8 +59,10 @@ namespace General.WebController
 
         private void Start()
         {
-            var url = "http://" + NetworkUtility.ip + ":" + webServer.port + "/";
+            var url = "http://" + NetworkUtility.ip + (webServer.port.Equals(80) ? "" : (":" + webServer.port + "/"));
             qrCode.url = "https://api.qrserver.com/v1/create-qr-code/?format=png&size=500x500&margin=10&data=" + url;
+
+            instructionText.text = "Scan the QR code or visit " + url + " to select a training";
             if(Application.isEditor) {
                 // For testing in Editor
                 Debug.Log("Please build the game to remote control it from your smartphone.\n");

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace General.WebController
+namespace Clients.WebController
 {
     [RequireComponent(typeof(RawImage))]
     public class RawWebImageLoader : MonoBehaviour

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace General.WebController.Scripts
+namespace Clients.WebController.WebServer
 {
     public class StaticWebServer : MonoBehaviour {
         private uHTTP.uHTTP.Server server { get; set; }

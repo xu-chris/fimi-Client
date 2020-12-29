@@ -1,4 +1,4 @@
-namespace General.WebController
+namespace Clients.WebController
 {
     public enum ControlCommands
     {

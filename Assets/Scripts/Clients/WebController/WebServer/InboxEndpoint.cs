@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace General.WebController.Scripts
+namespace Clients.WebController.WebServer
 {
     public class InboxEndpoint : MonoBehaviour
     {
