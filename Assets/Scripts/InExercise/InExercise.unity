@@ -665,8 +665,6 @@ MonoBehaviour:
   skeletonSpawnPoint: {fileID: 1196465009}
   skeletonPrefab: {fileID: 7381243997719635113, guid: 7844f9e94dad944e28638cc6a0294a35,
     type: 3}
-  exercisesConfigurationFile: {fileID: 4900000, guid: d6c76281ab234c18b9d4ca53a8e98e20,
-    type: 3}
   inExerciseConfigurationFile: {fileID: 4900000, guid: 580bf007e2ed44beb2a9c4cfa19b7b8e,
     type: 3}
   notificationPanel: {fileID: 1302648184}
@@ -700,7 +698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   webControllerPrefab: {fileID: 538376275530764254, guid: b28129dd63d73412d8ab476111e3aae8,
     type: 3}
-  sessionControllerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
+  sessionManagerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
     type: 3}
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}

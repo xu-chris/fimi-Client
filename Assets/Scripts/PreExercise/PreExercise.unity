@@ -1712,7 +1712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   webControllerPrefab: {fileID: 538376275530764254, guid: b28129dd63d73412d8ab476111e3aae8,
     type: 3}
-  sessionControllerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
+  sessionManagerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
     type: 3}
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}

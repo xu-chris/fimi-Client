@@ -17,8 +17,8 @@ namespace General.Session
         private TrainingsConfiguration trainingsConfiguration;
         private ExercisesConfiguration exercisesConfiguration;
 
-        private int selectedTraining;
-        private int currentExercise;
+        private int selectedTraining = 0;
+        private int currentExercise = 0;
         
         private void Awake()
         {

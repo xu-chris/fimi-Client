@@ -8,7 +8,7 @@ namespace General
     public class SceneManager : MonoBehaviour
     {
         public GameObject webControllerPrefab;
-        public GameObject sessionControllerPrefab;
+        public GameObject sessionManagerPrefab;
         public GameObject textToSpeechClientPrefab;
 
         internal WebController webController;
@@ -16,7 +16,7 @@ namespace General
         internal TTSClient ttsClient;
 
         private GameObject webControllerGameObject;
-        private GameObject sessionControllerGameObject;
+        private GameObject sessionManagerGameObject;
         private GameObject textToSpeechGameObject;
         
         protected void Awake()
@@ -26,7 +26,7 @@ namespace General
             webControllerGameObject = Utils.GetOrInstantiate(Tag.WEB_CONTROLLER, webControllerPrefab);
 
             // Same with session controller
-            sessionControllerGameObject = Utils.GetOrInstantiate(Tag.SESSION_MANAGER, sessionControllerPrefab);
+            sessionManagerGameObject = Utils.GetOrInstantiate(Tag.SESSION_MANAGER, sessionManagerPrefab);
 
             // And for TTS client
             textToSpeechGameObject = Utils.GetOrInstantiate(Tag.TTS_CLIENT, textToSpeechClientPrefab);
@@ -38,7 +38,7 @@ namespace General
             webController = webControllerGameObject.GetComponent<WebController>();
             webController.onMessage += OnWebControllerMessage;
             
-            sessionManager = sessionControllerGameObject.GetComponent<SessionManager>();
+            sessionManager = sessionManagerGameObject.GetComponent<SessionManager>();
             
             ttsClient = textToSpeechGameObject.GetComponent<TTSClient>();
         }

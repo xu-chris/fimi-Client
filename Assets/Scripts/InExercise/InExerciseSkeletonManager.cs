@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Linq;
-using Clients;
 using Clients.TTSClient;
 using General;
 using General.Exercises;
@@ -11,17 +10,14 @@ namespace InExercise
 {
     public class InExerciseSkeletonManager : SkeletonManager
     {
-        public TextAsset exercisesConfigurationFile;
         public TextAsset inExerciseConfigurationFile;
         public GameObject notificationPanel;
         public Text remainingPanel;
         public GameObject progressBarGameObject;
-        
-        private ExercisesConfiguration exercisesConfiguration;
+
         private InExerciseConfiguration inExerciseConfiguration;
         private bool notificationShown;
-
-        private Exercise currentExercise;
+        
         private const bool checkRules = true;
 
         private Vector3 offset;
@@ -30,17 +26,18 @@ namespace InExercise
         private int current;
         private int remaining;
 
+        private Exercise currentExercise;
+        private TTSClient ttsClient;
+
         public new void Start()
         {
             base.Start();
-
+            
+            var sceneManager = GetComponent<InExerciseSceneManager>();
+            currentExercise = sceneManager.sessionManager.GetCurrentExercise();
+            ttsClient = sceneManager.ttsClient;
             var inExerciseConfigurationService = new InExerciseConfigurationService(inExerciseConfigurationFile);
             inExerciseConfiguration = inExerciseConfigurationService.configuration;
-
-            var exerciseConfigurationService = new ExercisesConfigurationService(exercisesConfigurationFile);
-            exercisesConfiguration = exerciseConfigurationService.configuration;
-
-            currentExercise = exercisesConfiguration.exercises[0];
         }
 
         public new void Update()
@@ -103,7 +100,7 @@ namespace InExercise
 
             if (animator == null) return; // Exists
             if (animator.GetBool("show") || notificationShown) return; // Is not already shown
-            GetComponent<TTSClient>().Synthesize(text);
+            ttsClient.Synthesize(text);
             notificationPanel.GetComponentInChildren<Text>().text = text;
             animator.SetBool("show", true);
             StartCoroutine(HideNotification(animator));
