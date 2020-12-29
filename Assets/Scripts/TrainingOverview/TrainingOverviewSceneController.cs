@@ -1,6 +1,9 @@
+using General;
+using UnityEngine;
+
 namespace TrainingOverview
 {
-    public class TrainingOverviewSceneController
+    public class TrainingOverviewSceneController : SceneController
     {
         
     }

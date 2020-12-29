@@ -2,39 +2,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Clients.WebController;
+using Clients.WebController.WebServer;
 using General;
-using General.Exercises;
-using General.Trainings;
-using General.WebController;
-using General.WebController.Scripts;
-using JWT.Serializers;
+using General.Session;
 using Newtonsoft.Json;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static General.WebController.ControlCommands;
+using UnityEngine.UI;
+using static Clients.WebController.ControlCommands;
 
 namespace Start
 {
-    public class StartSceneController : MonoBehaviour
+    public class StartSceneController : SceneController
     {
         public string trainingOverviewSceneName;
-        
-        public TextAsset trainingsConfigurationFile;
+        public RawWebImageLoader qrCode;
+        public Text instructionText;
 
-        private TrainingsConfiguration trainingsConfiguration;
+        [SerializeField] private List<GameObject> players = new List<GameObject>();
 
-        private readonly List<GameObject> players = new List<GameObject>();
-        private void Awake()
+        private void Start()
         {
-            trainingsConfiguration = new TrainingsConfigurationService(trainingsConfigurationFile).configuration;
-            var webController = GameObject.Find("WebController").GetComponent<WebController>();
             webController.onMessage += OnWebControllerMessage;
+            var url = webController.GetUrl();
+            qrCode.url = "https://api.qrserver.com/v1/create-qr-code/?format=png&size=500x500&margin=10&data=" + url;
+            
+            instructionText.text = "Scan the QR code or visit " + url + " to select a training";
         }
 
-        private string OnWebControllerMessage(string message)
+        private new string OnWebControllerMessage(string message)
         {
-            Debug.Log("Received: " + message);
+            SceneController.OnWebControllerMessage(message);
 
             var info = message.Split('\n').Length > 1 ? message.Split('\n')[1] : "";
             
@@ -55,13 +54,13 @@ namespace Start
         private string GetTrainings()
         {
             var result = new List<Dictionary<string, string>>();
-            
-            for (var i = 0; i < trainingsConfiguration.trainings.Count; i++)
+            var trainings = sessionController.GetTrainings();
+            for (var i = 0; i < trainings.Count; i++)
             {
                 var trainingDict = new Dictionary<string, string>();
-                var duration = trainingsConfiguration.trainings[i].exercises.Sum(exercise => exercise.durationInSeconds);
+                var duration = trainings[i].exercises.Sum(exercise => exercise.durationInSeconds);
                 trainingDict["id"] = i.ToString();
-                trainingDict["name"] = trainingsConfiguration.trainings[i].name;
+                trainingDict["name"] = trainings[i].name;
                 trainingDict["duration"] = (duration / 60) + " minutes"; 
                 result.Add(trainingDict);
             }
@@ -73,8 +72,7 @@ namespace Start
         {
             Dispatcher.Invoke(() =>
             {
-                var trainingRun = GameObject.Find("TrainingRun").GetComponent<TrainingRun>();
-                trainingRun.SetSelectedTraining(trainingsConfiguration.trainings[id]);
+                sessionController.SetSelectedTraining(id);
                 StartCoroutine(TransitionToNewScene(trainingOverviewSceneName));
             });
         }
@@ -83,24 +81,6 @@ namespace Start
         {
             yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene(nextSceneName);
-        }
-
-        private void AddPlayer(string name)
-        {
-            var player = new GameObject();
-            players.Add(player);
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
     }
 }

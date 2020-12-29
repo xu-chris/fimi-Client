@@ -1,40 +1,38 @@
 using System.Collections.Generic;
-using Clients;
-using General.Authentication;
+using Clients.WebSocketClient;
 using General.Skeleton;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace General
 {
-    public abstract class SkeletonSceneController : MonoBehaviour
+    public abstract class SkeletonController : MonoBehaviour
     {
-        public TextAsset applicationConfigurationFile;
-        private ApplicationConfiguration applicationConfiguration;
+        public GameObject webSocketClientPrefab;
         protected WebSocketClient webSocketClient;
         public GameObject skeletonSpawnPoint;
         
         public GameObject skeletonPrefab;
         private int maxNumberOfPeople = 1;
         private readonly List<GameObject> skeletons = new List<GameObject>();
-        
+
+        private GameObject webSocketClientGameObject;
+
+        private void Awake()
+        {
+            webSocketClientGameObject = Utils.GetOrInstantiate(Tag.WEB_SOCKET_CLIENT, webSocketClientPrefab);
+        }
+
+        private void OnEnable()
+        {
+            webSocketClient = webSocketClientGameObject.GetComponent<WebSocketClient>();
+        }
+
         public void Start()
         {
-            SetUpWebSocket();
+            Application.runInBackground = true;
             InitializeAllSkeletons();
         }
 
-        public void SetUpWebSocket()
-        {
-            Application.runInBackground = true;
-
-            applicationConfiguration = new ApplicationConfigurationService(applicationConfigurationFile).configuration;
-            webSocketClient = gameObject.AddComponent<WebSocketClient>();
-            webSocketClient.webSocketConfiguration = applicationConfiguration.webSocket;
-        }
-        
-        
-        
         public void InitializeAllSkeletons()
         {
             for (var p = 0; p < maxNumberOfPeople; p++)

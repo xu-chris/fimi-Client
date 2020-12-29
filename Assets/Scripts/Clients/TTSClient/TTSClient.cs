@@ -1,15 +1,14 @@
 using System;
-using IBM.Watson.TextToSpeech.V1;
-using IBM.Cloud.SDK.Utilities;
-using IBM.Cloud.SDK.Authentication.Iam;
 using System.Collections;
 using General.Authentication;
-using UnityEngine;
-using UnityEngine.UI;
 using IBM.Cloud.SDK;
+using IBM.Cloud.SDK.Authentication.Iam;
+using IBM.Cloud.SDK.Utilities;
+using IBM.Watson.TextToSpeech.V1;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Clients
+namespace Clients.TTSClient
 {
     public class TTSClient : MonoBehaviour
     {
@@ -26,6 +25,11 @@ namespace Clients
         private bool _textEntered = false;
         private AudioClip _recording = null;
         private byte[] audioStream = null;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         private void Start()
         {

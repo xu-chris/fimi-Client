@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Clients;
+using Clients.TTSClient;
 using General;
 using General.Exercises;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace InExercise
 {
-    public class InExerciseSkeletonSceneController : SkeletonSceneController
+    public class InExerciseSkeletonController : SkeletonController
     {
         public TextAsset exercisesConfigurationFile;
         public TextAsset inExerciseConfigurationFile;

@@ -327,7 +327,7 @@ Animator:
   m_GameObject: {fileID: 6651105252959668038}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f71388d67a1e845f281fdd011a8d329b, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dc21532993a045339b3de74e95318311, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -855,7 +855,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Interaction Prompt
+  m_Text: Start by standing in T pose
 --- !u!1 &6651105253597226340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,6 +2406,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   applicationConfigurationFile: {fileID: 4900000, guid: 1c883c6d2ab14facbb5e8056bf247c5c,
+    type: 3}
+  webSocketClientPrefab: {fileID: 1192076569409999075, guid: 8f9beebbce6af4a2ba348db87d9f70a4,
     type: 3}
   skeletonSpawnPoint: {fileID: 6651105254203271287}
   skeletonPrefab: {fileID: 7381243997719635113, guid: 2c25c20de9564d3da18d7f9c3445acef,

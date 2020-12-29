@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Clients.WebController.WebServer;
 using UnityEngine;
@@ -8,11 +9,9 @@ namespace Clients.WebController
 {
     public class WebController : MonoBehaviour
     {
-        public RawWebImageLoader qrCode;
-        public NetworkUtility networkUtility;
-        public StaticWebServer webServer;
-
-        public Text instructionText;
+        private NetworkUtility networkUtility;
+        private StaticWebServer webServer;
+        
         public delegate string IncomingTcpMessageEventHandler(string message);
         
         [Header("POST call endpoint")]
@@ -23,7 +22,17 @@ namespace Clients.WebController
         public event IncomingTcpMessageEventHandler onMessage;
         
         private uHTTP.Server server { get; set; }
+
+        private string url;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+            networkUtility = GetComponent<NetworkUtility>();
+            webServer = GetComponent<StaticWebServer>();
+        }
         
+
         private void OnEnable(){
             if(server == null){
                 server = new uHTTP.Server(port);
@@ -59,20 +68,22 @@ namespace Clients.WebController
 
         private void Start()
         {
-            var url = "http://" + NetworkUtility.ip + (webServer.port.Equals(80) ? "" : (":" + webServer.port + "/"));
-            qrCode.url = "https://api.qrserver.com/v1/create-qr-code/?format=png&size=500x500&margin=10&data=" + url;
+            url = "http://" + NetworkUtility.ip + (webServer.port.Equals(80) ? "" : (":" + webServer.port + "/"));
 
-            instructionText.text = "Scan the QR code or visit " + url + " to select a training";
+            // For testing in Editor
             if(Application.isEditor) {
-                // For testing in Editor
-                Debug.Log("Please build the game to remote control it from your smartphone.\n");
-                Debug.Log("Join a second player by visiting: " + url);
+                Debug.Log("Join by visiting: " + url);
             }
         }
 
         protected virtual string OnMessage(string message)
         {
             return onMessage?.Invoke(message);
+        }
+
+        public string GetUrl()
+        {
+            return url;
         }
     }
 }

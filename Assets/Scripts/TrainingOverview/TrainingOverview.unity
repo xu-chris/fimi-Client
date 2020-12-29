@@ -232,8 +232,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -95.00302}
   m_LocalScale: {x: 0.0052083335, y: 0.0052083335, z: 0.0052083335}
   m_Children:
-  - {fileID: 699800233}
   - {fileID: 700789499}
+  - {fileID: 699800233}
   - {fileID: 184377606}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -674,18 +674,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5945b466845364fc085f6380ca0b82f7, type: 3}
---- !u!114 &699800232 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6651105253530647507, guid: 5945b466845364fc085f6380ca0b82f7,
-    type: 3}
-  m_PrefabInstance: {fileID: 699800231}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &699800233 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6651105254851197301, guid: 5945b466845364fc085f6380ca0b82f7,
@@ -721,7 +709,7 @@ RectTransform:
   m_Children:
   - {fileID: 2018553330}
   m_Father: {fileID: 195557291}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -761,11 +749,11 @@ RectTransform:
   m_Father: {fileID: 1017940375}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 648, y: 19.999756}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -180}
   m_SizeDelta: {x: 180, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &793543366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,7 +871,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Headline
+  m_Text: Mobilize your body
 --- !u!1 &1100081562
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +950,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Duration
+  m_Text: 1 min
 --- !u!1 &1211428486
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +960,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1211428489}
-  - component: {fileID: 1211428488}
   - component: {fileID: 1211428487}
   m_Layer: 0
   m_Name: SceneController
@@ -990,35 +977,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211428486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87978f12d23645c49e1cc03e5d156bc4, type: 3}
+  m_Script: {fileID: 11500000, guid: a5cf1962302748a3bafe978b49095552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secretsConfigurationFile: {fileID: 4900000, guid: 9c2296fd33d94bf19903e319d550e513,
+  webControllerPrefab: {fileID: 538376275530764254, guid: b28129dd63d73412d8ab476111e3aae8,
     type: 3}
---- !u!114 &1211428488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211428486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e9c1e9445a44af2a4db418e7fe0a0e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  preTrainingConfigurationFile: {fileID: 4900000, guid: aee37c3a636541628af1ea499b339ab5,
+  sessionControllerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
     type: 3}
-  trainingsConfigurationFile: {fileID: 4900000, guid: 03178cf1585945128828caa47100909e,
+  textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}
-  exercisesConfigurationFile: {fileID: 4900000, guid: d6c76281ab234c18b9d4ca53a8e98e20,
-    type: 3}
-  headlineObject: {fileID: 1017940377}
-  descriptionObject: {fileID: 184377608}
-  durationObject: {fileID: 1100081565}
-  interactionPromptObject: {fileID: 699800232}
-  currentTrainingIndex: 0
-  currentExerciseIndex: 0
 --- !u!4 &1211428489
 Transform:
   m_ObjectHideFlags: 0
@@ -1227,7 +1194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Next exercise:'
+  m_Text: 'Your selected training:'
 --- !u!222 &2018553332
 CanvasRenderer:
   m_ObjectHideFlags: 0

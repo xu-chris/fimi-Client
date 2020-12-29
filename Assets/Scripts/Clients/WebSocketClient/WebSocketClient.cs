@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using General;
 using General.Skeleton;
@@ -6,23 +7,32 @@ using IBM.Cloud.SDK.Plugins.WebSocketSharp;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Clients
+namespace Clients.WebSocketClient
 {
     public class WebSocketClient : MonoBehaviour
     {
         private readonly bool enableLogging = false;
         public Person[] detectedPersons = { };
+        public string serverUrl = "ws://localhost:8080/";
 
         private bool isWsConnected;
 
         private string message;
         private bool reconnecting;
         private WebSocket webSocket;
-        public WebSocketConfiguration webSocketConfiguration;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void OnEnable()
+        {
+            Application.runInBackground = true;
+        }
 
         public void Start()
         {
-            Application.runInBackground = true;
             StartCheckAndReconnectLifeCycle();
         }
 
@@ -76,7 +86,7 @@ namespace Clients
             if (isWsConnected)
                 return;
 
-            using (webSocket = new WebSocket(webSocketConfiguration.url))
+            using (webSocket = new WebSocket(serverUrl))
             {
                 if (enableLogging)
                 {

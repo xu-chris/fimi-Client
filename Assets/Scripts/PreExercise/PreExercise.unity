@@ -1691,7 +1691,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1126280280}
   - component: {fileID: 1126280279}
-  - component: {fileID: 1126280282}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged
@@ -1711,18 +1710,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9c1e9445a44af2a4db418e7fe0a0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  webControllerPrefab: {fileID: 538376275530764254, guid: b28129dd63d73412d8ab476111e3aae8,
+    type: 3}
+  sessionControllerPrefab: {fileID: 776401822046294608, guid: 66895a77c4e964e989431a7623404390,
+    type: 3}
+  textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
+    type: 3}
   preTrainingConfigurationFile: {fileID: 4900000, guid: aee37c3a636541628af1ea499b339ab5,
-    type: 3}
-  trainingsConfigurationFile: {fileID: 4900000, guid: 03178cf1585945128828caa47100909e,
-    type: 3}
-  exercisesConfigurationFile: {fileID: 4900000, guid: d6c76281ab234c18b9d4ca53a8e98e20,
     type: 3}
   headlineObject: {fileID: 7701094607248565753}
   descriptionObject: {fileID: 1825580019}
   durationObject: {fileID: 808767358}
   interactionPromptObject: {fileID: 78448046}
-  currentTrainingIndex: 0
-  currentExerciseIndex: 0
 --- !u!4 &1126280280
 Transform:
   m_ObjectHideFlags: 0
@@ -1737,20 +1736,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1126280282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126280278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87978f12d23645c49e1cc03e5d156bc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secretsConfigurationFile: {fileID: 4900000, guid: 9c2296fd33d94bf19903e319d550e513,
-    type: 3}
 --- !u!1 &1234287149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,7 +2101,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7fd41117ce3b44f43a8d0355cd39279f, type: 2}
+      objectReference: {fileID: 9100000, guid: dc21532993a045339b3de74e95318311, type: 2}
     - target: {fileID: 6651105254851197297, guid: 5945b466845364fc085f6380ca0b82f7,
         type: 3}
       propertyPath: overlay
