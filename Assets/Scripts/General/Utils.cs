@@ -1,20 +1,12 @@
+using System.Collections.Generic;
+using General.Exercises;
+using Library;
 using UnityEngine;
 
 namespace General
 {
     public static class Utils
     {
-        public static GameObject GetOrInstantiate(string nameOfGameObject, GameObject prefab)
-        {
-            var gameObjectToBeFound = GameObject.Find(nameOfGameObject);
-            
-            if (gameObjectToBeFound != null) return gameObjectToBeFound;
-            GameObject.Instantiate(prefab);
-            gameObjectToBeFound  = GameObject.Find(nameOfGameObject);
-
-            return gameObjectToBeFound;
-        }
-        
         public static GameObject GetOrInstantiate(Tag tag, GameObject prefab)
         {
             var gameObjectToBeFound = GameObject.FindGameObjectWithTag(tag.ToString());
@@ -24,6 +16,12 @@ namespace General
             gameObjectToBeFound  = GameObject.FindGameObjectWithTag(tag.ToString());
 
             return gameObjectToBeFound;
+        }
+        
+        public static Exercise GetExerciseForExerciseType(ExerciseType exerciseType, List<Exercise> exercises)
+        {
+            return exercises.Find(exercise =>
+                exercise.type.ToExerciseType() == exerciseType);
         }
     }
 }

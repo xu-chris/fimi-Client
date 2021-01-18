@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using General.Exercises;
 using General.Trainings;
 using Library;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -19,6 +21,11 @@ namespace General.Session
 
         private int selectedTraining = 0;
         private int currentExercise = 0;
+        public bool isInTraining = false;
+
+        private readonly List<User> users = new List<User>();
+
+        private ApplicationState state;
         
         private void Awake()
         {
@@ -37,7 +44,18 @@ namespace General.Session
         public void SetSelectedTraining(int id)
         {
             Debug.Log("Training selected: " + trainingsConfiguration.trainings[id].name);
+            SetToSelectedTraining();
+            foreach (var user in users)
+            {
+                user.StartNewSession(id);
+            }
             selectedTraining = id;
+        }
+
+        public void SetToNextExercise()
+        {
+            Assert.IsTrue(currentExercise < trainingsConfiguration.trainings[selectedTraining].exercises.Count);
+            currentExercise++;
         }
 
         public void SetCurrentExercise(int id)
@@ -46,72 +64,14 @@ namespace General.Session
             currentExercise = id;
         }
 
-        /**
-         * {
-              name: 'Move your body',
-              durationInSeconds: 60,
-              exercises: [
-                {
-                  id: 0,
-                  name: 'Squat arm raise',
-                  durationInSeconds: 60,
-                  type: 'exercise',
-                  state: 'done',
-                  description: 'Raise your arms until they are lifted horizontally. Squat in the same time.'
-                },
-                {
-                  id: 1,
-                  name: 'Pause',
-                  type: 'pause',
-                  state: 'current',
-                  durationInSeconds: 10
-                },
-                {
-                  id: 2,
-                  name: 'Squat arm raise',
-                  type: 'exercise',
-                  state: 'upcoming',
-                  durationInSeconds: 130,
-                  description: 'Raise your arms until they are lifted horizontally. Squat in the same time.'
-                }
-              ]
-            }
-         */
-        // public string GetSerializedTrainingInformation()
-        // {
-        //     var exercises = new List<Dictionary<string, string>>();
-        //     for (var i = 0; i < selectedTraining.exercises.Count; i++)
-        //     {
-        //         var exerciseItem = selectedTraining.exercises[i];
-        //         var exercise = GetExerciseForExerciseType(exerciseItem.type.ToExerciseType());
-        //         var exerciseDict = new Dictionary<string, string>();
-        //         var durationInSeconds = exerciseItem.durationInSeconds;
-        //
-        //         exerciseDict["id"] = i.ToString();
-        //         exerciseDict["name"] = exercise.name;
-        //         exerciseDict["duration"] = exerciseItem.durationInSeconds.ToString();
-        //         exerciseDict["description"] = exercise.description;
-        //         exerciseDict["type"] = "exercise";
-        //         exercises.Add(exerciseDict);
-        //     }
-        //         
-        //     var training = new Dictionary<string, Ant>();
-        //     training["name"] = selectedTraining.name;
-        //     training["exercises"] = exercises;
-        //
-        //     for (var i = 0; i < trainingsConfiguration.trainings.Count; i++)
-        //     {
-        //         var trainingDict = new Dictionary<string, string>();
-        //         var duration = trainingsConfiguration.trainings[i].exercises.Sum(exercise => exercise.durationInSeconds);
-        //         trainingDict["id"] = i.ToString();
-        //         trainingDict["name"] = trainingsConfiguration.trainings[i].name;
-        //         trainingDict["duration"] = (duration / 60) + " minutes"; 
-        //         result.Add(trainingDict);
-        //     }
-        //
-        //     return JsonConvert.SerializeObject(result);
-        // }
-
+        public string GetSerializedTrainings()
+        {
+            var dto = new TrainingsDTO(trainingsConfiguration.trainings, exercisesConfiguration.exercises,
+                currentExercise);
+            var result = JsonConvert.SerializeObject(dto);
+            return result;
+        }
+        
         public Exercise GetExerciseForExerciseType(ExerciseType exerciseType)
         {
             return exercisesConfiguration.exercises.Find(exercise =>
@@ -131,10 +91,124 @@ namespace General.Session
             return trainingsConfiguration.trainings[selectedTraining].exercises[currentExercise].durationInSeconds;
         }
 
+        public int GetTotalDuration()
+        {
+            return trainingsConfiguration.trainings[selectedTraining].exercises.Sum(exerciseItem => exerciseItem.durationInSeconds);
+        }
+
         private bool IsCurrentExerciseByDuration()
         {
             return trainingsConfiguration.trainings[selectedTraining].exercises[currentExercise].durationInSeconds !=
                    null;
+        }
+
+        public string GetSerializedTraining()
+        {
+            var training = trainingsConfiguration.trainings[selectedTraining];
+            var dto = new TrainingDTO(selectedTraining, training, currentExercise, exercisesConfiguration.exercises);
+            return JsonConvert.SerializeObject(dto);
+        }
+
+        public string GetSerializedResult(int userId)
+        {
+            var dummyRules = trainingsConfiguration.trainings[selectedTraining].exercises[selectedTraining];
+            var dummyReport = new TrainingReport(selectedTraining);
+            var result = new ResultDTO(trainingsConfiguration.trainings[selectedTraining].name, GetTotalDuration(), dummyReport, dummyReport);
+            // TODO: Use real reports
+            return JsonConvert.SerializeObject(result);
+        }
+
+        public void SaveReport(TrainingReport trainingReport, int userId)
+        {
+            // TODO: Save the incoming report on the machine;
+        }
+
+        public bool GetIsInTraining()
+        {
+            return state == ApplicationState.IN_TRAINING;
+        }
+
+        public void CollectResult()
+        {
+            return;
+        }
+
+        public void EndTraining()
+        {
+            foreach (var user in users)
+            {
+                user.EndCurrentSession();
+            }
+            SetToPostTraining();
+        }
+
+        public ApplicationState GetState()
+        {
+            return state;
+        }
+
+        public void SetToStart()
+        {
+            state = ApplicationState.START;
+        }
+
+        public void SetToSelectedTraining()
+        {
+            state = ApplicationState.SELECTED_TRAINING;
+        }
+
+        public void SetToInTraining()
+        {
+            state = ApplicationState.IN_TRAINING;
+        }
+
+        public void SetToPostTraining()
+        {
+            state = ApplicationState.POST_TRAINING;
+        }
+
+        public void UnselectTraining()
+        {
+            selectedTraining = 0;
+            state = ApplicationState.START;
+        }
+
+        public bool IsLastExercise()
+        {
+            return currentExercise >= trainingsConfiguration.trainings[selectedTraining].exercises.Count - 1;
+        }
+
+        public int RegisterNewUser()
+        {
+            var userId = users.Count;
+            var newUser = new User(userId); 
+            users.Add(newUser);
+            return userId;
+        }
+
+        private void AddToTrainingReport(int userId, ExerciseReport report)
+        {
+            if (users.Count <= userId)
+                RegisterNewUser();
+
+            try
+            {
+                users[userId].AddToCurrentSession(report);
+            }
+            catch (NoCurrentSessionException exception)
+            {
+                Debug.LogWarning("Failed adding current session to report. Reason: " + exception.Message + " . Will try to create new session on the fly");
+                users[userId].StartNewSession(selectedTraining);
+                AddToTrainingReport(userId, report);
+            }
+        }
+
+        public void AddToTrainingReports(List<ExerciseReport> reports)
+        {
+            foreach (var exerciseReport in reports)
+            {
+                AddToTrainingReport(exerciseReport.GetSkeletonId(), exerciseReport);
+            }
         }
     }
 }
