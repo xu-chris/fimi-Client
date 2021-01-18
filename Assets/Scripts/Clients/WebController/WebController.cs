@@ -52,6 +52,8 @@ namespace Clients.WebController
             if(startStopAutomatically && !server.isRunning){
                 server.Start();
             }
+            
+            url = "http://" + NetworkUtility.ip + (webServer.port.Equals(80) ? "" : (":" + webServer.port + "/"));
         }
 
         private void OnDisable(){
@@ -68,7 +70,6 @@ namespace Clients.WebController
 
         private void Start()
         {
-            url = "http://" + NetworkUtility.ip + (webServer.port.Equals(80) ? "" : (":" + webServer.port + "/"));
 
             // For testing in Editor
             if(Application.isEditor) {
