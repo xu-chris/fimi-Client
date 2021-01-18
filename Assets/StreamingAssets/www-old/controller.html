@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>Tank Tournament</title>
+		<style>
+		body {
+			margin: 0;
+			text-align: center;
+			user-select: none;
+		}
+		h1 {
+			padding-top: 40%;
+			color: red;
+			width: 100%;
+		}
+		.fullscreen {
+			position: fixed;
+			margin: 0;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url("/bg.png");
+		}
+		#controller {
+			background: url("/bg.png");
+		}
+		button {
+			font-size: 28px;
+			margin: 1%;
+			width: 25%;
+			height: 97%;
+		}
+		</style>
+	</head>
+	<body>
+		<h1 class="fullscreen">Tap to enable fullscreen!</h1>
+		<div id="controller">
+			<button id="EngineL">Engine L</button>
+			<button onclick="send('FireTankGun')">Fire</button>
+			<button id="EngineR">Engine R</button>
+		</div>
+		<script>	
+			function isMobileDevice() {
+				return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+			};
+	
+			var name = sessionStorage.getItem("name");
+			if(isMobileDevice())
+			{
+				window.addEventListener("click", function() {
+					document.getElementById("controller").requestFullscreen();
+					screen.orientation.lock("landscape");
+				});
+			}
+			else {
+				document.getElementsByClassName("fullscreen")[0].innerHTML = "Please open this page on a mobile device!";
+			}
+	
+			function send(msg) {
+				var http = new XMLHttpRequest();
+				http.open( "POST", location.protocol + "//" + location.hostname + ":1234", true);
+				http.send(name + "\n" + msg);
+			}
+	
+			document.getElementById("EngineL").addEventListener('touchstart', function(){
+				send("StartEngineL");
+			});
+			document.getElementById("EngineL").addEventListener('touchend', function(){
+				send("StopEngineL");
+			});
+			document.getElementById("EngineR").addEventListener('touchstart', function(){
+				send("StartEngineR");
+			});
+			document.getElementById("EngineR").addEventListener('touchend', function(){
+				send("StopEngineR");
+			});
+			</script>
+	</body>
+</html>

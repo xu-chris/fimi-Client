@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>Join Tank Tournament</title>
+		<style>
+		body {
+			background: url("/bg.png");
+			margin: 0;
+			font-family: sans-serif;
+		}
+		input, button {
+			display: block;
+			width: 100%;
+			max-width: 320px;
+			height: 45px;
+			margin-top: 6px;
+			margin-bottom: 6px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		::-webkit-input-placeholder {
+			text-align: center;
+		}
+		p {
+			color: red;
+			text-align: center;
+			width: 100%;
+		}
+		</style>
+	</head>
+	<body>
+		<input id="name" placeholder="name" style="text-align: center; margin-top: 30%;"/>
+		<p id="hint">Name must be between 5 and 15 characters!</p>
+		<button onclick="join()" disabled>Join</button>
+		<script>
+		function updateButton() {
+			var name = document.getElementById("name").value.trim();
+			var invalid = name.length < 5 || name.length > 15;
+			document.getElementsByTagName("button")[0].disabled = invalid;
+			document.getElementById("hint").hidden = !invalid;
+		}
+
+		setInterval(updateButton, 500);
+
+		function join() {
+			var name = document.getElementById("name").value;
+			sessionStorage.setItem('name', name);
+			var http = new XMLHttpRequest();
+			http.open( "POST", location.protocol + "//" + location.hostname + ":1234", true);
+			http.onreadystatechange = function() {
+				if(http.readyState == 4 && http.status == 200) {
+					window.location = "./controller.html";
+				}
+			}
+			http.send("new player\n" + name);
+		}
+
+		if(sessionStorage.getItem("name") != null) {
+			document.getElementById("name").value = sessionStorage.getItem("name");
+			join();	
+		}
+
+		</script>
+	</body>
+</html>
