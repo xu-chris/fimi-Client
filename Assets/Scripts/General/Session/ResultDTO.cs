@@ -29,8 +29,18 @@ namespace General.Session
         
         private static List<Content> GetTopThreeImprovements(List<Result> results)
         {
-            return results.ToArray().SubArray(0, 3).Select(
-                result => new Content()
+            if (results.Count > 3)
+            {
+                return results.ToArray().SubArray(0, 3).Select(
+                    result => new Content
+                    {
+                        name = result.rule.notificationText
+                    }
+                ).ToList();
+            }
+
+            return results.Select(
+                result => new Content
                 {
                     name = result.rule.notificationText
                 }
@@ -39,12 +49,22 @@ namespace General.Session
 
         private static List<Content> GetTopThreeViolations(TrainingReport trainingReport)
         {
-            return trainingReport.GetResults().SubArray(0, 3).Select(
-                trainingResult => new Content()
+            if (trainingReport.GetResults().Length > 3)
+            {
+                return trainingReport.GetResults().SubArray(0, 3).Select(
+                    trainingResult => new Content
+                    {
+                        name = trainingResult.rule.notificationText
+                    }
+                ).ToList();
+            }
+            
+            return trainingReport.GetResults().Select(
+                trainingResult => new Content
                 {
                     name = trainingResult.rule.notificationText
                 }
-                ).ToList();
+            ).ToList(); 
         }
     }
 }
