@@ -20,6 +20,27 @@ namespace General.Rules
             return calculatedAngle < expectedAngle - lowerTolerance || calculatedAngle > expectedAngle + upperTolerance;
         }
 
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as AngleRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as AngleRule);
+        }
+
+        public override int GetHashCode() => (bones, expectedAngle, lowerTolerance, upperTolerance).GetHashCode();
+
+        private bool Equals(AngleRule other)
+        {
+            return other != null &&
+                   bones.Equals(other.bones) && 
+                   expectedAngle.Equals(other.expectedAngle) &&
+                   lowerTolerance.Equals(other.lowerTolerance) && 
+                   upperTolerance.Equals(other.upperTolerance);
+        }
+
         public override string ToString()
         {
             return "Rule: " + GetType().Name + ", expected angle: " + expectedAngle + ", tolerance range: (" +

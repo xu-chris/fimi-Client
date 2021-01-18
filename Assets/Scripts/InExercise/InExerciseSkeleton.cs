@@ -87,14 +87,9 @@ namespace InExercise
             foreach (var bone in bones) bone.Colorize(color);
         }
 
-        public void SetUpExerciseReport(Exercise exercise)
+        private void InitExerciseReport( List<Rule> rules)
         {
-            InitExerciseReport(exercise.rules);
-        }
-
-        private void InitExerciseReport(List<Rule> rules)
-        {
-            exerciseReport = new ExerciseReport(rules.ToArray());
+            exerciseReport = new ExerciseReport(id, rules.ToArray());
         }
 
         public ExerciseReport GetReport()

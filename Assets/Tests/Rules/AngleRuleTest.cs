@@ -110,5 +110,24 @@ namespace Tests.Rules
             // THEN
             Assert.IsFalse(result);
         }
+
+        [Test]
+        public void ShouldNotBeEqual()
+        {
+            // GIVEN
+            var rule2 = new AngleRule()
+            {
+                expectedAngle = 23,
+                lowerTolerance = lowerTolerance,
+                upperTolerance = upperTolerance,
+                bones = bones
+            };
+
+            // WHEN
+            var result = rule.Equals(rule2);
+            
+            // THEN
+            Assert.IsFalse(result);
+        }
     }
 }

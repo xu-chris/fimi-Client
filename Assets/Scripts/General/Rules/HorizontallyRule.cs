@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using General.Skeleton;
 using UnityEngine;
@@ -20,6 +21,25 @@ namespace General.Rules
             }
 
             return runningAngle < -tolerance || runningAngle > tolerance;
+        }
+        
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as HorizontallyRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as HorizontallyRule);
+        }
+
+        public override int GetHashCode() => (bones, tolerance).GetHashCode();
+
+        private bool Equals(HorizontallyRule other)
+        {
+            return other != null &&
+                   bones.Equals(other.bones) &&
+                   tolerance.Equals(other.tolerance);
         }
 
         public override string ToString()

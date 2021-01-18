@@ -1,9 +1,8 @@
-using _Project.Scripts.Source.DomainObjects.Configurations;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Scripts.Periphery.Configurations
+namespace PreExercise.Calibration
 {
     public class CalibrationConfigurationService
     {
