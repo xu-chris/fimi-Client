@@ -75,7 +75,15 @@ namespace Clients.WebSocketClient
                 if (webSocket == null)
                     ConnectToWebSocketServer();
                 else
-                    webSocket.Connect();
+                    // Avoid max retries restriction
+                    try
+                    {
+                        webSocket.Connect();
+                    }
+                    catch
+                    {
+                        ConnectToWebSocketServer();
+                    }
             }
 
             reconnecting = false;
