@@ -282,7 +282,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &195557294
 Canvas:
   m_ObjectHideFlags: 0
@@ -1000,9 +1000,10 @@ MonoBehaviour:
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}
   nextSceneName: PreExercise
+  overlay: {fileID: 285433473}
   tPoseController: {fileID: 699800232}
   transitionTime: 0
-  overlay: {fileID: 285433473}
+  startSceneName: Start
 --- !u!4 &1211428489
 Transform:
   m_ObjectHideFlags: 0

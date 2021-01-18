@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using General.Exercises;
 using General.Rules;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace General.Session
@@ -53,9 +52,11 @@ namespace General.Session
 
         public List<Result> GetImprovementsComparedTo(TrainingReport previousReport)
         {
-            
-            Assert.AreEqual(id, previousReport.GetTrainingId());
-            
+            if (id != previousReport.GetTrainingId())
+            {
+                throw new ArgumentException("Training IDs aren't matching");
+            }
+
             // Rules that aren't violated anymore
             var result = new List<Result>();
             var notViolatedRules = previousReport.results.Except(results).ToList();
@@ -79,7 +80,10 @@ namespace General.Session
         
         public List<Result> GetViolationsComparedTo(TrainingReport previousReport)
         {
-            Assert.AreEqual(id, previousReport.GetTrainingId());
+            if (id != previousReport.GetTrainingId())
+            {
+                throw new ArgumentException("Training IDs aren't matching");
+            }
             
             // Rules that are violated now which weren't beforehand
             var result = new List<Result>();

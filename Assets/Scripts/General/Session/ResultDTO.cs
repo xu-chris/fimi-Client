@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using General.Rules;
 using IBM.Cloud.SDK.Plugins.WebSocketSharp;
 using JetBrains.Annotations;
-using NUnit.Framework;
 
 namespace General.Session
 {

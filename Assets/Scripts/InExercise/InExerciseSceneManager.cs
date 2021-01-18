@@ -18,12 +18,9 @@ namespace InExercise
         public GameObject progressBarGameObject;
         public NotificationManager notificationManager;
         public Text remainingPanel;
-
         
         public int ignoreRuleViolationsOlderThanSeconds = 5;
-        
-        private bool notificationShown;
-        
+
         private long end;
 
         public InExerciseSkeletonManager skeletonManager;

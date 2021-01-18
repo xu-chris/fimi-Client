@@ -7,11 +7,11 @@
     <key>CFBundleExecutable</key>
     <string>fimi</string>
     <key>CFBundleGetInfoString</key>
-    <string>Unity Player version 2020.1.5f1 (e025938fdedc). (c) 2020 Unity Technologies ApS. All rights reserved.</string>
+    <string>Unity Player version 2020.2.1f1 (270dd8c3da1c). (c) 2020 Unity Technologies ApS. All rights reserved.</string>
     <key>CFBundleIconFile</key>
     <string>PlayerIcon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>unity.DefaultCompany.WoodenMan</string>
+    <string>com.UniversitaetHamburg.fimi</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
@@ -29,7 +29,7 @@
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.games</string>
     <key>LSMinimumSystemVersion</key>
-    <string>10.12.0</string>
+    <string>10.13.0</string>
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSAllowsArbitraryLoads</key>
@@ -37,9 +37,11 @@
     </dict>
     <key>NSMainNibFile</key>
     <string>MainMenu</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>The app won't use your microphone. Just allow it.</string>
     <key>NSPrincipalClass</key>
     <string>PlayerApplication</string>
     <key>UnityBuildNumber</key>
-    <string>e025938fdedc</string>
+    <string>270dd8c3da1c</string>
   </dict>
 </plist>

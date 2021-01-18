@@ -1,5 +1,6 @@
 {
     "name": "fimi",
+    "rootNamespace": "",
     "references": [
         "GUID:b3f49edfedc855a48aa1a9e5d3cba438",
         "GUID:e2933e56dbbe145f5b19eed33d4cfd3d",
@@ -8,23 +9,21 @@
     "includePlatforms": [
         "Editor",
         "iOS",
-        "LinuxStandalone64",
-        "Lumin",
         "macOSStandalone",
-        "PS4",
-        "Stadia",
-        "Switch",
         "tvOS",
         "WSA",
         "WindowsStandalone32",
-        "WindowsStandalone64",
-        "XboxOne"
+        "WindowsStandalone64"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll",
+        "NSubstitute.dll",
+        "websocket-sharp.dll"
+    ],
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

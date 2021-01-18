@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using General.Exercises;
 using JetBrains.Annotations;
-using NSubstitute.Core;
-using NUnit.Framework;
-using AssertionException = UnityEngine.Assertions.AssertionException;
 
 namespace General.Session
 {

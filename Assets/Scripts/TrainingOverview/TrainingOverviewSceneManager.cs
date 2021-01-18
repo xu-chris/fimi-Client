@@ -11,7 +11,6 @@ namespace TrainingOverview
     {
         public TPoseController tPoseController;
         public int transitionTime;
-        public GameObject overlay;
 
         public string startSceneName = "Start";
 
