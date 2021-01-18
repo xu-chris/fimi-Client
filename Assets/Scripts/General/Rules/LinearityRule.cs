@@ -21,6 +21,25 @@ namespace General.Rules
             return runningAngle > tolerance || runningAngle < -tolerance;
         }
 
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as LinearityRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as LinearityRule);
+        }
+
+        private bool Equals(LinearityRule other)
+        {
+            return other != null &&
+                   bones.Equals(other.bones) &&
+                   tolerance.Equals(other.tolerance);
+        }
+        
+        public override int GetHashCode() => (bones, tolerance).GetHashCode();
+
         public override string ToString()
         {
             return "Rule: " + GetType().Name + ", tolerance: " + tolerance + ", bones: " +

@@ -37,6 +37,27 @@ namespace General.Rules
         {
             throw new NotImplementedException();
         }
+        
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as SymmetryRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as SymmetryRule);
+        }
+
+        private bool Equals(SymmetryRule other)
+        {
+            return other != null &&
+                   centerBone.Equals(other.centerBone) &&
+                   tolerance.Equals(other.tolerance) && 
+                   leftBones.Equals(other.leftBones) &&
+                   rightBones.Equals(other.rightBones);
+        }
+        
+        public override int GetHashCode() => (centerBone, tolerance, leftBones, rightBones).GetHashCode();
 
         public override string ToString()
         {

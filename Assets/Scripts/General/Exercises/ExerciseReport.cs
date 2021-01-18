@@ -1,15 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using General.Rules;
+using General.Session;
+using JetBrains.Annotations;
 
 namespace General.Exercises
 {
     public class ExerciseReport
     {
-        private Result[] results;
+        private readonly Result[] results;
+        private int skeletonId;
 
-        public ExerciseReport(IEnumerable<Rule> rules)
+        public ExerciseReport(int skeletonId, IEnumerable<Rule> rules)
         {
+            this.skeletonId = skeletonId;
             results = rules.Select(rule => new Result(rule)).ToArray();
         }
 
@@ -20,7 +25,6 @@ namespace General.Exercises
 
         public Result[] Results()
         {
-            OrderResults();
             return results;
         }
 
@@ -32,32 +36,34 @@ namespace General.Exercises
             }
         }
 
-        public override string ToString()
+        public int GetSkeletonId()
         {
-            OrderResults();
-            return results.Aggregate("",
-                (current, result) => current + result.count + " times for " + result.rule + "\n");
+            return skeletonId;
         }
 
-        private void OrderResults()
+        [CanBeNull]
+        public Result GetFirstResultInTimeFrame(double maxTimeDifferenceInSeconds)
         {
-            results = results.OrderBy(i => i.rule.priority).ThenByDescending(i => i.count).ToArray();
+            var list = OrderResults();
+            var timeStampNow = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            list.RemoveAll(r => timeStampNow - r.lastCollected > (maxTimeDifferenceInSeconds*1000));
+
+            try
+            {
+                return list[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
-
-        public class Result
+        
+        private List<Result> OrderResults()
         {
-            internal Rule rule;
-            internal float count;
-
-            public Result(Rule rule)
-            {
-                this.rule = rule;
-            }
-
-            public void Increment()
-            {
-                count += 1;
-            }
+            return new List<Result>(results.
+                OrderBy(i => i.rule.priority).
+                ThenByDescending(i => i.lastCollected).
+                ThenByDescending(i => i.count));
         }
     }
 }

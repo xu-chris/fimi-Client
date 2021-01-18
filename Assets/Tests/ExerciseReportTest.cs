@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using General.Exercises;
 using General.Rules;
+using General.Session;
 using NUnit.Framework;
 
 namespace Tests
@@ -41,7 +42,7 @@ namespace Tests
         public void SetUp()
         {
             var rulesArray = new Rule[]{rule1, rule2};
-            exerciseReport = new ExerciseReport(rulesArray);
+            exerciseReport = new ExerciseReport(0, rulesArray);
         }
 
         [Test]
@@ -50,8 +51,8 @@ namespace Tests
             // GIVEN
             exerciseReport.Count(rule2);
             exerciseReport.Count(rule2);
-            var result1 = new ExerciseReport.Result(rule1);
-            var result2 = new ExerciseReport.Result(rule2);
+            var result1 = new Result(rule1);
+            var result2 = new Result(rule2);
             result2.Increment();
             result2.Increment();
             var expectedResult = new [] {
@@ -71,11 +72,11 @@ namespace Tests
         {
             // GIVEN
             var rulesArray = new Rule[]{rule2, rule3};
-            exerciseReport = new ExerciseReport(rulesArray);
+            exerciseReport = new ExerciseReport(0, rulesArray);
             exerciseReport.Count(rule3);
             exerciseReport.Count(rule3);
-            var result2 = new ExerciseReport.Result(rule2);
-            var result3 = new ExerciseReport.Result(rule3);
+            var result2 = new Result(rule2);
+            var result3 = new Result(rule3);
             result3.Increment();
             result3.Increment();
             var expectedResult = new []{
@@ -88,6 +89,39 @@ namespace Tests
             
             Assert.AreEqual(expectedResult[0].GetType(), result[0].GetType());
             Assert.AreEqual(expectedResult[1].GetType(), result[1].GetType());
+        }
+
+        [Test]
+        public void ShouldReturnResultInsideMaxTimeDifference()
+        {
+            // GIVEN
+            exerciseReport.Count(rule1);
+            var expected = new Result(rule1);
+            expected.Increment();
+            System.Threading.Thread.Sleep(2);
+
+            // WHEN
+            var result = exerciseReport.GetFirstResultInTimeFrame(0.002);
+
+            // THEN
+            Assert.AreEqual(expected, result);
+        }
+        
+        
+        [Test]
+        public void ShouldNotReturnResultInsideMaxTimeDifference()
+        {
+            // GIVEN
+            exerciseReport.Count(rule1);
+            var expected = new Result(rule1);
+            expected.Increment();
+            System.Threading.Thread.Sleep(2);
+
+            // WHEN
+            var result = exerciseReport.GetFirstResultInTimeFrame(0.001);
+
+            // THEN
+            Assert.AreEqual(null, result);
         }
     }
 }

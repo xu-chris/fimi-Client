@@ -28,6 +28,26 @@ namespace General.Rules
 
             return angleDifference > tolerance || angleDifference < -tolerance;
         }
+        
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as VerticallyRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as VerticallyRule);
+        }
+
+        private bool Equals(VerticallyRule other)
+        {
+            return other != null &&
+                   bones.Equals(other.bones) &&
+                   tolerance.Equals(other.tolerance) && 
+                   axis.Equals(other.axis);
+        }
+        
+        public override int GetHashCode() => (bones, tolerance, axis).GetHashCode();
 
         public override string ToString()
         {

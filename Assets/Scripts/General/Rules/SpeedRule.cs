@@ -46,6 +46,26 @@ namespace General.Rules
                    ", upper distance change threshold:" + upperDistanceChangeThreshold + ", bones: " +
                    string.Join(", ", bones.ToArray());
         }
+        
+        public override bool Equals(Rule other)
+        {
+            return other != null && Equals(other as SpeedRule);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as SpeedRule);
+        }
+
+        private bool Equals(SpeedRule other)
+        {
+            return other != null &&
+                   bones.Equals(other.bones) &&
+                   lowerDistanceChangeThreshold.Equals(other.lowerDistanceChangeThreshold) && 
+                   upperDistanceChangeThreshold.Equals(other.upperDistanceChangeThreshold);
+        }
+        
+        public override int GetHashCode() => (bones, lowerDistanceChangeThreshold, upperDistanceChangeThreshold).GetHashCode();
 
         private class BoneDistance
         {
