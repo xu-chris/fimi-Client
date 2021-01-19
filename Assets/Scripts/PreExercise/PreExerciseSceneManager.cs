@@ -7,20 +7,18 @@ namespace PreExercise
 {
     public class PreExerciseSceneManager : SceneManager
     {
-        public TextAsset preTrainingConfigurationFile;
         public Text headlineObject;
         public Text descriptionObject;
         public Text durationObject;
         public Text interactionPromptObject;
         public string afterTrainingSceneName = "PostTraining";
 
-        private PreExerciseConfiguration configuration;
+        public string interactionPrompt = "Start by standing in T pose";
 
         public new void Awake()
         {
             base.Awake();
-            configuration = new PreExerciseConfigurationService(preTrainingConfigurationFile).configuration;
-            interactionPromptObject.text = configuration.interactionPrompt;
+            interactionPromptObject.text = interactionPrompt;
         }
 
         private void Start()

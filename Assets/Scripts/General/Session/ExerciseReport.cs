@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using General.Rules;
-using General.Session;
 using JetBrains.Annotations;
 
-namespace General.Exercises
+namespace General.Session
 {
     public class ExerciseReport
     {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using General.Exercises;
 using General.Rules;
+using General.Session;
 using General.Skeleton;
 using Library;
 using UnityEngine;

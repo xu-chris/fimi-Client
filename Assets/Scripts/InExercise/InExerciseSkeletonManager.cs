@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using General;
 using General.Exercises;
 using General.Rules;
+using General.Session;
 using UnityEngine;
 
 namespace InExercise
