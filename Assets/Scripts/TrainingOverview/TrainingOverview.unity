@@ -1002,6 +1002,9 @@ MonoBehaviour:
   nextSceneName: PreExercise
   overlay: {fileID: 285433473}
   tPoseController: {fileID: 699800232}
+  descriptionLabel: {fileID: 184377608}
+  headlineLabel: {fileID: 1017940377}
+  durationLabel: {fileID: 1100081565}
   transitionTime: 0
   startSceneName: Start
 --- !u!4 &1211428489

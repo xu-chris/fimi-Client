@@ -52,6 +52,11 @@ namespace General.Session
             selectedTraining = id;
         }
 
+        public Training GetSelectedTraining()
+        {
+            return trainingsConfiguration.trainings[selectedTraining];
+        }
+
         public void SetToNextExercise()
         {
             Assert.IsTrue(currentExercise < trainingsConfiguration.trainings[selectedTraining].exercises.Count);

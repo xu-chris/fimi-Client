@@ -4,12 +4,16 @@ using Clients.WebController.WebServer;
 using General;
 using General.TPose;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TrainingOverview
 {
     public class TrainingOverviewSceneManager : SceneManager
     {
         public TPoseController tPoseController;
+        public Text descriptionLabel;
+        public Text headlineLabel;
+        public Text durationLabel;
         public int transitionTime;
 
         public string startSceneName = "Start";
@@ -23,6 +27,18 @@ namespace TrainingOverview
             tPoseController.TPoseStopped += OnTPoseDetectionStop;
             tPoseController.SetDurationUntilNextSceneInSeconds(transitionTime);
 
+            var selectedTraining = sessionManager.GetSelectedTraining();
+            var totalDuration = sessionManager.GetTotalDuration();
+            headlineLabel.text = selectedTraining.name;
+            descriptionLabel.text = selectedTraining.description;
+            durationLabel.text = GetTotalDurationString(totalDuration);
+        }
+
+        private string GetTotalDurationString(int totalDurationInSeconds)
+        {
+            var minutes = Decimal.Floor((decimal) (totalDurationInSeconds / 60f));
+            var seconds = totalDurationInSeconds % 60;
+            return (minutes != 0 ? minutes + " min" : "") + (seconds != 0 ? " " + seconds + " sec" : "");
         }
         
         private void OnTPoseDetectionStart(object source, EventArgs args)
