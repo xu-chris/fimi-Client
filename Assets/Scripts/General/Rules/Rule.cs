@@ -7,6 +7,7 @@ namespace General.Rules
     public abstract class Rule : IEquatable<Rule>
     {
         public bool colorize;
+        public string name;
         public string notificationText;
         public string improvementText;
         public string watchOutText;

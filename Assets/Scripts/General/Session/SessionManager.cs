@@ -116,9 +116,32 @@ namespace General.Session
 
         public string GetSerializedResult(int userId)
         {
-            var dummyRules = trainingsConfiguration.trainings[selectedTraining].exercises[selectedTraining];
+            var dummyExerciseItem = trainingsConfiguration.trainings[selectedTraining].exercises[selectedTraining];
+            var dummyRules = GetExerciseForExerciseType(dummyExerciseItem.type.ToExerciseType()).rules;
+            
+            var dummyPreviousReport = new TrainingReport(selectedTraining);
+            dummyPreviousReport.Count(dummyRules[0]);
+            dummyPreviousReport.Count(dummyRules[0]);
+            dummyPreviousReport.Count(dummyRules[0]);
+            dummyPreviousReport.Count(dummyRules[0]);
+            dummyPreviousReport.Count(dummyRules[1]);
+            dummyPreviousReport.Count(dummyRules[1]);
+            dummyPreviousReport.Count(dummyRules[2]);
+            dummyPreviousReport.Count(dummyRules[2]);
+            dummyPreviousReport.Count(dummyRules[2]);
+            dummyPreviousReport.Count(dummyRules[2]);
+            dummyPreviousReport.Count(dummyRules[3]);
+            dummyPreviousReport.Count(dummyRules[4]);
+
             var dummyReport = new TrainingReport(selectedTraining);
-            var result = new ResultDTO(trainingsConfiguration.trainings[selectedTraining].name, GetTotalDuration(), dummyReport, dummyReport);
+            dummyReport.Count(dummyRules[0]);
+            dummyReport.Count(dummyRules[0]);
+            dummyReport.Count(dummyRules[0]);
+            dummyReport.Count(dummyRules[0]);
+            dummyReport.Count(dummyRules[1]);
+            dummyReport.Count(dummyRules[1]);
+            dummyReport.Count(dummyRules[2]);
+            var result = new ResultDTO(trainingsConfiguration.trainings[selectedTraining].name, GetTotalDuration(), dummyReport, dummyPreviousReport);
             // TODO: Use real reports
             return JsonConvert.SerializeObject(result);
         }

@@ -13,6 +13,7 @@ exercises:
       "
     rules:
       - !rangeOfMotionRule
+        name: "Range of Motion of your left knee"
         notificationText: "Don't overstretch your knees"
         improvementText: "Keeping yourself in the given range reduces pain you will feel otherwise in your knee"
         watchOutText: "You have overstretched your knees. Watch your knees next time and push your hip more to the back."
@@ -24,6 +25,7 @@ exercises:
           - LeftLowerLeg
           - LeftThigh
       - !rangeOfMotionRule
+        name: "Range of Motion of your right knee"
         notificationText: "Don't overstretch your knees"
         improvementText: "Keeping yourself in the given range reduces pain you will feel otherwise in your knee"
         watchOutText: "You have overstretched your knees. Watch your knees next time and push your hip more to the back."
@@ -35,6 +37,7 @@ exercises:
           - RightLowerLeg
           - RightThigh
       - !verticallyRule
+        name: "Vertical spline"
         notificationText: "Keep your head, neck and body vertical"
         improvementText: "Keeping everything vertical trains your whole body equally by applying the weight equally throughout the whole workout."
         watchOutText: "Keep your head, neck and body vertical next time to ensure a balanced training of all your muscles."
@@ -47,6 +50,7 @@ exercises:
           - Neck
           - Head
       - !symmetryRule
+        name: "Symmetrical movements"
         notificationText: "Move symmetrically with your body"
         improvementText: "Keeping everything symmetrical leads to an equally balanced training of all muscles."
         watchOutText: "Next time watch out yourself to move more symmetrical with your body. Moving your body symmetrical helps training all your muscles equally and prevent them to be fatigue unequally."
@@ -71,6 +75,7 @@ exercises:
         centerBone: UpperBody
         tolerance: 20
       - !linearityRule
+        name: "Straight left arm"
         notificationText: "Keep your left arm straight"
         improvementText: "Keeping your arms straight helps to train your strength even more. Good job!"
         watchOutText: "Watch your left arm next time and keep it straight so you train your strength even more."
@@ -81,6 +86,7 @@ exercises:
           - LeftForearm
         tolerance: 10
       - !linearityRule
+        name: "Straight right arm"
         notificationText: "Keep your right arm straight"
         improvementText: "Keeping your arms straight helps to train your strength even more. Good job!"
         watchOutText: "Watch your right arm next time and keep it straight so you train your strength even more."
@@ -91,6 +97,7 @@ exercises:
           - RightForearm
         tolerance: 10
       - !speedRule
+        name: "Slow and Steady execution"
         notificationText: "Move slower"
         improvementText: "You're performing the exercise with quality instead of quantity. Keep on!"
         watchOutText: "Perform the exercise slower next time. Form is more important than speed!"

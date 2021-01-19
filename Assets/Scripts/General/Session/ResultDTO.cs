@@ -34,7 +34,8 @@ namespace General.Session
                 return results.ToArray().SubArray(0, 3).Select(
                     result => new Content
                     {
-                        name = result.rule.notificationText
+                        name = result.rule.name,
+                        explanation = result.rule.improvementText
                     }
                 ).ToList();
             }
@@ -42,7 +43,8 @@ namespace General.Session
             return results.Select(
                 result => new Content
                 {
-                    name = result.rule.notificationText
+                    name = result.rule.name,
+                    explanation = result.rule.improvementText
                 }
             ).ToList();
         }
@@ -54,7 +56,8 @@ namespace General.Session
                 return trainingReport.GetResults().SubArray(0, 3).Select(
                     trainingResult => new Content
                     {
-                        name = trainingResult.rule.notificationText
+                        name = trainingResult.rule.name,
+                        explanation = trainingResult.rule.watchOutText
                     }
                 ).ToList();
             }
@@ -62,7 +65,8 @@ namespace General.Session
             return trainingReport.GetResults().Select(
                 trainingResult => new Content
                 {
-                    name = trainingResult.rule.notificationText
+                    name = trainingResult.rule.name,
+                    explanation = trainingResult.rule.watchOutText
                 }
             ).ToList(); 
         }
