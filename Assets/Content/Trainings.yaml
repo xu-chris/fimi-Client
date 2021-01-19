@@ -1,5 +1,8 @@
 trainings:
   - name: "Mobilize your body"
+    description: "A slow but challenging exercise to train the core and stability of your whole body."
     exercises:
       - type: squatArmRaise
         durationInSeconds: 60
+      - type: squatArmRaise
+        durationInSeconds: 120

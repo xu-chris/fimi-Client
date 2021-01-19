@@ -14,6 +14,8 @@ exercises:
     rules:
       - !rangeOfMotionRule
         notificationText: "Don't overstretch your knees"
+        improvementText: "Keeping yourself in the given range reduces pain you will feel otherwise in your knee"
+        watchOutText: "You have overstretched your knees. Watch your knees next time and push your hip more to the back."
         colorize: true
         priority: 10
         lowerThreshold: 0
@@ -23,6 +25,8 @@ exercises:
           - LeftThigh
       - !rangeOfMotionRule
         notificationText: "Don't overstretch your knees"
+        improvementText: "Keeping yourself in the given range reduces pain you will feel otherwise in your knee"
+        watchOutText: "You have overstretched your knees. Watch your knees next time and push your hip more to the back."
         colorize: true
         priority: 10
         lowerThreshold: 0
@@ -32,6 +36,8 @@ exercises:
           - RightThigh
       - !verticallyRule
         notificationText: "Keep your head, neck and body vertical"
+        improvementText: "Keeping everything vertical trains your whole body equally by applying the weight equally throughout the whole workout."
+        watchOutText: "Keep your head, neck and body vertical next time to ensure a balanced training of all your muscles."
         colorize: true
         priority: 10
         tolerance: 12
@@ -42,6 +48,8 @@ exercises:
           - Head
       - !symmetryRule
         notificationText: "Move symmetrically with your body"
+        improvementText: "Keeping everything symmetrical leads to an equally balanced training of all muscles."
+        watchOutText: "Next time watch out yourself to move more symmetrical with your body. Moving your body symmetrical helps training all your muscles equally and prevent them to be fatigue unequally."
         colorize: false
         priority: 10
         leftBones:
@@ -64,6 +72,8 @@ exercises:
         tolerance: 20
       - !linearityRule
         notificationText: "Keep your left arm straight"
+        improvementText: "Keeping your arms straight helps to train your strength even more. Good job!"
+        watchOutText: "Watch your left arm next time and keep it straight so you train your strength even more."
         colorize: true
         priority: 15
         bones:
@@ -72,6 +82,8 @@ exercises:
         tolerance: 10
       - !linearityRule
         notificationText: "Keep your right arm straight"
+        improvementText: "Keeping your arms straight helps to train your strength even more. Good job!"
+        watchOutText: "Watch your right arm next time and keep it straight so you train your strength even more."
         colorize: true
         priority: 15
         bones:
@@ -80,6 +92,8 @@ exercises:
         tolerance: 10
       - !speedRule
         notificationText: "Move slower"
+        improvementText: "You're performing the exercise with quality instead of quantity. Keep on!"
+        watchOutText: "Perform the exercise slower next time. Form is more important than speed!"
         colorize: false
         priority: 15
         bones:

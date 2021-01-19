@@ -5,7 +5,7 @@ namespace General.Trainings
     public class Training
     {
         public string name;
-        public int currentExercise = 0;
+        public string description;
         public List<ExerciseItem> exercises;
     }
 }

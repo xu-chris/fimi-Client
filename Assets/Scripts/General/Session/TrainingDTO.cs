@@ -15,6 +15,7 @@ namespace General.Session
         public List<ExerciseDTO> exercises;
         public int id;
         public int currentExercise;
+        public string description;
 
         public TrainingDTO(int id, Training training, int currentExercise, List<Exercise> exercises)
         {
@@ -23,6 +24,7 @@ namespace General.Session
             durationInSeconds = GetTotalDurationInSeconds(training.exercises);
             this.currentExercise = currentExercise;
             this.exercises = GetExerciseDTOs(training.exercises, exercises, currentExercise);
+            description = training.description;
         }
 
         private static int GetTotalDurationInSeconds(List<ExerciseItem> exerciseItems)

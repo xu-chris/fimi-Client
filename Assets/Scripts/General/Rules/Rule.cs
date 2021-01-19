@@ -8,6 +8,8 @@ namespace General.Rules
     {
         public bool colorize;
         public string notificationText;
+        public string improvementText;
+        public string watchOutText;
         public int priority;
         
         public abstract bool IsInvalidated(List<Bone> boneObjects);
