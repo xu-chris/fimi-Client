@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,6 +13,8 @@ namespace General.Rules
         public int expectedAngle;
         public int lowerTolerance;
         public int upperTolerance;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public new RuleType ruleType = RuleType.ANGLE_RULE;
 
         public override bool IsInvalidated(List<Bone> boneObjects)
         {

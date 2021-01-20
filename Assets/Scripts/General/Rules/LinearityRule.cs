@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace General.Rules
@@ -8,6 +10,8 @@ namespace General.Rules
     {
         public List<string> bones;
         public float tolerance;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public new RuleType ruleType = RuleType.LINEARITY_RULE;
 
         public override bool IsInvalidated(List<Bone> boneObjects)
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Clients.WebController;
-using UnityEngine;
+﻿using Clients.WebController;
 using UnityEngine.UI;
 using SceneManager = General.SceneManager;
 

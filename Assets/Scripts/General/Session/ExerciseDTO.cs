@@ -1,7 +1,5 @@
 using System;
 using General.Exercises;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace General.Session
 {

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace General.Rules
@@ -14,6 +16,8 @@ namespace General.Rules
         private readonly string axis = "y"; // Y or Z axis
         public List<string> bones;
         public float tolerance;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public new RuleType ruleType = RuleType.VERTICALLY_RULE;
 
         public override bool IsInvalidated(List<Bone> boneObjects)
         {

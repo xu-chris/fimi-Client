@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using General;
 using General.Skeleton;
 using IBM.Cloud.SDK.Plugins.WebSocketSharp;
 using JetBrains.Annotations;

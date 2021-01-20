@@ -1,18 +1,27 @@
 using System;
-using General.Exercises;
 using General.Rules;
+using Newtonsoft.Json;
 
 namespace General.Session
 {
+    [Serializable]
     public class Result
     {
-        internal readonly Rule rule;
-        internal float count;
-        internal long lastCollected;
+        public readonly Rule rule;
+        public float count;
+        public long lastCollected;
 
         public Result(Rule rule)
         {
             this.rule = rule;
+        }
+
+        [JsonConstructor]
+        public Result(Rule rule, float count, long lastCollected)
+        {
+            this.rule = rule;
+            this.count = count;
+            this.lastCollected = lastCollected;
         }
 
         public void Increment()

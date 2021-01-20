@@ -1,21 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using General.Exercises;
 using General.Rules;
-using UnityEngine;
+using Newtonsoft.Json;
 
 namespace General.Session
 {
+    [Serializable]
     public class TrainingReport
     {
-        private readonly List<Result> results;
-        private readonly int id;
+        public readonly List<Result> results;
+        public readonly int id;
 
         public TrainingReport(int trainingId)
         {
             id = trainingId;
             results = new List<Result>();
+        }
+
+        [JsonConstructor]
+        public TrainingReport(List<Result> results, int id)
+        {
+            this.results = results;
+            this.id = id;
         }
 
         public int GetTrainingId()

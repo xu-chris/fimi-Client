@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
+using System.Text;
 using Clients.TTSClient;
 using Clients.WebController;
 using Clients.WebController.WebServer;
+using Clients.WebController.WebServer.uHTTP;
 using General.Session;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 using static Clients.WebController.ControlCommands;
@@ -51,7 +55,7 @@ namespace General
             ttsClient = textToSpeechGameObject.GetComponent<TTSClient>();
         }
 
-        internal string OnWebControllerMessage(string message)
+        internal uHTTP.Response OnWebControllerMessage(string message)
         {
             Debug.Log("Received: " + message);
 
@@ -69,8 +73,7 @@ namespace General
 
             if (message.StartsWith(SELECT_TRAINING.ToString()))
             {
-                SelectTraining(int.Parse(info));
-                return true.ToString();
+                return SelectTraining(int.Parse(info));
             }
             
             if (message.StartsWith(GET_TRAINING.ToString()))
@@ -80,60 +83,148 @@ namespace General
 
             if (message.StartsWith(IS_TRAINING_ACTIVE.ToString()))
             {
-                return sessionManager.GetIsInTraining().ToString();
+                return IsTrainingActive();
             }
             
             if (message.StartsWith(CANCEL_TRAINING.ToString()))
             {
-                CancelTraining();
-                return true.ToString();
+                return CancelTraining();
             }
             
             if (message.StartsWith(GET_APP_STATE.ToString()))
             {
-                return sessionManager.GetState().ToString();
+                return GetAppState();
             }
             
             if (message.StartsWith(UNSELECT_TRAINING.ToString()))
             {
-                return UnselectTraining().ToString();
+                return UnselectTraining();
             } 
             
             if (message.StartsWith(GET_RESULTS.ToString()))
             {
-                return GetResults(int.Parse(info));
+                return GetResults(info);
+            } 
+            
+            if (message.StartsWith(GET_USER.ToString()))
+            {
+                return GetUserProfileAsSerializedString(info);
+            } 
+            
+            if (message.StartsWith(LOGIN_USER.ToString()))
+            {
+                return LoginUser(info);
             } 
 
-            return "Wrong input! Received Input: " + message;
+            return BuildResponse(false, "Wrong input! Received Input: " + message);
         }
 
-        private string GetResults(int userId)
+        private uHTTP.Response IsTrainingActive()
         {
-            return sessionManager.GetSerializedResult(userId);
+            return BuildResponse(true, sessionManager.GetIsInTraining().ToString());
         }
 
-        private string RegisterNewUser()
+        private uHTTP.Response GetAppState()
         {
-            return sessionManager.RegisterNewUser().ToString();
+            return BuildResponse(true, sessionManager.GetState().ToString());
         }
 
-        private string GetTrainings()
+        protected uHTTP.Response BuildResponse(bool success, string message)
         {
-            return sessionManager.GetSerializedTrainings();
+            if (success)
+            {
+                var response = new uHTTP.Response(uHTTP.StatusCode.OK)
+                {
+                    body = Encoding.UTF8.GetBytes(message)
+                };
+
+                return response;
+            }
+            else
+            {
+                var response = new uHTTP.Response(uHTTP.StatusCode.ERROR)
+                {
+                    body = Encoding.UTF8.GetBytes(message)
+                };
+
+                return response;
+            }
         }
 
-        private void SelectTraining(int id)
+        private uHTTP.Response LoginUser(string jsonUserData)
+        {
+            try
+            {
+                return BuildResponse(true, sessionManager.LogInUser(jsonUserData));
+            }
+            catch (Exception e)
+            {
+                return BuildResponse(false, e.Message);
+            }
+        }
+
+        private uHTTP.Response GetUserProfileAsSerializedString(string userId)
+        {
+            try
+            {
+                return BuildResponse(true, JsonConvert.SerializeObject(sessionManager.GetUser(userId)));
+            }
+            catch (Exception e)
+            {
+                return BuildResponse(false, "Cannot serialize object for user ID " + userId + ". Reason: " + e);
+            }
+        }
+
+        private uHTTP.Response GetResults(string userId)
+        {
+            try
+            {
+                return BuildResponse(true,
+                    JsonConvert.SerializeObject((sessionManager.GetInterpretedResultDTO(userId))));
+            }
+            catch (Exception e)
+            {
+                return BuildResponse(false, e.Message);
+            }
+        }
+
+        private uHTTP.Response RegisterNewUser()
+        {
+            return BuildResponse(true, sessionManager.RegisterNewUser());
+        }
+
+        private uHTTP.Response GetTrainings()
+        {
+            try
+            {
+                return BuildResponse(true, JsonConvert.SerializeObject(sessionManager.GetTrainingsDTO()));
+            }
+            catch (Exception e)
+            {
+                return BuildResponse(false, e.Message);
+            }
+        }
+
+        private uHTTP.Response SelectTraining(int id)
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.SetSelectedTraining(id);
                 StartCoroutine(TransitionToNewScene());
             });
+            return BuildResponse(true, "");
         }
 
-        private string GetTraining()
+        private uHTTP.Response GetTraining()
         {
-            return sessionManager.GetSerializedTraining();
+            try
+            {
+                return BuildResponse(true, JsonConvert.SerializeObject(sessionManager.GetTrainingDTO()));
+            }
+            catch (Exception e)
+            {
+                return BuildResponse(false, e.Message);
+            }
         }
         
         public IEnumerator TransitionToNewScene()
@@ -150,15 +241,16 @@ namespace General
             UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
 
-        protected virtual void CancelTraining()
+        protected virtual uHTTP.Response CancelTraining()
         {
             Debug.LogWarning("Cancel training is called but no overriding method found.");
+            return BuildResponse(false, "Cancel training is called but no overriding method found.");
         }
 
-        protected virtual bool UnselectTraining()
+        protected virtual uHTTP.Response UnselectTraining()
         {
             Debug.LogWarning("Cannot unselect training, overriding method missing. Will return false.");
-            return false;
+            return BuildResponse(false, "Cannot unselect training, overriding method missing. Will return false.");
         }
     }
 }

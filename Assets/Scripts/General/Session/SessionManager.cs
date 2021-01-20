@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using General.Exercises;
@@ -21,7 +22,6 @@ namespace General.Session
 
         private int selectedTraining = 0;
         private int currentExercise = 0;
-        public bool isInTraining = false;
 
         private readonly List<User> users = new List<User>();
 
@@ -69,15 +69,14 @@ namespace General.Session
             currentExercise = id;
         }
 
-        public string GetSerializedTrainings()
+        public TrainingsDTO GetTrainingsDTO()
         {
             var dto = new TrainingsDTO(trainingsConfiguration.trainings, exercisesConfiguration.exercises,
                 currentExercise);
-            var result = JsonConvert.SerializeObject(dto);
-            return result;
+            return dto;
         }
-        
-        public Exercise GetExerciseForExerciseType(ExerciseType exerciseType)
+
+        private Exercise GetExerciseForExerciseType(ExerciseType exerciseType)
         {
             return exercisesConfiguration.exercises.Find(exercise =>
                 exercise.type.ToExerciseType() == exerciseType);
@@ -107,58 +106,25 @@ namespace General.Session
                    null;
         }
 
-        public string GetSerializedTraining()
+        public TrainingDTO GetTrainingDTO()
         {
             var training = trainingsConfiguration.trainings[selectedTraining];
             var dto = new TrainingDTO(selectedTraining, training, currentExercise, exercisesConfiguration.exercises);
-            return JsonConvert.SerializeObject(dto);
+            return dto;
         }
 
-        public string GetSerializedResult(int userId)
+        public InterpretedResultDTO GetInterpretedResultDTO(string userId)
         {
-            var dummyExerciseItem = trainingsConfiguration.trainings[selectedTraining].exercises[selectedTraining];
-            var dummyRules = GetExerciseForExerciseType(dummyExerciseItem.type.ToExerciseType()).rules;
-            
-            var dummyPreviousReport = new TrainingReport(selectedTraining);
-            dummyPreviousReport.Count(dummyRules[0]);
-            dummyPreviousReport.Count(dummyRules[0]);
-            dummyPreviousReport.Count(dummyRules[0]);
-            dummyPreviousReport.Count(dummyRules[0]);
-            dummyPreviousReport.Count(dummyRules[1]);
-            dummyPreviousReport.Count(dummyRules[1]);
-            dummyPreviousReport.Count(dummyRules[2]);
-            dummyPreviousReport.Count(dummyRules[2]);
-            dummyPreviousReport.Count(dummyRules[2]);
-            dummyPreviousReport.Count(dummyRules[2]);
-            dummyPreviousReport.Count(dummyRules[3]);
-            dummyPreviousReport.Count(dummyRules[4]);
-
-            var dummyReport = new TrainingReport(selectedTraining);
-            dummyReport.Count(dummyRules[0]);
-            dummyReport.Count(dummyRules[0]);
-            dummyReport.Count(dummyRules[0]);
-            dummyReport.Count(dummyRules[0]);
-            dummyReport.Count(dummyRules[1]);
-            dummyReport.Count(dummyRules[1]);
-            dummyReport.Count(dummyRules[2]);
-            var result = new ResultDTO(trainingsConfiguration.trainings[selectedTraining].name, GetTotalDuration(), dummyReport, dummyPreviousReport);
-            // TODO: Use real reports
-            return JsonConvert.SerializeObject(result);
-        }
-
-        public void SaveReport(TrainingReport trainingReport, int userId)
-        {
-            // TODO: Save the incoming report on the machine;
+            var user = GetUser(userId);
+            var previousReport = user.GetPreviousReport(selectedTraining);
+            var lastReport = user.GetLastReport(selectedTraining);
+            var result = new InterpretedResultDTO(trainingsConfiguration.trainings[selectedTraining].name, GetTotalDuration(), lastReport, previousReport);
+            return result;
         }
 
         public bool GetIsInTraining()
         {
             return state == ApplicationState.IN_TRAINING;
-        }
-
-        public void CollectResult()
-        {
-            return;
         }
 
         public void EndTraining()
@@ -206,28 +172,55 @@ namespace General.Session
             return currentExercise >= trainingsConfiguration.trainings[selectedTraining].exercises.Count - 1;
         }
 
-        public int RegisterNewUser()
+        public string RegisterNewUser()
         {
-            var userId = users.Count;
-            var newUser = new User(userId); 
+            var newUser = new User(); 
             users.Add(newUser);
-            return userId;
+            return newUser.GetId().ToString();
         }
 
-        private void AddToTrainingReport(int userId, ExerciseReport report)
+        private void StoreUserIfNotGiven(User user)
         {
-            if (users.Count <= userId)
+            if (!users.Exists(u => u.GetId() == user.GetId()))
+            {
+                users.Add(user);
+            }
+        }
+
+        public string LogInUser(string json)
+        {
+            try
+            {
+                var userJson = JsonConvert.DeserializeObject<User>(json);
+                StoreUserIfNotGiven(userJson);
+                return userJson.GetId().ToString();
+            }
+            catch (Exception e)
+            {
+                throw new JsonSerializationException("Cannot deserialize given input. Is this a valid JSON? Exception: " + e);
+            }
+        }
+
+        /// <summary>
+        /// Adds an exercise report to an overall training report.
+        /// Because there is no dedicated signifier to which user which skeleton belongs to, we use the skeleton ID for users.
+        /// </summary>
+        /// <param name="skeletonId">The skeleton Id</param>
+        /// <param name="report">The obtained exercise report</param>
+        private void AddToTrainingReport(int skeletonId, ExerciseReport report)
+        {
+            if (users.Count <= skeletonId)
                 RegisterNewUser();
 
             try
             {
-                users[userId].AddToCurrentSession(report);
+                users[skeletonId].AddToCurrentSession(report);
             }
             catch (NoCurrentSessionException exception)
             {
                 Debug.LogWarning("Failed adding current session to report. Reason: " + exception.Message + " . Will try to create new session on the fly");
-                users[userId].StartNewSession(selectedTraining);
-                AddToTrainingReport(userId, report);
+                users[skeletonId].StartNewSession(selectedTraining);
+                AddToTrainingReport(skeletonId, report);
             }
         }
 
@@ -237,6 +230,11 @@ namespace General.Session
             {
                 AddToTrainingReport(exerciseReport.GetSkeletonId(), exerciseReport);
             }
+        }
+
+        public User GetUser(string userId)
+        {
+            return users.Find(u => u.GetId().ToString().Equals(userId));
         }
     }
 }

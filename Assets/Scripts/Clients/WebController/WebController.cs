@@ -1,8 +1,6 @@
-using System;
 using System.Text;
 using Clients.WebController.WebServer;
 using UnityEngine;
-using UnityEngine.UI;
 using uHTTP = Clients.WebController.WebServer.uHTTP.uHTTP;
 
 namespace Clients.WebController
@@ -12,7 +10,7 @@ namespace Clients.WebController
         private NetworkUtility networkUtility;
         private StaticWebServer webServer;
         
-        public delegate string IncomingTcpMessageEventHandler(string message);
+        public delegate uHTTP.Response IncomingTcpMessageEventHandler(string message);
         
         [Header("POST call endpoint")]
         
@@ -41,11 +39,7 @@ namespace Clients.WebController
                 if (!request.method.ToUpper().Equals("POST"))
                     return new uHTTP.Response(uHTTP.StatusCode.ERROR);
 
-                var result = OnMessage(request.body);
-                var response = new uHTTP.Response(uHTTP.StatusCode.OK)
-                {
-                    body = Encoding.UTF8.GetBytes(result)
-                };
+                var response = OnMessage(request.body);
                 response.headers.Add("Access-Control-Allow-Origin", "*");
                 return response;
             };
@@ -77,7 +71,7 @@ namespace Clients.WebController
             }
         }
 
-        protected virtual string OnMessage(string message)
+        protected virtual uHTTP.Response OnMessage(string message)
         {
             return onMessage?.Invoke(message);
         }

@@ -1,7 +1,9 @@
 using System;
+using Newtonsoft.Json;
 
 namespace General.Session
 {
+    [Serializable]
     public struct Session
     {
         public long timeStampCreated;
@@ -11,6 +13,13 @@ namespace General.Session
         {
             timeStampCreated = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
             report = new TrainingReport(trainingId);  
+        }
+
+        [JsonConstructor]
+        public Session(long timeStampCreated, TrainingReport trainingReport)
+        {
+            this.timeStampCreated = timeStampCreated;
+            this.report = trainingReport;
         }
     }
 }

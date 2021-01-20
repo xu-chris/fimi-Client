@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using General.Exercises;
+using General.Rules;
 using General.Skeleton;
 
 namespace Library
@@ -10,6 +11,12 @@ namespace Library
         public static ExerciseType ToExerciseType(this string str)
         {
             Enum.TryParse(str.ToUpperCaseWithUnderScore(), out ExerciseType value);
+            return value;
+        }
+
+        public static RuleType ToRuleType(this string str)
+        {
+            Enum.TryParse(str.ToUpperCaseWithUnderScore(), out RuleType value);
             return value;
         }
 

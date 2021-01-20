@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Clients;
 using Clients.WebSocketClient;
 using General.TPose;
 using UnityEngine;

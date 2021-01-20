@@ -1,7 +1,6 @@
 #if UNITY_STANDALONE_WIN
 
 using System.Diagnostics;
-using UnityEngine;
 using System;
 using System.Text.RegularExpressions;
 using System.Linq;

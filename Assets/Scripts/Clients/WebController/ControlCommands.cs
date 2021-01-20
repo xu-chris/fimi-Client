@@ -10,6 +10,8 @@ namespace Clients.WebController
         GET_APP_STATE,
         UNSELECT_TRAINING,
         REGISTER_NEW_USER,
-        GET_RESULTS
+        GET_RESULTS,
+        GET_USER,
+        LOGIN_USER
     }
 }

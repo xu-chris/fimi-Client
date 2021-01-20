@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace General.Rules
 {
+    [Serializable]
+    [JsonConverter(typeof(RuleConverter))]
     public abstract class Rule : IEquatable<Rule>
     {
         public bool colorize;
@@ -12,6 +16,8 @@ namespace General.Rules
         public string improvementText;
         public string watchOutText;
         public int priority;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public RuleType ruleType;
         
         public abstract bool IsInvalidated(List<Bone> boneObjects);
 

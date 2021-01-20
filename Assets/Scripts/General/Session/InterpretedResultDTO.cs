@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace General.Session
 {
-    public class ResultDTO
+    public class InterpretedResultDTO
     {
         public class Content
         {
@@ -18,7 +18,7 @@ namespace General.Session
         public List<Content> improvements;
         public List<Content> ruleViolations;
 
-        public ResultDTO(string trainingName, int totalDurationInSeconds, TrainingReport trainingReport,
+        public InterpretedResultDTO(string trainingName, int totalDurationInSeconds, TrainingReport trainingReport,
             [CanBeNull] TrainingReport previousReport)
         {
             this.trainingName = trainingName;

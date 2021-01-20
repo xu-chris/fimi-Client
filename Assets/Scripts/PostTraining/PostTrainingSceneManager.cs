@@ -1,5 +1,5 @@
-using System;
 using Clients.WebController.WebServer;
+using Clients.WebController.WebServer.uHTTP;
 using General;
 using UnityEngine.UI;
 
@@ -16,14 +16,14 @@ namespace PostTraining
             sessionManager.SetToPostTraining();
         }
         
-        protected override bool UnselectTraining()
+        protected override uHTTP.Response UnselectTraining()
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.UnselectTraining();
                 StartCoroutine(TransitionToNewScene());
             });
-            return true;
+            return BuildResponse(true, "");
         }
     }
 }

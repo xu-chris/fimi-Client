@@ -1,6 +1,6 @@
 using Clients.WebController.WebServer;
+using Clients.WebController.WebServer.uHTTP;
 using General;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace PreExercise
@@ -33,13 +33,14 @@ namespace PreExercise
             ttsClient.Synthesize("The next exercise is: " + currentExercise.name);
             ttsClient.Synthesize("Here's what you should watch while performing the exercise: " + currentExercise.description);
         }
-        protected override void CancelTraining()
+        protected override uHTTP.Response CancelTraining()
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.EndTraining();
                 StartCoroutine(TransitionToNewScene(afterTrainingSceneName));
             });
+            return BuildResponse(true, "");
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Clients.WebController.WebServer;
+using Clients.WebController.WebServer.uHTTP;
 using General;
 using General.TPose;
 using UnityEngine;
@@ -62,14 +63,14 @@ namespace TrainingOverview
             StartCoroutine(TransitionToNewScene());
         }
 
-        protected override bool UnselectTraining()
+        protected override uHTTP.Response UnselectTraining()
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.UnselectTraining();
                 StartCoroutine(TransitionToNewScene(startSceneName));
             });
-            return true;
+            return BuildResponse(true, "");
         }
     }
 }

@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Clients.WebController.WebServer;
+using Clients.WebController.WebServer.uHTTP;
 using General;
-using General.Exercises;
 using General.Session;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,13 +59,14 @@ namespace InExercise
             }
         }
 
-        protected override void CancelTraining()
+        protected override uHTTP.Response CancelTraining()
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.EndTraining();
                 StartCoroutine(TransitionToNewScene(afterTrainingSceneName));
             });
+            return BuildResponse(true, "");
         }
         
         private bool IsTimeUp()

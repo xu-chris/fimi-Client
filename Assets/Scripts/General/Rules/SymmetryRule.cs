@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace General.Rules
@@ -11,6 +13,8 @@ namespace General.Rules
         public List<string> leftBones;
         public List<string> rightBones;
         public float tolerance;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public new RuleType ruleType = RuleType.SYMMETRY_RULE;
 
         public bool IsInvalidated(List<Bone> leftBoneObjects, List<Bone> rightBoneObjects, Bone referenceBone)
         {

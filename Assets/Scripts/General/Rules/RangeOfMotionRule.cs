@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using General.Skeleton;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SocialPlatforms;
 
 // ReSharper disable ClassNeverInstantiated.Global - Class is instantiated by the YAML configuration reader
 
@@ -13,6 +14,8 @@ namespace General.Rules
         public List<string> bones;
         public float lowerThreshold;
         public float upperThreshold;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public new RuleType ruleType = RuleType.RANGE_OF_MOTION_RULE;
 
         public override bool IsInvalidated(List<Bone> boneObjects)
         {

@@ -1,23 +1,35 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using General.Exercises;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 
 namespace General.Session
 {
+    [Serializable]
     public class User
     {
-        private readonly List<Session> sessions = new List<Session>();
-        private int id;
+        public readonly List<Session> sessions = new List<Session>();
+        public Guid id;
 
-        private int currentSession = -1;
+        public bool inASession = false;
+        public int currentSession = 0;
 
-        public User(int id)
+        public User()
         {
-            this.id = id;
+            id = Guid.NewGuid();
         }
 
-        public int GetId()
+        [JsonConstructor]
+        public User(List<Session> sessions, string id, bool inASession, int currentSession)
+        {
+            this.sessions = sessions;
+            this.id = Guid.Parse(id);
+            this.inASession = inASession;
+            this.currentSession = currentSession;
+        }
+
+        public Guid GetId()
         {
             return id;
         }
@@ -26,13 +38,20 @@ namespace General.Session
         {
             var newSession = new Session(trainingId);
             sessions.Add(newSession);
+            inASession = true;
             currentSession = sessions.Count - 1;
         }
 
         [CanBeNull]
         public TrainingReport GetLastReport(int trainingId)
         {
-            return (from session in sessions where session.report.GetTrainingId() == trainingId select session.report).FirstOrDefault();
+            return (from session in sessions where session.report.GetTrainingId() == trainingId select session.report).LastOrDefault();
+        }
+
+        public TrainingReport GetPreviousReport(int trainingId)
+        {
+            var fittingTrainings = sessions.FindAll(s => s.report.GetTrainingId() == trainingId);
+            return fittingTrainings.Count - 2 >= 0 ? fittingTrainings[fittingTrainings.Count - 2].report : null;
         }
 
         public void AddToCurrentSession(ExerciseReport report) 
@@ -50,7 +69,7 @@ namespace General.Session
 
         public void EndCurrentSession()
         {
-            currentSession = -1;
+            inASession = false;
         }
     }
 }
