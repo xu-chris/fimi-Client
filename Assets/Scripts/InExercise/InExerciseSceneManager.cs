@@ -20,6 +20,7 @@ namespace InExercise
         public int ignoreRuleViolationsOlderThanSeconds = 5;
 
         private long end;
+        private bool isTransitioning;
 
         public InExerciseSkeletonManager skeletonManager;
 
@@ -41,21 +42,36 @@ namespace InExercise
             var reports = skeletonManager.CheckRules(ruleSet);
             sessionManager.AddToTrainingReports(reports);
             CheckReports(reports);
-
-            // TODO: Add logic to check remaining time
+            
             if (!IsTimeUp())
             {
                 ChangeRemainingTimeText();
             }
             else
             {
-                Dispatcher.Invoke(() =>
-                {
-                    StartCoroutine(TransitionToNewScene(sessionManager.IsLastExercise()
-                        ? afterTrainingSceneName
-                        : nextSceneName));
-                });
+                DecideOnNextSceneAndTransition();    
             }
+        }
+
+        private void DecideOnNextSceneAndTransition()
+        {
+            if (isTransitioning) return;
+            
+            isTransitioning = true;
+            var sceneName = "";
+            if (sessionManager.IsLastExercise())
+            {
+                sceneName = afterTrainingSceneName;
+            }
+            else
+            {
+                sceneName = nextSceneName;
+                sessionManager.SetToNextExercise();
+            }
+            Dispatcher.Invoke(() =>
+            {
+                StartCoroutine(TransitionToNewScene(sceneName));
+            });
         }
 
         protected override uHTTP.Response CancelTraining()
@@ -70,7 +86,8 @@ namespace InExercise
         
         private bool IsTimeUp()
         {
-            var now = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+            // Add one second for fluent transition
+            var now = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds() + 1000;
             return now >= end;
         }
 

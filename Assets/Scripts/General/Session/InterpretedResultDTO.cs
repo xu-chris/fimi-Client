@@ -23,7 +23,10 @@ namespace General.Session
         {
             this.trainingName = trainingName;
             this.totalDurationInSeconds = totalDurationInSeconds;
-            improvements = GetTopThreeImprovements(trainingReport.GetImprovementsComparedTo(previousReport));
+            if (previousReport != null)
+            {
+                improvements = GetTopThreeImprovements(trainingReport.GetImprovementsComparedTo(previousReport));
+            }
             ruleViolations = GetTopThreeViolations(trainingReport);
         }
         

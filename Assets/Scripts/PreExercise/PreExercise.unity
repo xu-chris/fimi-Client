@@ -1717,15 +1717,16 @@ MonoBehaviour:
     type: 3}
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}
-  nextSceneName: InTraining
+  nextSceneName: InExercise
+  notificationManager: {fileID: 0}
   overlay: {fileID: 1632884003}
-  preTrainingConfigurationFile: {fileID: 4900000, guid: aee37c3a636541628af1ea499b339ab5,
-    type: 3}
   headlineObject: {fileID: 7701094607248565753}
   descriptionObject: {fileID: 1825580019}
   durationObject: {fileID: 808767358}
   interactionPromptObject: {fileID: 78448046}
   afterTrainingSceneName: PostTraining
+  calibrationController: {fileID: 1273169673}
+  interactionPrompt: Start by standing in T pose
 --- !u!4 &1126280280
 Transform:
   m_ObjectHideFlags: 0

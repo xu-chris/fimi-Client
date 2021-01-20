@@ -1,6 +1,7 @@
 using Clients.WebController.WebServer;
 using Clients.WebController.WebServer.uHTTP;
 using General;
+using PreExercise.Calibration;
 using UnityEngine.UI;
 
 namespace PreExercise
@@ -12,6 +13,7 @@ namespace PreExercise
         public Text durationObject;
         public Text interactionPromptObject;
         public string afterTrainingSceneName = "PostTraining";
+        public CalibrationController calibrationController;
 
         public string interactionPrompt = "Start by standing in T pose";
 
@@ -19,6 +21,7 @@ namespace PreExercise
         {
             base.Awake();
             interactionPromptObject.text = interactionPrompt;
+            calibrationController.CalibrationCompleted += SetToInExercise;
         }
 
         private void Start()
@@ -32,7 +35,7 @@ namespace PreExercise
             durationObject.text = sessionManager.GetCurrentExerciseDuration() + "s";
             ttsClient.Synthesize("The next exercise is: " + currentExercise.name);
             ttsClient.Synthesize("Here's what you should watch while performing the exercise: " + currentExercise.description);
-        }
+        }    
         protected override uHTTP.Response CancelTraining()
         {
             Dispatcher.Invoke(() =>
@@ -41,6 +44,14 @@ namespace PreExercise
                 StartCoroutine(TransitionToNewScene(afterTrainingSceneName));
             });
             return BuildResponse(true, "");
+        }
+
+        private void SetToInExercise()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                StartCoroutine(TransitionToNewScene(nextSceneName));
+            });
         }
     }
 }

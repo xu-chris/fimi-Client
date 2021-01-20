@@ -219,7 +219,14 @@ namespace General
         {
             Dispatcher.Invoke(() =>
             {
-                notificationManager.SendNotification(RandomGreeting() + " " + userNane);
+                try
+                {
+                    notificationManager.SendNotification(RandomGreeting() + " " + userNane);
+                }
+                catch
+                {
+                    // intended ignore
+                }
             });
         }
 

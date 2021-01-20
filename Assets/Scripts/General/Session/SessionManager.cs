@@ -59,7 +59,10 @@ namespace General.Session
 
         public void SetToNextExercise()
         {
-            Assert.IsTrue(currentExercise < trainingsConfiguration.trainings[selectedTraining].exercises.Count);
+            if (currentExercise >= trainingsConfiguration.trainings[selectedTraining].exercises.Count)
+            {
+                Debug.LogError("Tried to select exercise out of bounds!");   
+            }
             currentExercise++;
         }
 

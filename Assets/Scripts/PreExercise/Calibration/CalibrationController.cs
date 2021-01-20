@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using Clients.WebSocketClient;
+using General;
 using General.TPose;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PreExercise.Calibration
 {
@@ -19,6 +19,10 @@ namespace PreExercise.Calibration
         private bool calibrationAborted = false;
         
         private IEnumerator checkCoroutine;
+
+        public delegate void CalibrationEventHandler();
+
+        public event CalibrationEventHandler CalibrationCompleted;
 
         public void Start()
         {
@@ -53,20 +57,13 @@ namespace PreExercise.Calibration
 
         private void OnCalibrationComplete()
         {
-            overlay.GetComponent<Animator>().SetBool("blendOut", true);
-            StartCoroutine(TransitionToNewScene());
-        }
-
-        private IEnumerator TransitionToNewScene()
-        {
-            yield return new WaitForSeconds(1.0f);
-            SceneManager.LoadScene(nextSceneName);
+            CalibrationCompleted?.Invoke();
         }
 
         private void StartCalibration()
         {
             calibrationAborted = false;
-            GetComponent<WebSocketClient>().SendRescaleSkeletons();
+            GameObject.FindWithTag(Tag.WEB_SOCKET_CLIENT.ToString()).GetComponent<WebSocketClient>().SendRescaleSkeletons();
         }
 
         private void ResetCalibration()
