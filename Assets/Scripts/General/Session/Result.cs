@@ -8,7 +8,7 @@ namespace General.Session
     public class Result
     {
         public readonly Rule rule;
-        public float count;
+        public ulong count;
         public long lastCollected;
 
         public Result(Rule rule)
@@ -17,7 +17,7 @@ namespace General.Session
         }
 
         [JsonConstructor]
-        public Result(Rule rule, float count, long lastCollected)
+        public Result(Rule rule, ulong count, long lastCollected)
         {
             this.rule = rule;
             this.count = count;
@@ -60,7 +60,7 @@ namespace General.Session
             return (rule != null ? rule.GetHashCode() : 0);
         }
 
-        public void Add(float existingCount)
+        public void Add(ulong existingCount)
         {
             count += existingCount;
             UpdateTimestamp();
