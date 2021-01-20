@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Clients.TTSClient;
 using Clients.WebController;
 using Clients.WebController.WebServer;
 using Clients.WebController.WebServer.uHTTP;
 using General.Session;
+using InExercise;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 using static Clients.WebController.ControlCommands;
+using Random = System.Random;
 
 namespace General
 {
@@ -20,6 +23,8 @@ namespace General
         public GameObject textToSpeechClientPrefab;
         [FormerlySerializedAs("trainingOverviewSceneName")] 
         public string nextSceneName;
+        
+        public NotificationManager notificationManager;
 
         internal WebController webController;
         internal SessionManager sessionManager;
@@ -63,7 +68,7 @@ namespace General
             
             if (message.StartsWith(REGISTER_NEW_USER.ToString()))
             {
-                return RegisterNewUser();
+                return RegisterNewUser(info);
             }
             
             if (message.StartsWith(GET_TRAININGS.ToString()))
@@ -155,7 +160,11 @@ namespace General
         {
             try
             {
-                return BuildResponse(true, sessionManager.LogInUser(jsonUserData));
+                var user = sessionManager.LogInUser(jsonUserData);
+                var response = BuildResponse(true, user.GetId().ToString());
+                ShowGreetingToUser(user.name);
+
+                return response;
             }
             catch (Exception e)
             {
@@ -188,9 +197,30 @@ namespace General
             }
         }
 
-        private uHTTP.Response RegisterNewUser()
+        private uHTTP.Response RegisterNewUser(string userName)
         {
-            return BuildResponse(true, sessionManager.RegisterNewUser());
+            var response = BuildResponse(true, sessionManager.RegisterNewUser(userName));
+            ShowGreetingToUser(userName);
+            return response;
+        }
+
+        private static string RandomGreeting()
+        {
+            var listOfGreetings = new List<string>()
+            {
+                "Hello", "Bonjour", "Hòla", "Hi", "Welcome"
+            };
+            var rnd = new Random();
+            var r = rnd.Next(rnd.Next(listOfGreetings.Count));
+            return listOfGreetings[r];
+        }
+
+        private void ShowGreetingToUser(string userNane)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                notificationManager.SendNotification(RandomGreeting() + " " + userNane);
+            });
         }
 
         private uHTTP.Response GetTrainings()

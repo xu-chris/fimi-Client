@@ -15,7 +15,6 @@ namespace InExercise
         public string afterTrainingSceneName = "PostTraining";
         
         public GameObject progressBarGameObject;
-        public NotificationManager notificationManager;
         public Text remainingPanel;
         
         public int ignoreRuleViolationsOlderThanSeconds = 5;

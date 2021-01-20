@@ -8,6 +8,7 @@ namespace InExercise
     public class NotificationManager : MonoBehaviour
     {
         private Rule violatedRule;
+        private string notificationText;
         
         public int showNotificationDurationInSeconds = 3;
         private bool notificationShown;
@@ -16,6 +17,13 @@ namespace InExercise
         {
             if (!ShouldTriggerNotification(rule)) return;
             violatedRule = rule;
+            notificationText = violatedRule.notificationText;
+            NotifyUser();
+        }
+
+        public void SendNotification(string text)
+        {
+            notificationText = text;
             NotifyUser();
         }
 
@@ -25,7 +33,7 @@ namespace InExercise
 
             if (animator == null) return; // Exists
             if (animator.GetBool("show") || notificationShown) return; // Is not already shown
-            gameObject.GetComponentInChildren<Text>().text = violatedRule.notificationText;
+            gameObject.GetComponentInChildren<Text>().text = notificationText;
             animator.SetBool("show", true);
             StartCoroutine(HideNotification(animator));
             notificationShown = true;

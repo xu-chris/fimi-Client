@@ -11,19 +11,22 @@ namespace General.Session
     {
         public readonly List<Session> sessions = new List<Session>();
         public Guid id;
+        public string name;
 
         public bool inASession = false;
         public int currentSession = 0;
 
-        public User()
+        public User(string name)
         {
+            this.name = name;
             id = Guid.NewGuid();
         }
 
         [JsonConstructor]
-        public User(List<Session> sessions, string id, bool inASession, int currentSession)
+        public User(List<Session> sessions, string name, string id, bool inASession, int currentSession)
         {
             this.sessions = sessions;
+            this.name = name;
             this.id = Guid.Parse(id);
             this.inASession = inASession;
             this.currentSession = currentSession;

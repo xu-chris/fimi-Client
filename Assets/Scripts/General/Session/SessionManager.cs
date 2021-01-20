@@ -172,9 +172,9 @@ namespace General.Session
             return currentExercise >= trainingsConfiguration.trainings[selectedTraining].exercises.Count - 1;
         }
 
-        public string RegisterNewUser()
+        public string RegisterNewUser(string userName)
         {
-            var newUser = new User(); 
+            var newUser = new User(userName); 
             users.Add(newUser);
             return newUser.GetId().ToString();
         }
@@ -187,13 +187,13 @@ namespace General.Session
             }
         }
 
-        public string LogInUser(string json)
+        public User LogInUser(string json)
         {
             try
             {
                 var userJson = JsonConvert.DeserializeObject<User>(json);
                 StoreUserIfNotGiven(userJson);
-                return userJson.GetId().ToString();
+                return userJson;
             }
             catch (Exception e)
             {
@@ -210,7 +210,7 @@ namespace General.Session
         private void AddToTrainingReport(int skeletonId, ExerciseReport report)
         {
             if (users.Count <= skeletonId)
-                RegisterNewUser();
+                RegisterNewUser("unknown");
 
             try
             {

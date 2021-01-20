@@ -1,6 +1,3 @@
-using General.Exercises;
-using JetBrains.Annotations;
-
 namespace General.Trainings
 {
     public class ExerciseItem
