@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Clients.WebController.WebServer.uHTTP
+namespace Clients.WebController.uHTTP
 {
     public static partial class uHTTP {
 

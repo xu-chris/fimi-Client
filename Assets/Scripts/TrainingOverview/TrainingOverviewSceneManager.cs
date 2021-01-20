@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
-using Clients.WebController.WebServer;
-using Clients.WebController.WebServer.uHTTP;
+using Clients.WebController;
 using General;
 using General.TPose;
 using UnityEngine;
 using UnityEngine.UI;
+using uHTTP = Clients.WebController.uHTTP.uHTTP;
 
 namespace TrainingOverview
 {

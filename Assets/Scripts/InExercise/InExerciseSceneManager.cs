@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Clients.WebController.WebServer;
-using Clients.WebController.WebServer.uHTTP;
+using Clients.WebController;
 using General;
 using General.Session;
 using UnityEngine;
 using UnityEngine.UI;
+using uHTTP = Clients.WebController.uHTTP.uHTTP;
 
 namespace InExercise
 {

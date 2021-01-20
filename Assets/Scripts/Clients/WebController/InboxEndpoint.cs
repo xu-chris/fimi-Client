@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-namespace Clients.WebController.WebServer
+namespace Clients.WebController
 {
     public class InboxEndpoint : MonoBehaviour
     {
@@ -13,7 +14,7 @@ namespace Clients.WebController.WebServer
         public PostRequestHandler postRequestHandler;
 
         public int port = 1234;
-        public bool StartStopAutomatically = true;
+        [FormerlySerializedAs("StartStopAutomatically")] public bool startStopAutomatically = true;
 
         void OnEnable(){
             if(server == null){
@@ -32,13 +33,13 @@ namespace Clients.WebController.WebServer
                 }
                 return new uHTTP.uHTTP.Response(uHTTP.uHTTP.StatusCode.ERROR);
             };
-            if(StartStopAutomatically && !server.isRunning){
+            if(startStopAutomatically && !server.isRunning){
                 server.Start();
             }
         }
 
         void OnDisable(){
-            if(StartStopAutomatically && server.isRunning){
+            if(startStopAutomatically && server.isRunning){
                 server.Stop();
             }
         }

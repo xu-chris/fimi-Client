@@ -1,8 +1,8 @@
-using Clients.WebController.WebServer;
-using Clients.WebController.WebServer.uHTTP;
+using Clients.WebController;
 using General;
 using PreExercise.Calibration;
 using UnityEngine.UI;
+using uHTTP = Clients.WebController.uHTTP.uHTTP;
 
 namespace PreExercise
 {

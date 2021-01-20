@@ -1,4 +1,4 @@
-namespace Clients.WebController.WebServer.uHTTP
+namespace Clients.WebController.uHTTP
 {
     public static partial class uHTTP
     {

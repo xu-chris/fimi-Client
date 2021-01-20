@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using Clients.TTSClient;
 using Clients.WebController;
-using Clients.WebController.WebServer;
-using Clients.WebController.WebServer.uHTTP;
 using General.Session;
 using InExercise;
 using Newtonsoft.Json;
@@ -13,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using static Clients.WebController.ControlCommands;
 using Random = System.Random;
+using uHTTP = Clients.WebController.uHTTP.uHTTP;
 
 namespace General
 {

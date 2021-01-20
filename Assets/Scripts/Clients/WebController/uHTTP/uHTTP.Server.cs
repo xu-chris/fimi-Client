@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace Clients.WebController.WebServer.uHTTP
+namespace Clients.WebController.uHTTP
 {
     public static partial class uHTTP 
     {
@@ -80,15 +80,13 @@ namespace Clients.WebController.WebServer.uHTTP
                 stream.Read(received, 0, received.Length);
 
                 var request = Request.TryParse(Encoding.UTF8.GetString(received));
-                if(request == null){
-                    return; // Not HTTP
-                }
-                else if(requestHandler != null){
-                    var response = requestHandler(request);
-                    var bytes = response.ToBinary();
-                    stream.Write(bytes, 0, bytes.Length);
-                    stream.Flush();
-                }
+                if(request == null) return; // Not HTTP
+                if (requestHandler == null) return;
+                
+                var response = requestHandler(request);
+                var bytes = response.ToBinary();
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Flush();
             }
         }
     }

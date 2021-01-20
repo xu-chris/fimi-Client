@@ -3,6 +3,6 @@ trainings:
     description: "A slow but challenging exercise to train the core and stability of your whole body."
     exercises:
       - type: squatArmRaise
-        durationInSeconds: 60
+        durationInSeconds: 5
       - type: squatArmRaise
-        durationInSeconds: 120
+        durationInSeconds: 10

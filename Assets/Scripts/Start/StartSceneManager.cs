@@ -1,6 +1,4 @@
 ﻿using Clients.WebController;
-using InExercise;
-using UnityEngine;
 using UnityEngine.UI;
 using SceneManager = General.SceneManager;
 
