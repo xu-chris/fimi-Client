@@ -429,6 +429,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 285433472}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &285433474 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1683108230162769447, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 285433472}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285433473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8303f96c8ab34651aec1f8e91cb0ad01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504596054
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +679,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6651105254851197302, guid: 5945b466845364fc085f6380ca0b82f7,
+        type: 3}
+      propertyPath: durationUntilNextSceneInSeconds
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6651105254851197306, guid: 5945b466845364fc085f6380ca0b82f7,
         type: 3}
@@ -1000,7 +1017,8 @@ MonoBehaviour:
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}
   nextSceneName: PreExercise
-  overlay: {fileID: 285433473}
+  notificationManager: {fileID: 0}
+  overlay: {fileID: 285433474}
   tPoseController: {fileID: 699800232}
   descriptionLabel: {fileID: 184377608}
   headlineLabel: {fileID: 1017940377}

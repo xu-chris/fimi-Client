@@ -33,7 +33,7 @@ namespace General
         private GameObject sessionManagerGameObject;
         private GameObject textToSpeechGameObject;
 
-        public GameObject overlay;
+        public OverlayManager overlay;
 
         protected void Awake()
         {
@@ -265,14 +265,14 @@ namespace General
         
         public IEnumerator TransitionToNewScene()
         {
-            overlay.GetComponent<Animator>().SetBool("blendOut", true);
+            overlay.FadeOut();
             yield return new WaitForSeconds(1.0f);
             UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
 
         protected IEnumerator TransitionToNewScene(string sceneName)
         {
-            overlay.GetComponent<Animator>().SetBool("blendOut", true);
+            overlay.FadeOut();
             yield return new WaitForSeconds(1.0f);
             UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }

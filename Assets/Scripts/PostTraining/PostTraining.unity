@@ -331,6 +331,7 @@ MonoBehaviour:
   textToSpeechClientPrefab: {fileID: 2018076306965531555, guid: 9af76f83518d3409797b8d3a90650f03,
     type: 3}
   nextSceneName: Start
+  notificationManager: {fileID: 0}
   overlay: {fileID: 1014738970}
   descriptionField: {fileID: 196887002}
   proceedOnSmartphone: You did it! Check on your smartphone what results you have
@@ -765,12 +766,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7ec2cc84fa624dbfa649f4da1aa70d8, type: 3}
---- !u!1 &1014738970 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5529425129016834586, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
+--- !u!114 &1014738970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1683108230162769447, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
     type: 3}
   m_PrefabInstance: {fileID: 1014738969}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8303f96c8ab34651aec1f8e91cb0ad01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1247692273
 GameObject:
   m_ObjectHideFlags: 0

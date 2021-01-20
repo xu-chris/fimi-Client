@@ -242,6 +242,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7ec2cc84fa624dbfa649f4da1aa70d8, type: 3}
+--- !u!114 &606110972 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1683108230162769447, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 606110971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8303f96c8ab34651aec1f8e91cb0ad01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &611636424
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +501,7 @@ MonoBehaviour:
     type: 3}
   nextSceneName: TrainingOverview
   notificationManager: {fileID: 1634757812}
-  overlay: {fileID: 1247977187}
+  overlay: {fileID: 606110972}
   qrCode: {fileID: 1079648043}
   instructionText: {fileID: 1571832456}
 --- !u!4 &801589304
@@ -775,12 +787,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Select a training on your smartphone
---- !u!1 &1247977187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5529425129016834586, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
-    type: 3}
-  m_PrefabInstance: {fileID: 606110971}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1397333729
 GameObject:
   m_ObjectHideFlags: 0

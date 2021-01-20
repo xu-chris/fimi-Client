@@ -1719,7 +1719,7 @@ MonoBehaviour:
     type: 3}
   nextSceneName: InExercise
   notificationManager: {fileID: 0}
-  overlay: {fileID: 1632884003}
+  overlay: {fileID: 5529425128468344634}
   headlineObject: {fileID: 7701094607248565753}
   descriptionObject: {fileID: 1825580019}
   durationObject: {fileID: 808767358}
@@ -2095,6 +2095,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7ec2cc84fa624dbfa649f4da1aa70d8, type: 3}
+--- !u!114 &5529425128468344634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1683108230162769447, guid: f7ec2cc84fa624dbfa649f4da1aa70d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5529425128468344633}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632884003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8303f96c8ab34651aec1f8e91cb0ad01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6651105253603196541
 PrefabInstance:
   m_ObjectHideFlags: 0

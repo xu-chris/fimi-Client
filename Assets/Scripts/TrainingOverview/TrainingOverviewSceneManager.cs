@@ -35,9 +35,9 @@ namespace TrainingOverview
             durationLabel.text = GetTotalDurationString(totalDuration);
         }
 
-        private string GetTotalDurationString(int totalDurationInSeconds)
+        private static string GetTotalDurationString(int totalDurationInSeconds)
         {
-            var minutes = Decimal.Floor((decimal) (totalDurationInSeconds / 60f));
+            var minutes = decimal.Floor((decimal) (totalDurationInSeconds / 60f));
             var seconds = totalDurationInSeconds % 60;
             return (minutes != 0 ? minutes + " min" : "") + (seconds != 0 ? " " + seconds + " sec" : "");
         }
@@ -58,7 +58,6 @@ namespace TrainingOverview
             if (isTransitioning) yield break;
             yield return new WaitForSeconds(transitionTime);
             if (isTransitioning) yield break;
-            overlay.GetComponent<Animator>().SetBool("blendOut", true);
             sessionManager.SetToInTraining();
             StartCoroutine(TransitionToNewScene());
         }
