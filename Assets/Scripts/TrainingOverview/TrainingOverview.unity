@@ -1023,7 +1023,7 @@ MonoBehaviour:
   descriptionLabel: {fileID: 184377608}
   headlineLabel: {fileID: 1017940377}
   durationLabel: {fileID: 1100081565}
-  transitionTime: 0
+  transitionTime: 1
   startSceneName: Start
 --- !u!4 &1211428489
 Transform:

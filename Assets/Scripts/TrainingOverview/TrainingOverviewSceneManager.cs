@@ -45,7 +45,10 @@ namespace TrainingOverview
         private void OnTPoseDetectionStart(object source, EventArgs args)
         {
             isTransitioning = true;
-            StartCoroutine(CheckCalibrationSuccess());
+            Dispatcher.Invoke(() =>
+            {
+                StartCoroutine(CheckCalibrationSuccess());
+            });
         }
 
         private void OnTPoseDetectionStop(object source, EventArgs args)
@@ -55,9 +58,9 @@ namespace TrainingOverview
 
         private IEnumerator CheckCalibrationSuccess()
         {
-            if (isTransitioning) yield break;
+            if (!isTransitioning) yield break;
             yield return new WaitForSeconds(transitionTime);
-            if (isTransitioning) yield break;
+            if (!isTransitioning) yield break;
             sessionManager.SetToInTraining();
             StartCoroutine(TransitionToNewScene());
         }
