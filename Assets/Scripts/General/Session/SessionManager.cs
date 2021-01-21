@@ -178,7 +178,10 @@ namespace General.Session
         public string RegisterNewUser(string userName)
         {
             var newUser = new User(userName); 
-            users.Add(newUser);
+            // Inserting since we expect to have only one user.
+            // And because we map the skeletons to the users, the first skeleton will be the first user.
+            // Thus it's more safe to add every new user as first.
+            users.Insert(0, newUser);
             return newUser.GetId().ToString();
         }
 
