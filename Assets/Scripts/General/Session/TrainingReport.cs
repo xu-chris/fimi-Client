@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using General.Rules;
 using Newtonsoft.Json;
 
@@ -11,6 +12,7 @@ namespace General.Session
     {
         public readonly List<Result> results;
         public readonly int id;
+        private BigInteger totalChecks = 0;
 
         public TrainingReport(int trainingId)
         {
@@ -29,20 +31,22 @@ namespace General.Session
         {
             return id;
         }
-        
-        public void Count(Rule rule)
+
+        public void RegisterCheck(Rule rule, bool violated)
         {
+            totalChecks += 1;
             try
             {
-                results.First(i => i.rule.Equals(rule)).Increment();
+                results.First(i => i.rule.Equals(rule)).RegisterCheck(violated);
             }
             catch (Exception e)
             {
                 var result = new Result(rule);
-                result.Increment();
+                result.RegisterCheck(violated);
                 results.Add(result);
             }
         }
+        
         
         public Result[] GetResults()
         {
@@ -54,7 +58,7 @@ namespace General.Session
             return new List<Result>(results.
                 OrderBy(i => i.rule.priority).
                 ThenByDescending(i => i.lastCollected).
-                ThenByDescending(i => i.count));
+                ThenByDescending(i => i.violationRatio));
         }
 
         public List<Result> GetImprovementsComparedTo(TrainingReport previousReport)
@@ -79,7 +83,7 @@ namespace General.Session
             result.AddRange(
                 from previousReportResult in comparableResultList 
                 let currentResultForGivenRule = results.First(i => i.rule.Equals(previousReportResult.rule)) 
-                where currentResultForGivenRule.count < previousReportResult.count 
+                where currentResultForGivenRule.violationRatio < previousReportResult.violationRatio 
                 select previousReportResult);
 
             return result;
@@ -104,31 +108,34 @@ namespace General.Session
             result.AddRange(
                 from previousReportResult in comparableResultList 
                 let currentResultForGivenRule = results.First(i => i.rule.Equals(previousReportResult.rule)) 
-                where currentResultForGivenRule.count >= previousReportResult.count 
+                where currentResultForGivenRule.violationRatio >= previousReportResult.violationRatio 
                 select previousReportResult);
 
             return result;
         }
 
-        public void AddToReport(ExerciseReport report)
+        public void AddToReport(ViolatedRules report)
         {
-            foreach (var result in report.Results())
+            totalChecks += 1;
+            foreach (var rule in report.violatedRules)
             {
-                ImportResult(result);
+                ImportViolation(rule);
             }
         }
 
-        private void ImportResult(Result result)
+        private void ImportViolation(Rule rule)
         {
             // Check if existing
-            var existingResultId = results.FindIndex(i => i.rule.Equals(result.rule));
+            var existingResultId = results.FindIndex(i => i.rule.Equals(rule));
             if (existingResultId == -1)
             {
-                results.Add(result);
+                var newResult = new Result(rule);
+                newResult.RegisterCheck(true);
+                results.Add(newResult);
             }
             else
             {
-                results[existingResultId].Add(result.count);
+                results[existingResultId].RegisterCheck(true);
             }
         }
     }

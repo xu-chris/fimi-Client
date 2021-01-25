@@ -212,29 +212,29 @@ namespace General.Session
         /// Because there is no dedicated signifier to which user which skeleton belongs to, we use the skeleton ID for users.
         /// </summary>
         /// <param name="skeletonId">The skeleton Id</param>
-        /// <param name="report">The obtained exercise report</param>
-        private void AddToTrainingReport(int skeletonId, ExerciseReport report)
+        /// <param name="violatedRules">The obtained exercise report</param>
+        private void AddToTrainingReport(int skeletonId, ViolatedRules violatedRules)
         {
             if (users.Count <= skeletonId)
                 RegisterNewUser("unknown");
 
             try
             {
-                users[skeletonId].AddToCurrentSession(report);
+                users[skeletonId].AddToCurrentSession(violatedRules);
             }
             catch (NoCurrentSessionException exception)
             {
                 Debug.LogWarning("Failed adding current session to report. Reason: " + exception.Message + " . Will try to create new session on the fly");
                 users[skeletonId].StartNewSession(selectedTraining);
-                AddToTrainingReport(skeletonId, report);
+                AddToTrainingReport(skeletonId, violatedRules);
             }
         }
 
-        public void AddToTrainingReports(List<ExerciseReport> reports)
+        public void AddToTrainingReports(List<ViolatedRules> violatedRulesSet)
         {
-            foreach (var exerciseReport in reports)
+            foreach (var violatedRules in violatedRulesSet)
             {
-                AddToTrainingReport(exerciseReport.GetSkeletonId(), exerciseReport);
+                AddToTrainingReport(violatedRules.GetSkeletonId(), violatedRules);
             }
         }
 

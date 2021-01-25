@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using General;
 using General.Rules;
 using General.Session;
@@ -13,16 +14,9 @@ namespace InExercise
             return skeleton;
         }
         
-        public List<ExerciseReport> CheckRules(List<Rule> ruleSet)
+        public List<ViolatedRules> GetViolatedRulesForAllSkeletons(List<Rule> ruleSet)
         {
-            var reports = new List<ExerciseReport>();
-            foreach (var skeleton in transform.GetComponentsInChildren<InExerciseSkeleton>())
-            {
-                skeleton.CheckRules(ruleSet);
-                reports.Add(skeleton.GetReport());
-            }
-
-            return reports;
+            return transform.GetComponentsInChildren<InExerciseSkeleton>().Select(skeleton => skeleton.GetViolatedRules(ruleSet)).ToList();
         }
     }
 }

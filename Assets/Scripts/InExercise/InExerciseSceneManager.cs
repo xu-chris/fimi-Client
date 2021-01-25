@@ -39,9 +39,9 @@ namespace InExercise
         private void FixedUpdate()
         {
             var ruleSet = sessionManager.GetCurrentExercise().rules;
-            var reports = skeletonManager.CheckRules(ruleSet);
-            sessionManager.AddToTrainingReports(reports);
-            CheckReports(reports);
+            var violatedRulesForAllSkeletons = skeletonManager.GetViolatedRulesForAllSkeletons(ruleSet);
+            sessionManager.AddToTrainingReports(violatedRulesForAllSkeletons);
+            CheckReports(violatedRulesForAllSkeletons);
             
             if (!IsTimeUp())
             {
@@ -108,7 +108,7 @@ namespace InExercise
             remainingPanel.text = text;
         }
 
-        private void CheckReports(List<ExerciseReport> reports)
+        private void CheckReports(List<ViolatedRules> reports)
         {
             Result highestInfectedRule = null;
             
@@ -120,7 +120,7 @@ namespace InExercise
                     continue;
                 }
 
-                if (report.Results().Where(result => result.count == 0).Any(result => report.Results()[0].count > highestInfectedRule.count))
+                if (report.Results().Where(result => result.violationRatio == 0).Any(result => report.Results()[0].violationRatio > highestInfectedRule.violationRatio))
                 {
                     var rule = report.GetFirstResultInTimeFrame(ignoreRuleViolationsOlderThanSeconds);
                     highestInfectedRule = rule ?? highestInfectedRule;

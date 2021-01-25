@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Numerics;
 using General.Rules;
 using General.Session;
 using NUnit.Framework;
@@ -35,14 +37,14 @@ namespace Tests
             var result1 = trainingReport.GetResults().Length;
             
             // WHEN
-            trainingReport.Count(rule1);
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, true);
             var result2 = trainingReport.GetResults().Length;
             var count = trainingReport.GetResults()[0].GetCount();
             
             // THEN
             Assert.AreEqual(result1 + 1, result2);
-            Assert.AreEqual(2f, count);
+            Assert.AreEqual((BigInteger) 2, count);
         }
 
         [Test]
@@ -54,7 +56,7 @@ namespace Tests
             var result1 = trainingReport.GetResults().Length;
             
             // WHEN
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
             var result2 = trainingReport.GetResults().Length;
             
             // THEN
@@ -68,17 +70,17 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
             
-            trainingReport.Count(rule1);
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, true);
             
             // WHEN
             var result = trainingReport.GetViolationsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.Increment();
-            expectedResultItem.Increment();
+            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -92,15 +94,15 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            trainingReport.Count(rule1);
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, true);
 
             // WHEN
             var result = trainingReport.GetViolationsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.Increment();
-            expectedResultItem.Increment();
+            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -114,7 +116,7 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
             
             // WHEN
             var result = trainingReport.GetViolationsComparedTo(previousReport);
@@ -132,10 +134,11 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
+            previousReport.RegisterCheck(rule1, true);
             
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, false);
             
             // WHEN
             var result = trainingReport.GetViolationsComparedTo(previousReport);
@@ -152,17 +155,18 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
+            previousReport.RegisterCheck(rule1, true);
             
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, false);
             
             // WHEN
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.Increment();
-            expectedResultItem.Increment();
+            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -176,15 +180,15 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
+            previousReport.RegisterCheck(rule1, true);
 
             // WHEN
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.Increment();
-            expectedResultItem.Increment();
+            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -198,7 +202,7 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
             
             // WHEN
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
@@ -216,10 +220,10 @@ namespace Tests
             
             // GIVEN
             var previousReport = new TrainingReport(0);
-            previousReport.Count(rule1);
+            previousReport.RegisterCheck(rule1, true);
             
-            trainingReport.Count(rule1);
-            trainingReport.Count(rule1);
+            trainingReport.RegisterCheck(rule1, true);
+            trainingReport.RegisterCheck(rule1, true);
             
             // WHEN
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
@@ -238,7 +242,7 @@ namespace Tests
             // WHEN
             // THEN
             
-            Assert.Throws<AssertionException>(() => trainingReport.GetImprovementsComparedTo(previousReport));
+            Assert.Throws<ArgumentException>(() => trainingReport.GetImprovementsComparedTo(previousReport));
         }
         
         [Test]
@@ -250,7 +254,7 @@ namespace Tests
             // WHEN
             // THEN
             
-            Assert.Throws<AssertionException>(() => trainingReport.GetViolationsComparedTo(previousReport));
+            Assert.Throws<ArgumentException>(() => trainingReport.GetViolationsComparedTo(previousReport));
         }
     }
 }

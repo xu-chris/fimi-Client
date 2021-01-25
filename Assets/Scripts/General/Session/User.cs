@@ -57,12 +57,11 @@ namespace General.Session
             return fittingTrainings.Count - 2 >= 0 ? fittingTrainings[fittingTrainings.Count - 2].report : null;
         }
 
-        public void AddToCurrentSession(ExerciseReport report) 
+        public void AddToCurrentSession(ViolatedRules violatedRules) 
         {
             try
             {
-                var trainingReport = sessions[currentSession].report;
-                trainingReport.AddToReport(report);
+                sessions[currentSession].report.AddToReport(violatedRules);
             }
             catch
             {

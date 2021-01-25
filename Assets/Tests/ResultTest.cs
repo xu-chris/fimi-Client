@@ -23,13 +23,13 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.Increment();
+            result1.RegisterCheck(true);
 
             // WHEN
             var firstTimeStamp = result1.GetLastChangedTimestamp();
             // Wait for a given millisecond to force the timestamps to differ 
             System.Threading.Thread.Sleep(1);
-            result1.Increment();
+            result1.RegisterCheck(true);
             
             // THEN
             Assert.AreNotEqual(firstTimeStamp, result1.GetLastChangedTimestamp());
@@ -64,11 +64,11 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.Increment();
+            result1.RegisterCheck(true);
             // Wait for a given millisecond to force the timestamps to differ 
             System.Threading.Thread.Sleep(1);
             var result2 = new Result(rule1);
-            result2.Increment();
+            result2.RegisterCheck(true);
 
             // WHEN
             var result = result1.Equals(result2);
@@ -83,11 +83,11 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.Increment();
+            result1.RegisterCheck(true);
             // Wait for a given millisecond to force the timestamps to differ 
             var result2 = new Result(rule1);
-            result2.Increment();
-            result2.Increment();
+            result2.RegisterCheck(true);
+            result2.RegisterCheck(true);
 
             // WHEN
             var result = result1.Equals(result2);
@@ -95,6 +95,18 @@ namespace Tests
             // THEN
             Assert.IsTrue(result);
             Assert.AreNotEqual(result1.GetCount(), result2.GetCount());
+        }
+
+        [Test]
+        public void ShouldHave50PercentRatio()
+        {
+            var testee = new Result(rule1);
+            testee.RegisterCheck(true);
+            testee.RegisterCheck(false);
+
+            var result = testee.violationRatio;
+            
+            Assert.AreEqual(0.5f, result);
         }
     }
 }

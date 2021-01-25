@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using General.Rules;
 using Newtonsoft.Json;
 
@@ -8,8 +9,10 @@ namespace General.Session
     public class Result
     {
         public readonly Rule rule;
-        public ulong count;
+        private BigInteger countViolated = 0;
+        private BigInteger countChecked = 0;
         public long lastCollected;
+        public float violationRatio;
 
         public Result(Rule rule)
         {
@@ -17,17 +20,34 @@ namespace General.Session
         }
 
         [JsonConstructor]
-        public Result(Rule rule, ulong count, long lastCollected)
+        public Result(Rule rule, float violationRatio, long lastCollected)
         {
             this.rule = rule;
-            this.count = count;
+            this.violationRatio = violationRatio;
             this.lastCollected = lastCollected;
         }
 
-        public void Increment()
+        private void IncrementViolation()
         {
-            count += 1;
+            countViolated += 1;
             UpdateTimestamp();
+        }
+
+        private void IncrementChecks()
+        {
+            countChecked += 1;
+        }
+
+        public void RegisterCheck(bool violated)
+        {
+            IncrementChecks();
+            if (violated) IncrementViolation();
+            SetViolationRatio();
+        }
+
+        private void SetViolationRatio()
+        {
+            violationRatio = (float) BigInteger.Divide(countViolated, countChecked);
         }
 
         private void UpdateTimestamp()
@@ -35,9 +55,14 @@ namespace General.Session
             lastCollected = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
         }
 
-        public float GetCount()
+        public BigInteger GetCount()
         {
-            return count;
+            return countViolated;
+        }
+
+        public float GetViolationRatio()
+        {
+            return violationRatio;
         }
 
         public long GetLastChangedTimestamp()
@@ -60,10 +85,21 @@ namespace General.Session
             return (rule != null ? rule.GetHashCode() : 0);
         }
 
-        public void Add(ulong existingCount)
+        public void Add(BigInteger existingCountViolated, BigInteger existingCountChecks)
         {
-            count += existingCount;
+            countChecked += existingCountChecks;
+            countViolated += existingCountViolated;
             UpdateTimestamp();
+        }
+
+        public void Reset()
+        {
+            countViolated = 0;
+        }
+
+        public BigInteger GetChecks()
+        {
+            return countChecked;
         }
     }
 }
