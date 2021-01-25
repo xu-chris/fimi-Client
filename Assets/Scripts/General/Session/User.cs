@@ -9,7 +9,7 @@ namespace General.Session
     [Serializable]
     public class User
     {
-        public readonly List<Session> sessions = new List<Session>();
+        public readonly List<UserSession> sessions = new List<UserSession>();
         public Guid id;
         public string name;
 
@@ -23,7 +23,7 @@ namespace General.Session
         }
 
         [JsonConstructor]
-        public User(List<Session> sessions, string name, string id, bool inASession, int currentSession)
+        public User(List<UserSession> sessions, string name, string id, bool inASession, int currentSession)
         {
             this.sessions = sessions;
             this.name = name;
@@ -39,7 +39,7 @@ namespace General.Session
 
         public void StartNewSession(int trainingId)
         {
-            var newSession = new Session(trainingId);
+            var newSession = new UserSession(trainingId);
             sessions.Add(newSession);
             inASession = true;
             currentSession = sessions.Count - 1;
@@ -53,7 +53,8 @@ namespace General.Session
 
         public TrainingReport GetPreviousReport(int trainingId)
         {
-            var fittingTrainings = sessions.FindAll(s => s.report.GetTrainingId() == trainingId);
+            // Search for all sessions that have the same training ID and have any results to compare with
+            var fittingTrainings = sessions.FindAll(s => s.report.GetTrainingId() == trainingId && s.report.GetResults().Length > 0);
             return fittingTrainings.Count - 2 >= 0 ? fittingTrainings[fittingTrainings.Count - 2].report : null;
         }
 
@@ -61,7 +62,7 @@ namespace General.Session
         {
             try
             {
-                sessions[currentSession].report.AddToReport(violatedRules);
+                sessions[currentSession].report.AddRuleViolationCheckToReport(violatedRules);
             }
             catch
             {
@@ -72,6 +73,19 @@ namespace General.Session
         public void EndCurrentSession()
         {
             inASession = false;
+        }
+
+        [CanBeNull]
+        public Result GetLatestMostViolatedResult(int timeIntervalInSeconds)
+        {
+            try
+            {
+                return sessions[currentSession].GetHighestViolatedResult(timeIntervalInSeconds);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

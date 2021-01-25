@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using General.Rules;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace General.Session
@@ -12,7 +12,7 @@ namespace General.Session
     {
         public readonly List<Result> results;
         public readonly int id;
-        private BigInteger totalChecks = 0;
+        private ulong totalChecks = 0;
 
         public TrainingReport(int trainingId)
         {
@@ -37,12 +37,12 @@ namespace General.Session
             totalChecks += 1;
             try
             {
-                results.First(i => i.rule.Equals(rule)).RegisterCheck(violated);
+                results.First(i => i.rule.Equals(rule)).RegisterCheck(violated, totalChecks);
             }
             catch (Exception e)
             {
                 var result = new Result(rule);
-                result.RegisterCheck(violated);
+                result.RegisterCheck(violated, totalChecks);
                 results.Add(result);
             }
         }
@@ -114,28 +114,40 @@ namespace General.Session
             return result;
         }
 
-        public void AddToReport(ViolatedRules report)
+        public void AddRuleViolationCheckToReport(ViolatedRules report)
         {
             totalChecks += 1;
             foreach (var rule in report.violatedRules)
             {
-                ImportViolation(rule);
+                // Check if existing
+                var existingResultId = results.FindIndex(i => i.rule.Equals(rule));
+                if (existingResultId == -1)
+                {
+                    var newResult = new Result(rule, totalChecks);
+                    newResult.RegisterCheck(true, totalChecks);
+                    results.Add(newResult);
+                }
+                else
+                {
+                    results[existingResultId].RegisterCheck(true, totalChecks);
+                }
             }
         }
 
-        private void ImportViolation(Rule rule)
+        [CanBeNull]
+        public Result GetFirstResultInTimeFrame(double maxTimeDifferenceInSeconds)
         {
-            // Check if existing
-            var existingResultId = results.FindIndex(i => i.rule.Equals(rule));
-            if (existingResultId == -1)
+            var list = OrderResults();
+            var timeStampNow = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            list.RemoveAll(r => timeStampNow - r.lastCollected > (maxTimeDifferenceInSeconds*1000));
+
+            try
             {
-                var newResult = new Result(rule);
-                newResult.RegisterCheck(true);
-                results.Add(newResult);
+                return list[0];
             }
-            else
+            catch
             {
-                results[existingResultId].RegisterCheck(true);
+                return null;
             }
         }
     }

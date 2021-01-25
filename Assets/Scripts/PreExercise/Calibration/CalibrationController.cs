@@ -10,8 +10,6 @@ namespace PreExercise.Calibration
     public class CalibrationController : MonoBehaviour
     {
         public TextAsset calibrationConfigurationFile;
-        public string nextSceneName;
-        public GameObject overlay;
 
         private CalibrationConfiguration calibrationConfiguration;
 

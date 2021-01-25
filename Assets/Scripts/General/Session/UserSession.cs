@@ -1,25 +1,32 @@
 using System;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace General.Session
 {
     [Serializable]
-    public struct Session
+    public struct UserSession
     {
         public long timeStampCreated;
         public TrainingReport report;
 
-        public Session(int trainingId)
+        public UserSession(int trainingId)
         {
             timeStampCreated = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
             report = new TrainingReport(trainingId);  
         }
 
         [JsonConstructor]
-        public Session(long timeStampCreated, TrainingReport trainingReport)
+        public UserSession(long timeStampCreated, TrainingReport trainingReport)
         {
             this.timeStampCreated = timeStampCreated;
             this.report = trainingReport;
+        }
+        
+        [CanBeNull]
+        public Result GetHighestViolatedResult(int intervalInSeconds)
+        {
+            return report.GetFirstResultInTimeFrame(intervalInSeconds);
         }
     }
 }

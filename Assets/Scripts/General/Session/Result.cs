@@ -9,18 +9,19 @@ namespace General.Session
     public class Result
     {
         public readonly Rule rule;
-        private BigInteger countViolated = 0;
-        private BigInteger countChecked = 0;
+        private ulong countViolated = 0;
+        private ulong countChecked = 0;
         public long lastCollected;
-        public float violationRatio;
+        public double violationRatio;
 
-        public Result(Rule rule)
+        public Result(Rule rule, ulong countChecked = default)
         {
             this.rule = rule;
+            this.countChecked = countChecked;
         }
 
         [JsonConstructor]
-        public Result(Rule rule, float violationRatio, long lastCollected)
+        public Result(Rule rule, double violationRatio, long lastCollected)
         {
             this.rule = rule;
             this.violationRatio = violationRatio;
@@ -33,21 +34,16 @@ namespace General.Session
             UpdateTimestamp();
         }
 
-        private void IncrementChecks()
+        public void RegisterCheck(bool violated, ulong totalChecks)
         {
-            countChecked += 1;
-        }
-
-        public void RegisterCheck(bool violated)
-        {
-            IncrementChecks();
+            countChecked = totalChecks;
             if (violated) IncrementViolation();
             SetViolationRatio();
         }
 
         private void SetViolationRatio()
         {
-            violationRatio = (float) BigInteger.Divide(countViolated, countChecked);
+            violationRatio = (double) countViolated / countChecked;
         }
 
         private void UpdateTimestamp()
@@ -60,7 +56,7 @@ namespace General.Session
             return countViolated;
         }
 
-        public float GetViolationRatio()
+        public double GetViolationRatio()
         {
             return violationRatio;
         }
@@ -83,13 +79,6 @@ namespace General.Session
         public override int GetHashCode()
         {
             return (rule != null ? rule.GetHashCode() : 0);
-        }
-
-        public void Add(BigInteger existingCountViolated, BigInteger existingCountChecks)
-        {
-            countChecked += existingCountChecks;
-            countViolated += existingCountViolated;
-            UpdateTimestamp();
         }
 
         public void Reset()

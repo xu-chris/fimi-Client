@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Clients.WebController;
 using General;
-using General.Session;
 using UnityEngine;
 using UnityEngine.UI;
 using uHTTP = Clients.WebController.uHTTP.uHTTP;
@@ -41,7 +38,7 @@ namespace InExercise
             var ruleSet = sessionManager.GetCurrentExercise().rules;
             var violatedRulesForAllSkeletons = skeletonManager.GetViolatedRulesForAllSkeletons(ruleSet);
             sessionManager.AddToTrainingReports(violatedRulesForAllSkeletons);
-            CheckReports(violatedRulesForAllSkeletons);
+            SelectAndShowNotification();
             
             if (!IsTimeUp())
             {
@@ -108,26 +105,15 @@ namespace InExercise
             remainingPanel.text = text;
         }
 
-        private void CheckReports(List<ViolatedRules> reports)
+        private void SelectAndShowNotification()
         {
-            Result highestInfectedRule = null;
-            
-            foreach (var report in reports.Where(report => report != null))
+            var mostViolatedRule =
+                sessionManager.GetMostViolatedRuleForCurrentSessionInTimeInterval(ignoreRuleViolationsOlderThanSeconds);
+
+            if (mostViolatedRule != null)
             {
-                if (highestInfectedRule == null)
-                {
-                    highestInfectedRule = report.GetFirstResultInTimeFrame(ignoreRuleViolationsOlderThanSeconds);
-                    continue;
-                }
-
-                if (report.Results().Where(result => result.violationRatio == 0).Any(result => report.Results()[0].violationRatio > highestInfectedRule.violationRatio))
-                {
-                    var rule = report.GetFirstResultInTimeFrame(ignoreRuleViolationsOlderThanSeconds);
-                    highestInfectedRule = rule ?? highestInfectedRule;
-                }
+                notificationManager.SetViolatedRule(mostViolatedRule);
             }
-
-            if (highestInfectedRule != null) notificationManager.SetViolatedRule(highestInfectedRule.rule);
         }
 
         private void FillProgressBar(float decimalPercentage)

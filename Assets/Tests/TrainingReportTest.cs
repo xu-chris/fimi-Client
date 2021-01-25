@@ -21,6 +21,24 @@ namespace Tests
             upperTolerance = 10,
             notificationText = "b"
         };
+        
+        private readonly LinearityRule rule2 = new LinearityRule {
+            bones = new List<string>{"a", "b"},
+            colorize = false,
+            notificationText = "b",
+            priority = 2,
+            tolerance = 10
+        };
+        
+        private readonly AngleRule rule3 = new AngleRule{
+            priority = 2,
+            bones = new List<string>{"a", "b"},
+            colorize = false,
+            expectedAngle = 90,
+            lowerTolerance = 10,
+            upperTolerance = 10,
+            notificationText = "b"
+        };
 
         [SetUp]
         public void SetUp()
@@ -79,8 +97,8 @@ namespace Tests
             var result = trainingReport.GetViolationsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.RegisterCheck(true);
-            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true, 1);
+            expectedResultItem.RegisterCheck(true, 2);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -101,8 +119,8 @@ namespace Tests
             var result = trainingReport.GetViolationsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.RegisterCheck(true);
-            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true, 1);
+            expectedResultItem.RegisterCheck(true, 2);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -165,8 +183,8 @@ namespace Tests
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.RegisterCheck(true);
-            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true, 1);
+            expectedResultItem.RegisterCheck(true, 2);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -187,8 +205,8 @@ namespace Tests
             var result = trainingReport.GetImprovementsComparedTo(previousReport);
             
             var expectedResultItem = new Result(rule1);
-            expectedResultItem.RegisterCheck(true);
-            expectedResultItem.RegisterCheck(true);
+            expectedResultItem.RegisterCheck(true, 1);
+            expectedResultItem.RegisterCheck(true, 2);
             var expected = new List<Result> {expectedResultItem};
 
             // THEN
@@ -256,5 +274,90 @@ namespace Tests
             
             Assert.Throws<ArgumentException>(() => trainingReport.GetViolationsComparedTo(previousReport));
         }
+        
+        [Test]
+        public void ShouldPrioritizeIfBothHaveNotNullValue()
+        {
+            // GIVEN
+            var violatedRules = new ViolatedRules(0);
+            violatedRules.RegisterViolation(rule1);
+            violatedRules.RegisterViolation(rule2);
+            trainingReport.AddRuleViolationCheckToReport(violatedRules);
+            var result1 = new Result(rule1);
+            var result2 = new Result(rule2);
+            result2.RegisterCheck(true, 1);
+            result2.RegisterCheck(true, 1);
+            var expectedResult = new [] {
+                result1,
+                result2
+            };
+            
+            // WHEN
+            var result = trainingReport.GetResults();
+            
+            Assert.AreEqual(expectedResult[0].GetType(), result[0].GetType());
+            Assert.AreEqual(expectedResult[1].GetType(), result[1].GetType());
+        }
+
+        [Test]
+        public void ShouldPrioritizeNoneIfOnlyValuesDiffer()
+        {
+            // GIVEN
+            var violatedRules = new ViolatedRules(0);
+            violatedRules.RegisterViolation(rule3);
+            violatedRules.RegisterViolation(rule3);
+            violatedRules.RegisterViolation(rule2);
+            trainingReport.AddRuleViolationCheckToReport(violatedRules);
+            var result2 = new Result(rule2);
+            var result3 = new Result(rule3);
+            result3.RegisterCheck(true, 1);
+            result3.RegisterCheck(true, 1);
+            var expectedResult = new []{
+                result3,
+                result2
+            };
+            
+            // WHEN
+            var result = trainingReport.GetResults();
+            
+            Assert.AreEqual(expectedResult[0].GetType(), result[0].GetType());
+            Assert.AreEqual(expectedResult[1].GetType(), result[1].GetType());
+        }
+
+        [Test]
+        public void ShouldReturnResultInsideMaxTimeDifference()
+        {
+            // GIVEN
+            var violatedRules = new ViolatedRules(0);
+            violatedRules.RegisterViolation(rule1);
+            trainingReport.AddRuleViolationCheckToReport(violatedRules);
+            var expected = new Result(rule1);
+            expected.RegisterCheck(true, 1);
+            System.Threading.Thread.Sleep(2);
+
+            // WHEN
+            var result = trainingReport.GetFirstResultInTimeFrame(0.002);
+
+            // THEN
+            Assert.AreEqual(expected, result);
+        }
+        
+        
+        [Test]
+        public void ShouldNotReturnResultOutsideMaxTimeDifference()
+        {
+            // GIVEN
+            var violatedRules = new ViolatedRules(0);
+            violatedRules.RegisterViolation(rule1);
+            trainingReport.AddRuleViolationCheckToReport(violatedRules);
+            System.Threading.Thread.Sleep(2);
+
+            // WHEN
+            var result = trainingReport.GetFirstResultInTimeFrame(0.001);
+
+            // THEN
+            Assert.AreEqual(null, result);
+        }
+
     }
 }

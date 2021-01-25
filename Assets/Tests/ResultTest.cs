@@ -23,13 +23,13 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.RegisterCheck(true);
+            result1.RegisterCheck(true, 1);
 
             // WHEN
             var firstTimeStamp = result1.GetLastChangedTimestamp();
             // Wait for a given millisecond to force the timestamps to differ 
             System.Threading.Thread.Sleep(1);
-            result1.RegisterCheck(true);
+            result1.RegisterCheck(true, 2);
             
             // THEN
             Assert.AreNotEqual(firstTimeStamp, result1.GetLastChangedTimestamp());
@@ -64,11 +64,11 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.RegisterCheck(true);
+            result1.RegisterCheck(true, 1);
             // Wait for a given millisecond to force the timestamps to differ 
             System.Threading.Thread.Sleep(1);
             var result2 = new Result(rule1);
-            result2.RegisterCheck(true);
+            result2.RegisterCheck(true, 1);
 
             // WHEN
             var result = result1.Equals(result2);
@@ -83,11 +83,11 @@ namespace Tests
         {
             // GIVEN
             var result1 = new Result(rule1);
-            result1.RegisterCheck(true);
+            result1.RegisterCheck(true, 1);
             // Wait for a given millisecond to force the timestamps to differ 
             var result2 = new Result(rule1);
-            result2.RegisterCheck(true);
-            result2.RegisterCheck(true);
+            result2.RegisterCheck(true, 1);
+            result2.RegisterCheck(true, 2);
 
             // WHEN
             var result = result1.Equals(result2);
@@ -101,8 +101,8 @@ namespace Tests
         public void ShouldHave50PercentRatio()
         {
             var testee = new Result(rule1);
-            testee.RegisterCheck(true);
-            testee.RegisterCheck(false);
+            testee.RegisterCheck(true, 1);
+            testee.RegisterCheck(false, 2);
 
             var result = testee.violationRatio;
             
