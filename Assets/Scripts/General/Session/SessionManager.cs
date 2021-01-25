@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using General.Exercises;
+using General.Rules;
 using General.Trainings;
+using JetBrains.Annotations;
 using Library;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -36,11 +38,6 @@ namespace General.Session
             exercisesConfiguration = new ExercisesConfigurationService(exercisesConfigurationFile).configuration;
         }
 
-        public List<Training> GetTrainings()
-        {
-            return trainingsConfiguration.trainings;
-        }
-
         public void SetSelectedTraining(int id)
         {
             Debug.Log("Training selected: " + trainingsConfiguration.trainings[id].name);
@@ -64,12 +61,6 @@ namespace General.Session
                 Debug.LogError("Tried to select exercise out of bounds!");   
             }
             currentExercise++;
-        }
-
-        public void SetCurrentExercise(int id)
-        {
-            Debug.Log("Exercise set to current: " + trainingsConfiguration.trainings[selectedTraining].exercises[id].type + " (ID: " + id + ")");
-            currentExercise = id;
         }
 
         public TrainingsDTO GetTrainingsDTO()
@@ -212,35 +203,55 @@ namespace General.Session
         /// Because there is no dedicated signifier to which user which skeleton belongs to, we use the skeleton ID for users.
         /// </summary>
         /// <param name="skeletonId">The skeleton Id</param>
-        /// <param name="report">The obtained exercise report</param>
-        private void AddToTrainingReport(int skeletonId, ExerciseReport report)
+        /// <param name="violatedRules">The obtained exercise report</param>
+        private void AddToTrainingReport(ViolatedRules violatedRules)
         {
-            if (users.Count <= skeletonId)
+            if (users.Count <= violatedRules.GetSkeletonId())
                 RegisterNewUser("unknown");
 
             try
             {
-                users[skeletonId].AddToCurrentSession(report);
+                users[violatedRules.GetSkeletonId()].AddToCurrentSession(violatedRules);
             }
             catch (NoCurrentSessionException exception)
             {
                 Debug.LogWarning("Failed adding current session to report. Reason: " + exception.Message + " . Will try to create new session on the fly");
-                users[skeletonId].StartNewSession(selectedTraining);
-                AddToTrainingReport(skeletonId, report);
+                users[violatedRules.GetSkeletonId()].StartNewSession(selectedTraining);
+                AddToTrainingReport(violatedRules);
             }
         }
 
-        public void AddToTrainingReports(List<ExerciseReport> reports)
+        public void AddToTrainingReports(List<ViolatedRules> violatedRulesSet)
         {
-            foreach (var exerciseReport in reports)
+            foreach (var violatedRules in violatedRulesSet)
             {
-                AddToTrainingReport(exerciseReport.GetSkeletonId(), exerciseReport);
+                AddToTrainingReport(violatedRules);
             }
         }
 
         public User GetUser(string userId)
         {
             return users.Find(u => u.GetId().ToString().Equals(userId));
+        }
+
+        [CanBeNull]
+        public Rule GetMostViolatedRuleForCurrentSessionInTimeInterval(int timeIntervalInSeconds)
+        {
+            Result result = null;
+
+            foreach (var user in users)
+            {
+                if (result == null)
+                {
+                    result = user.GetLatestMostViolatedResult(timeIntervalInSeconds);
+                } else if (user.GetLatestMostViolatedResult(timeIntervalInSeconds) != null && user.GetLatestMostViolatedResult(timeIntervalInSeconds)!.violationRatio >
+                           result.violationRatio)
+                {
+                    result = user.GetLatestMostViolatedResult(timeIntervalInSeconds);
+                }
+            }
+
+            return result?.rule;
         }
     }
 }

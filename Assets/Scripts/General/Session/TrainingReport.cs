@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using General.Rules;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace General.Session
@@ -11,6 +12,7 @@ namespace General.Session
     {
         public readonly List<Result> results;
         public readonly int id;
+        private ulong totalChecks = 0;
 
         public TrainingReport(int trainingId)
         {
@@ -29,20 +31,22 @@ namespace General.Session
         {
             return id;
         }
-        
-        public void Count(Rule rule)
+
+        public void RegisterCheck(Rule rule, bool violated)
         {
+            totalChecks += 1;
             try
             {
-                results.First(i => i.rule.Equals(rule)).Increment();
+                results.First(i => i.rule.Equals(rule)).RegisterCheck(violated, totalChecks);
             }
             catch (Exception e)
             {
                 var result = new Result(rule);
-                result.Increment();
+                result.RegisterCheck(violated, totalChecks);
                 results.Add(result);
             }
         }
+        
         
         public Result[] GetResults()
         {
@@ -54,7 +58,7 @@ namespace General.Session
             return new List<Result>(results.
                 OrderBy(i => i.rule.priority).
                 ThenByDescending(i => i.lastCollected).
-                ThenByDescending(i => i.count));
+                ThenByDescending(i => i.violationRatio));
         }
 
         public List<Result> GetImprovementsComparedTo(TrainingReport previousReport)
@@ -79,7 +83,7 @@ namespace General.Session
             result.AddRange(
                 from previousReportResult in comparableResultList 
                 let currentResultForGivenRule = results.First(i => i.rule.Equals(previousReportResult.rule)) 
-                where currentResultForGivenRule.count < previousReportResult.count 
+                where currentResultForGivenRule.violationRatio < previousReportResult.violationRatio 
                 select previousReportResult);
 
             return result;
@@ -104,31 +108,46 @@ namespace General.Session
             result.AddRange(
                 from previousReportResult in comparableResultList 
                 let currentResultForGivenRule = results.First(i => i.rule.Equals(previousReportResult.rule)) 
-                where currentResultForGivenRule.count >= previousReportResult.count 
+                where currentResultForGivenRule.violationRatio >= previousReportResult.violationRatio 
                 select previousReportResult);
 
             return result;
         }
 
-        public void AddToReport(ExerciseReport report)
+        public void AddRuleViolationCheckToReport(ViolatedRules report)
         {
-            foreach (var result in report.Results())
+            totalChecks += 1;
+            foreach (var rule in report.violatedRules)
             {
-                ImportResult(result);
+                // Check if existing
+                var existingResultId = results.FindIndex(i => i.rule.Equals(rule));
+                if (existingResultId == -1)
+                {
+                    var newResult = new Result(rule, totalChecks);
+                    newResult.RegisterCheck(true, totalChecks);
+                    results.Add(newResult);
+                }
+                else
+                {
+                    results[existingResultId].RegisterCheck(true, totalChecks);
+                }
             }
         }
 
-        private void ImportResult(Result result)
+        [CanBeNull]
+        public Result GetFirstResultInTimeFrame(double maxTimeDifferenceInSeconds)
         {
-            // Check if existing
-            var existingResultId = results.FindIndex(i => i.rule.Equals(result.rule));
-            if (existingResultId == -1)
+            var list = OrderResults();
+            var timeStampNow = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            list.RemoveAll(r => timeStampNow - r.lastCollected > (maxTimeDifferenceInSeconds*1000));
+
+            try
             {
-                results.Add(result);
+                return list[0];
             }
-            else
+            catch
             {
-                results[existingResultId].Add(result.count);
+                return null;
             }
         }
     }
