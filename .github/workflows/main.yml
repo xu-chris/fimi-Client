@@ -70,7 +70,7 @@ jobs:
 
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v2.0-aplha-6
+        uses: webbertakken/unity-builder@v2.0-alpha-6
         with:
           allowDirtyBuild: true
           versioning: Semantic
