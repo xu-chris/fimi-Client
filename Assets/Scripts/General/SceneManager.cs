@@ -175,7 +175,8 @@ namespace General
         {
             try
             {
-                return BuildResponse(true, JsonConvert.SerializeObject(sessionManager.GetUser(userId)));
+                var user = sessionManager.GetUser(userId);
+                return BuildResponse(true, JsonConvert.SerializeObject(user));
             }
             catch (Exception e)
             {
@@ -187,8 +188,8 @@ namespace General
         {
             try
             {
-                return BuildResponse(true,
-                    JsonConvert.SerializeObject((sessionManager.GetInterpretedResultDTO(userId))));
+                var result = sessionManager.GetInterpretedResultDTO(userId);
+                return BuildResponse(true, JsonConvert.SerializeObject(result));
             }
             catch (Exception e)
             {

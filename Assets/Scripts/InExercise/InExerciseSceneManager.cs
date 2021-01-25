@@ -35,8 +35,8 @@ namespace InExercise
             var ticksPerSecond = 1f / sessionManager.GetCurrentExerciseDuration();
             FillProgressBar(ticksPerSecond);
         }
-        
-        private void Update()
+
+        private void FixedUpdate()
         {
             var ruleSet = sessionManager.GetCurrentExercise().rules;
             var reports = skeletonManager.CheckRules(ruleSet);
@@ -58,29 +58,37 @@ namespace InExercise
             if (isTransitioning) return;
             
             isTransitioning = true;
-            var sceneName = "";
             if (sessionManager.IsLastExercise())
             {
-                sceneName = afterTrainingSceneName;
+                CloseTraining();
             }
             else
             {
-                sceneName = nextSceneName;
-                sessionManager.SetToNextExercise();
+                NextExercise();
             }
+        }
+
+        private void NextExercise()
+        {
             Dispatcher.Invoke(() =>
             {
-                StartCoroutine(TransitionToNewScene(sceneName));
+                sessionManager.SetToNextExercise();
+                StartCoroutine(TransitionToNewScene(nextSceneName));
             });
         }
 
-        protected override uHTTP.Response CancelTraining()
+        private void CloseTraining()
         {
             Dispatcher.Invoke(() =>
             {
                 sessionManager.EndTraining();
                 StartCoroutine(TransitionToNewScene(afterTrainingSceneName));
             });
+        }
+
+        protected override uHTTP.Response CancelTraining()
+        {
+            CloseTraining();
             return BuildResponse(true, "");
         }
         

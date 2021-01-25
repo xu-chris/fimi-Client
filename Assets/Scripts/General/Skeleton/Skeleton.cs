@@ -27,7 +27,7 @@ namespace General.Skeleton
 
         public void Start()
         {
-            id = transform.parent.childCount;
+            id = transform.parent.childCount - 1;
             gameObject.name = GameObjectNames.GetPrefix(GameObjectNames.NameType.SKELETON) + id;
             gameObject.tag = Tag.SKELETON.ToString();
 
