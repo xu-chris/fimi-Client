@@ -127,6 +127,9 @@ namespace General.Session
             {
                 user.EndCurrentSession();
             }
+
+            selectedTraining = 0;
+            currentExercise = 0;
             SetToPostTraining();
         }
 

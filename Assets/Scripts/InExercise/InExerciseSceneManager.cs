@@ -98,10 +98,8 @@ namespace InExercise
 
         private void ChangeRemainingTimeText()
         {
-            // TODO: Add logic to change the text
-            var now = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
             var timeRemaining = DateTimeOffset.FromUnixTimeMilliseconds(end) - DateTimeOffset.Now;
-            var text = timeRemaining.Seconds + " s remaining";
+            var text = (timeRemaining.Seconds + (timeRemaining.Minutes * 60)) + " s remaining";
             remainingPanel.text = text;
         }
 
