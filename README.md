@@ -1,7 +1,7 @@
 # fimi Client
 ![Build Unity Project](https://github.com/creichel/fimi-Client/workflows/Build%20Unity%20Project/badge.svg)
 
-Check out the [documentation of fimi](https://creichel.github.io/FiMi-Fitness-Smart-Mirror/) for full information about the whole system.
+**Check out the [documentation of fimi](https://creichel.github.io/fimi-Documentation/) for full information about the whole system.**
 
 fimi is an application which tries to resemble a coach while you doing workout by analyzing your posture and giving you feedback about what you should watch more often. To run it, you need a **webcam**, a big screen and your smartphone (and some room space). You control the big screen with your smartphone by simply scanning the displayed QR code (being in the same wifi net is necessary).
 
@@ -14,16 +14,86 @@ This is the client software of the fimi fitness mirror application.
 ![Demo running on my machine](docs/demo.gif)
 
 ## Credits
+Special thanks to Dushyant Mehta for providing [WoodenMan](https://gvv.mpi-inf.mpg.de/projects/XNect/) as the basis of this client. Although nothing of the code is in this project, It helped me to understand the core idea how XNECT and other pose estimation systems are able to getting connected to other apps like Unity.
 
-This project is based on
-- [XNECT by Max Planck Institute](https://gvv.mpi-inf.mpg.de/projects/XNect/)
+## Features
+- Perform your training with a web cam and see in real time when you might hurt your body by performing it wrong.
+- Choose from multiple trainings by using the webapp as a controller (see [fimi Controller](https://github.com/creichel/fimi-Controller) for details).
+- Compare training results: user profiles will be stored locally on the smartphone and will be transferred temporarily for stat comparison. You see what you have performed better in comparison to the last time.
+- Adjust and add multiple new exercises by adding them to the YAML file only.
+- Add more trainings by adjusting the YAML file only.
+- Interchangeable pose estimation server: use XNECT or any other that performs similar. Locally or in the cloud.
+
+## Used technology
 - [Unity3d](https://unity.com)
-- [Quasar](https://quasar.dev)
 - [IBM Watson Text-To-Speech](https://www.ibm.com/cloud/watson-text-to-speech)
-- [WoodenMan by Dushyant Mehta](https://gvv.mpi-inf.mpg.de/projects/XNect/)
 
-## Get it running
+## Install / Build it
+1. Download [Unity3d 2020.2.1f1](https://unity3d.com/unity/whats-new/2020.2.1) ([Open in Unity Hub](unityhub://2020.2.1f1/270dd8c3da1c))
+2. Open the repository folder with Unity Hub
+3. Open `Start` scene and hit Play
+
+### Add IBM Watson information
+This project has used the IBM Watson technology for creating Text-To-Speech output. It is quite confusing to set it up on IBM cloud, so I hope this guide is at least helping you find your path through the jungle of IBM's confusing service management system.
+
+To get this part running as well, do the following:
+1. If not already done, create an [IBM Cloud](https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Unity) account.
+2. After account confirmation, you will land on the IBM Cloud Dashboard. Since IBM thinks every service of them is a resource, you need to look for `Add Resources`.
+3. After clicking, you find the `IBM Cloud Products` page. Enter `Text To Speech` in the search bar and select it if it pops up as suggestion.
+4. Select the `Lite` plan which is for free and click on the right hand side on `Create`.
+5. After that you should get an `API Key` and a `URL`. You will need both of them, so keep the page open.
+6. Go To `Assets/Scripts/General/Authentication` and rename the `SecretsExample.yaml` to `Secrets.yaml` (to prevent it to be uploaded to your Git fork in the future)
+7. Add the `API Key` to `IamApiKey: ` and the `URL` to `ServiceUrl: ` in the YAML file.
+8. Save and try to build the project. Look in the logs. Usually it says that it successfully created a connection to IBM cloud servers after some seconds.
+
+## Start it
 Clone or download this repository and open it with `Unity v2020.2.1f1`. Alternatively, grab one of the binaries in the [Releases](https://github.com/creichel/fimi-Client/releases) section of this repository.
+
+You can use the [fimi Mock Server](https://creichel.github.io/fimi-Mock-Server/) to mock the usually needed [fimi Server](https://creichel.github.io/fimi-Server/) for the pose estimation data.
+
+## Adjust it
+
+### Change configurations
+The client application comes with two distinctive paths of changing either the application or the content configuration:
+
+1. For the application configuration, check out the 
+  - `Scenes` for scene based configuration (like the name of the next scene, the duration of the T-Pose detection and so on)
+  - `Prefabs` for adjusting the settings per prefab. For example you can check out the `WebSocketClient` prefab to change the IP and port to the WebSocketServer (make sure you have adjusted the port as well on the server part)
+
+2. For the content, like texts or the rules checked, check out the `Asset/Content` folder where you will find two YAML files:
+  - `Exercises.yaml`: Keeps all the different exercises with the specified rule sets
+  - `Trainings.yaml`: Keeps the different trainings and their respective exercises mappings, including the duration of each exercise
+
+Although you can add more exercises, keep in mind that the animations need to be made interchangeable which is not done currently.
+
+### Change pose estimation server
+If you want to use a different pose estimation server, acknowledge the following requirements for the server:
+- The pose estimation server detects 21 joints
+- All of these joints have 3D vector data
+- The joint information are transferred in raw data, separated with comma (`,`). No space in between by using the WebSocket protocol
+- The joints are transferred in the following order (specified in `Assets/Scripts/General/Skeleton/JointToIndex.cs`):
+  - `SPINE1_RX` (index: `0`)
+  - `SPINE2_RX` (index: `1`)
+  - `SPINE3_RX` (index: `2`)
+  - `NECK1_RX` (index: `3`)
+  - `HEAD_EE_RY` (index: `4`)
+  - `LEFT_SHOULDER_RX` (index: `5`)
+  - `LEFT_ELBOW_RX` (index: `6`)
+  - `LEFT_HAND_RX` (index: `7`)
+  - `LEFT_HAND_EE_RX` (index: `8`)
+  - `LEFT_HIP_RX` (index: `9`)
+  - `LEFT_KNEE_RX` (index: `10`)
+  - `LEFT_ANKLE_RX` (index: `11`)
+  - `LEFT_FOOT_EE` (index: `12`)
+  - `RIGHT_SHOULDER_RX` (index: `13`)
+  - `RIGHT_ELBOW_RX` (index: `14`)
+  - `RIGHT_HAND_RX` (index: `15`)
+  - `RIGHT_HAND_EE_RX` (index: `16`)
+  - `RIGHT_HIP_RX` (index: `17`)
+  - `RIGHT_KNEE_RX` (index: `18`)
+  - `RIGHT_ANKLE_RX` (index: `19`)
+  - `RIGHT_FOOT_EE` (index: `20`)
+- If multiple people are detected, the joint information of each person is just right behind the last one in one row
 
 ## Known limitations and issues
 - **Only one person at a time**: The system is not able to identiy different person and might map the results of you wrongly. Use it only with one person at a time.
