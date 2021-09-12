@@ -1,7 +1,7 @@
 # fimi Client
-![Build Unity Project](https://github.com/creichel/fimi-Client/workflows/Build%20Unity%20Project/badge.svg)
+![Build Unity Project](https://github.com/xu-chris/fimi-Client/workflows/Build%20Unity%20Project/badge.svg)
 
-**Check out the [documentation of fimi](https://creichel.github.io/fimi-Documentation/) for full information about the whole system.**
+**Check out the [documentation of fimi](https://xu-chris.github.io/fimi-Documentation/) for full information about the whole system.**
 
 fimi is an application which tries to resemble a coach while you doing workout by analyzing your posture and giving you feedback about what you should watch more often. To run it, you need a **webcam**, a big screen and your smartphone (and some room space). You control the big screen with your smartphone by simply scanning the displayed QR code (being in the same wifi net is necessary).
 
@@ -18,7 +18,7 @@ Special thanks to Dushyant Mehta for providing [WoodenMan](https://gvv.mpi-inf.m
 
 ## Features
 - Perform your training with a web cam and see in real time when you might hurt your body by performing it wrong.
-- Choose from multiple trainings by using the webapp as a controller (see [fimi Controller](https://github.com/creichel/fimi-Controller) for details).
+- Choose from multiple trainings by using the webapp as a controller (see [fimi Controller](https://github.com/xu-chris/fimi-Controller) for details).
 - Compare training results: user profiles will be stored locally on the smartphone and will be transferred temporarily for stat comparison. You see what you have performed better in comparison to the last time.
 - Adjust and add multiple new exercises by adding them to the YAML file only.
 - Add more trainings by adjusting the YAML file only.
@@ -47,9 +47,9 @@ To get this part running as well, do the following:
 8. Save and try to build the project. Look in the logs. Usually it says that it successfully created a connection to IBM cloud servers after some seconds.
 
 ## Start it
-Clone or download this repository and open it with `Unity v2020.2.1f1`. Alternatively, grab one of the binaries in the [Releases](https://github.com/creichel/fimi-Client/releases) section of this repository.
+Clone or download this repository and open it with `Unity v2020.2.1f1`. Alternatively, grab one of the binaries in the [Releases](https://github.com/xu-chris/fimi-Client/releases) section of this repository.
 
-You can use the [fimi Mock Server](https://creichel.github.io/fimi-Mock-Server/) to mock the usually needed [fimi Server](https://creichel.github.io/fimi-Server/) for the pose estimation data.
+You can use the [fimi Mock Server](https://xu-chris.github.io/fimi-Mock-Server/) to mock the usually needed [fimi Server](https://xu-chris.github.io/fimi-Server/) for the pose estimation data.
 
 ## Adjust it
 
@@ -99,7 +99,7 @@ If you want to use a different pose estimation server, acknowledge the following
 - **Only one person at a time**: The system is not able to identiy different person and might map the results of you wrongly. Use it only with one person at a time.
 - **Only Squat-Arm-Raise**: The set of exercises is currently limited to Squat-Arm-Raise. If you wish to exthend it with more than just that, add it in the YAML and in the code.
 - **Multiple trainer animation logic missing**: The animation of the trainer avatar is only concerning the squat-arm-raise for now. To add a new exercise, you need to add some logic which animation will be chosen for the trainer avatar.
-- **Depending on [fimi server](https://github.com/creichel/fimi-Server)**: This is not a standalone application. It needs fimi server and many other dependencies first installed on the same machine and running (or a distanced one) to run successfully.
+- **Depending on [fimi server](https://github.com/xu-chris/fimi-Server)**: This is not a standalone application. It needs fimi server and many other dependencies first installed on the same machine and running (or a distanced one) to run successfully.
 - **Web server for controller unstable**: Sometimes the site won't load. It's safer to restart the application then.
 - Opening the controller by using `localhost` address does not work.
 - **IP / domain limitation of profile**: currently, the profile is only transferred as long as the IP address / domain of the client machine remains the same. This can be resolved by storing the results on a central domain based `LocalStorage` which gets loaded and stored whenever the client application loads and stores the user data from the client app.
